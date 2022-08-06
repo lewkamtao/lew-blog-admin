@@ -9,6 +9,7 @@
     let addModal = ref(false);
 
     let seriesForm = ref({
+        id: '',
         title: '',
         type: 101,
         description: ''
@@ -58,19 +59,37 @@
             x: 'center'
         }
     ];
-    const addSeries = () => {
-        axios
-            .post({
-                url: '/series',
-                data: seriesForm.value
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('保存成功');
-                    getSeries();
-                }
-                addModal.value = false;
-            });
+    const save = () => {
+        const id = seriesForm.value.id;
+        if (id) {
+            axios
+                .put({
+                    url: '/series/' + id,
+                    data: seriesForm.value
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('保存成功');
+                        getSeries();
+                    }
+                    initForm();
+                    addModal.value = false;
+                });
+        } else {
+            axios
+                .post({
+                    url: '/series',
+                    data: seriesForm.value
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('保存成功');
+                        getSeries();
+                    }
+                    initForm();
+                    addModal.value = false;
+                });
+        }
     };
     const delOk = (e: any, id: number) => {
         axios
@@ -89,12 +108,30 @@
     const delCancel = (e: any) => {
         e.hide();
     };
+    const initForm = () => {
+        seriesForm.value = {
+            id: '',
+            title: '',
+            type: 101,
+            description: ''
+        };
+    };
+    const edit = (row: any) => {
+        const { id, title, type, description } = row;
+        seriesForm.value = {
+            id: id,
+            title: title,
+            type: type,
+            description: description
+        };
+        addModal.value = true;
+    };
 </script>
 
 <template>
     <div class="article-wrapper">
         <lew-flex gap="20px" x="start" class="header">
-            <lew-button @click="addModal = true">新建系列</lew-button>
+            <lew-button @click="initForm(), (addModal = true)">新建系列</lew-button>
         </lew-flex>
         <lew-table :data="data" :columns="columns">
             <template #id="{ row }"> {{ row.id }} </template>
@@ -106,7 +143,7 @@
             </template>
             <template #action="{ row }">
                 <lew-flex>
-                    <lew-button is-text>编辑</lew-button>
+                    <lew-button is-text @click="edit(row)">编辑</lew-button>
                     <lew-popok
                         title="删除确认"
                         content="删除之后无法恢复，请确认！"
@@ -161,7 +198,7 @@
 
                 <lew-flex x="end">
                     <lew-button type="normal" @click="addModal = false">关闭 </lew-button>
-                    <lew-button @click="addSeries">确认保存</lew-button>
+                    <lew-button @click="save">确认保存</lew-button>
                 </lew-flex>
             </div>
         </lew-modal>
@@ -197,5 +234,8 @@
             white-space: nowrap;
             color: var(--lew-text-color-9);
         }
+    }
+    .modal-body {
+        padding: 30px;
     }
 </style>

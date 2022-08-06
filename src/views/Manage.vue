@@ -88,7 +88,7 @@
                 {{ row.content }}
             </template>
         </lew-table>
-        <div style="margin: 20px 0px 0px 20px">
+        <div style="margin: 20px 0px 40px 20px">
             <lew-pagination
                 v-model:page-num="pageNum"
                 v-model:page-size="pageSize"

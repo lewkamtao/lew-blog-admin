@@ -9,6 +9,15 @@
 
     let options = ref([]);
 
+    let articleForm = ref({
+        id: '',
+        title: '',
+        description: '',
+        content: '',
+        series_id: '',
+        tags: [] as any
+    });
+
     const getSeries = () => {
         axios
             .get({
@@ -34,8 +43,9 @@
             })
             .then((res: any) => {
                 if (res.code == 200) {
-                    const { title, description, content, series_id, tags } = res.data;
+                    const { id, title, description, content, series_id, tags } = res.data;
                     articleForm.value = {
+                        id: id,
                         title: title,
                         description: description,
                         content: content,
@@ -46,37 +56,43 @@
             });
     };
 
-    let articleForm = ref({
-        title: '',
-        description: '',
-        content: '',
-        series_id: '',
-        tags: [] as any
-    });
-
     const save = () => {
         addModal.value = true;
     };
 
-    const addArticle = () => {
+    const saveFn = () => {
         let data = JSON.parse(JSON.stringify(articleForm.value));
         data.tags = data.tags.map((e: any) => {
             return {
                 title: e
             };
         });
-        data.series_id = parseInt(data.series_id);
-        axios
-            .post({
-                url: '/article',
-                data: data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('发布成功');
-                    router.push('/Article');
-                }
-            });
+        data.seriesids = data.series_id;
+        if (data.id) {
+            axios
+                .put({
+                    url: '/article/' + data.id,
+                    data: data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('更新成功');
+                        router.push('/Article');
+                    }
+                });
+        } else {
+            axios
+                .post({
+                    url: '/article',
+                    data: data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('发布成功');
+                        router.push('/Article');
+                    }
+                });
+        }
     };
     onMounted(() => {
         getSeries();
@@ -89,7 +105,9 @@
     <div>
         <lew-flex x="start" class="header">
             <input type="text" placeholder="输入文章标题" v-model="articleForm.title" />
-            <lew-button @click="addModal = true">立即发布</lew-button>
+            <lew-button @click="addModal = true">
+                {{ articleForm.id ? '立即更新' : '立即发布' }}
+            </lew-button>
         </lew-flex>
         <v-md-editor
             @save="save"
@@ -98,7 +116,9 @@
         ></v-md-editor>
         <lew-modal :visible="addModal" width="400px" @mask-click="addModal = false">
             <div class="modal-body">
-                <lew-title :bold="700" style="margin-bottom: 20px">发布文章 </lew-title>
+                <lew-title :bold="700" style="margin-bottom: 20px"
+                    >{{ articleForm.id ? '更新文章' : '发布文章' }}
+                </lew-title>
 
                 <lew-form-item title="选择系列">
                     <lew-radio-group
@@ -131,7 +151,9 @@
 
                 <lew-flex x="end">
                     <lew-button type="normal" @click="addModal = false">关闭 </lew-button>
-                    <lew-button @click="addArticle">立即发布</lew-button>
+                    <lew-button @click="saveFn">
+                        {{ articleForm.id ? '立即更新' : '立即发布' }}
+                    </lew-button>
                 </lew-flex>
             </div>
         </lew-modal>
