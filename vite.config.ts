@@ -8,7 +8,7 @@ export default defineConfig({
         //设置别名
         alias: {
             '@': path.resolve(__dirname, 'src')
-        } 
+        }
     },
     plugins: [vue()],
     server: {
@@ -20,7 +20,7 @@ export default defineConfig({
         // 设置代理
         proxy: {
             '/api': {
-                target: 'your https address',
+                target: 'http://localhost:3999/adm',
                 changeOrigin: true,
                 rewrite: (path: string) => path.replace(/^\/api/, '')
             }
