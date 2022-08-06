@@ -113,8 +113,7 @@
         .menu {
             max-height: calc(100vh - 250px);
             box-sizing: border-box;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            overflow: hidden;
             .title {
                 margin: 30px 0px 5px 20px;
                 font-weight: 400;
