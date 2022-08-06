@@ -52,7 +52,7 @@
         {
             title: '内容',
             width: '550px',
-            field: 'content',
+            field: 'description',
             x: 'start'
         },
         {
@@ -124,8 +124,8 @@
             <template #seriesTitle="{ row }">
                 <lew-tag type="success">{{ row.series?.title }}</lew-tag>
             </template>
-            <template #content="{ row }">
-                {{ row.content }}
+            <template #description="{ row }">
+                {{ row.description }}
             </template>
             <template #updated_at="{ row }">
                 {{ row.updated_at }}

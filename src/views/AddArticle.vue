@@ -67,7 +67,7 @@
                 title: e
             };
         });
-        data.seriesids = data.series_id;
+        data.series_id = parseInt(data.series_id);
         if (data.id) {
             axios
                 .put({
