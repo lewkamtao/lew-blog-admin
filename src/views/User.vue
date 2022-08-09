@@ -101,6 +101,7 @@
             .then((res: any) => {
                 if (res.code == 200) {
                     LewMessage.success('保存成功');
+                    location.reload();
                 }
             });
     };

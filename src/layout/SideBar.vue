@@ -1,5 +1,16 @@
 <script setup lang="ts">
     import { ref, reactive, watch, onMounted } from 'vue';
+    import {
+        ArrowTrending24Regular,
+        ClipboardTextLtr24Regular,
+        DocumentPageNumber24Regular,
+        TableSettings16Regular,
+        Person24Regular,
+        Settings24Regular,
+        Edit24Regular
+    } from '@vicons/fluent';
+    import { Icon } from '@vicons/utils';
+
     import { useRoute, useRouter } from 'vue-router';
     const route = useRoute();
     const router = useRouter();
@@ -10,32 +21,39 @@
             data.active = route.path;
         }
     );
+
     const menus = [
         {
             title: '通用',
             routes: [
                 {
                     path: '/',
+                    icon: ArrowTrending24Regular,
                     title: '仪表盘'
                 },
                 {
                     path: '/Article',
+                    icon: ClipboardTextLtr24Regular,
                     title: '文章'
                 },
                 {
                     path: '/Series',
+                    icon: DocumentPageNumber24Regular,
                     title: '系列'
                 },
                 {
                     path: '/Manage',
+                    icon: TableSettings16Regular,
                     title: '管理'
                 },
                 {
                     path: '/User',
+                    icon: Person24Regular,
                     title: '个人资料'
                 },
                 {
                     path: '/Setting',
+                    icon: Settings24Regular,
                     title: '系统设置'
                 }
             ]
@@ -45,7 +63,8 @@
             routes: [
                 {
                     path: '/AddArticle',
-                    title: '写文章'
+                    title: '写文章',
+                    icon: Edit24Regular
                 }
             ]
         }
@@ -75,6 +94,10 @@
                 @click="to(item.path)"
                 :class="{ active: data.active == item.path }"
             >
+                <icon size="18px">
+                    <component :is="item.icon"></component>
+                </icon>
+
                 <div>{{ item.title }}</div>
             </li>
         </div>
@@ -94,7 +117,7 @@
         padding: 20px;
         box-sizing: border-box;
         .header {
-            padding: 10px 0px 0px 20px;
+            padding: 10px 0px 0px 15px;
             .logo {
                 height: 50px;
                 font-weight: 900;
@@ -115,12 +138,12 @@
             box-sizing: border-box;
             overflow: hidden;
             .title {
-                margin: 30px 0px 5px 20px;
+                margin: 20px 0px 5px 15px;
                 font-weight: 400;
                 color: var(--lew-text-color-9);
             }
             li {
-                padding: 8px 15px;
+                padding: 10px 15px;
                 display: flex;
                 align-items: center;
                 cursor: pointer;
@@ -128,7 +151,7 @@
                 color: var(--lew-text-color-7);
                 border-radius: var(--lew-form-border-radius);
                 div {
-                    margin-left: 5px;
+                    margin-left: 10px;
                 }
             }
             li:hover {

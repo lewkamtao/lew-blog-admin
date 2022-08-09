@@ -12,6 +12,7 @@
     let articleForm = ref({
         id: '',
         title: '',
+        cover: '',
         description: '',
         content: '',
         series_id: '',
@@ -43,10 +44,11 @@
             })
             .then((res: any) => {
                 if (res.code == 200) {
-                    const { id, title, description, content, series_id, tags } = res.data;
+                    const { id, title, cover, description, content, series_id, tags } = res.data;
                     articleForm.value = {
                         id: id,
                         title: title,
+                        cover: cover,
                         description: description,
                         content: content,
                         series_id: String(series_id),
@@ -77,6 +79,7 @@
                 .then((res: any) => {
                     if (res.code == 200) {
                         LewMessage.success('更新成功');
+                        changeTag();
                         router.push('/Article');
                     }
                 });
@@ -94,6 +97,19 @@
                 });
         }
     };
+
+    const changeTag = () => {
+        axios
+            .delete({
+                url: `/articleTag?article_id=6&tag_title=4`
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success('删除成功');
+                }
+            });
+    };
+
     onMounted(() => {
         getSeries();
         if (route.query.id) {
@@ -131,6 +147,9 @@
 
                 <lew-form-item title="添加标签">
                     <lew-input-tag v-model="articleForm.tags" />
+                </lew-form-item>
+                <lew-form-item title="封面图片">
+                    <lew-input v-model="articleForm.cover" />
                 </lew-form-item>
                 <lew-form-item title="文章标题">
                     <lew-input
