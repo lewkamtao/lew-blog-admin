@@ -191,7 +191,7 @@
         padding: 100px 30px;
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
-        background-color: var(--lew-bgcolor-1);
+
         .user-box {
             max-width: 800px !important;
             margin: 0 auto;

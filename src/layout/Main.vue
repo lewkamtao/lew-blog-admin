@@ -36,6 +36,7 @@
             overflow: hidden;
             padding-top: 50px;
             box-sizing: border-box;
+            background-color: var(--lew-form-bgcolor);
             .Header {
                 position: fixed;
                 width: calc(100vw - 220px);

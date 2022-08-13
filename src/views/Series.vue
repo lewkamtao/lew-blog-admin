@@ -205,7 +205,6 @@
     .series-wrapper {
         margin: 0 auto;
         padding: 100px 50px;
-        background-color: var(--lew-form-bgcolor);
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
 

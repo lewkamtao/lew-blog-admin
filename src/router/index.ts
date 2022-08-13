@@ -4,6 +4,7 @@ import Main from '../layout/Main.vue';
 
 import Dashboard from '../views/Dashboard.vue';
 import Article from '../views/Article.vue';
+import Series from '../views/Series.vue';
 import Setting from '../views/Setting.vue';
 import User from '../views/User.vue';
 import Manage from '../views/Manage.vue';

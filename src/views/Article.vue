@@ -2,7 +2,7 @@
     import { ref, onMounted, computed } from 'vue';
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
-    import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
+    import { Delete20Regular, NotepadEdit20Regular, Chat20Regular } from '@vicons/fluent';
     const router = useRouter();
     let articleList: any = ref([]);
     let total = ref<number>(0);
@@ -114,6 +114,7 @@
                             >
                                 <NotepadEdit20Regular />编辑
                             </lew-button>
+
                             <lew-popok
                                 title="删除确认"
                                 content="删除之后无法恢复，请确认！"
@@ -138,7 +139,6 @@
     .article-wrapper {
         margin: 0 auto;
         padding: 100px 50px;
-        background-color: var(--lew-form-bgcolor);
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
         .article-main {
