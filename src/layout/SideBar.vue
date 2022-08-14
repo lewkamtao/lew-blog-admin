@@ -161,12 +161,10 @@
             .active {
                 background-color: var(--lew-primary-color);
                 color: var(--lew-white-color);
-                font-weight: bold;
             }
             .active:hover {
                 background-color: var(--lew-primary-color);
                 color: var(--lew-white-text-color);
-                font-weight: bold;
             }
         }
 

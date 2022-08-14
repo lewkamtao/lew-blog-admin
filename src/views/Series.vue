@@ -143,13 +143,7 @@
                                     trigger: 'mouseenter'
                                 }"
                             />
-                            <lew-button
-                                style="margin-left: 5px"
-                                round
-                                is-icon
-                                size="large"
-                                @click="edit(item)"
-                            >
+                            <lew-button style="margin-left: 5px" round is-icon @click="edit(item)">
                                 <NotepadEdit20Regular />
                             </lew-button>
                             <lew-popok
@@ -160,7 +154,7 @@
                                 @ok="delOk($event, item.id)"
                                 @cancel="delCancel"
                             >
-                                <lew-button round is-icon type="error" size="large">
+                                <lew-button round is-icon type="error">
                                     <Delete20Regular />
                                 </lew-button>
                             </lew-popok>
@@ -204,12 +198,12 @@
 <style lang="scss" scoped>
     .series-wrapper {
         margin: 0 auto;
-        padding: 100px 50px;
+        padding: 100px 30px;
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
 
         .series-main {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
         }
         .series-item {

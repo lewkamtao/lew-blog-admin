@@ -9,10 +9,10 @@
     let pageNum = ref(1);
     let pageSize = ref(20);
 
-    const getArticle = () => {
+    const getTag = () => {
         axios
             .get({
-                url: '/article/list'
+                url: '/tag/list'
             })
             .then((res: any) => {
                 if (res.code == 200) {
@@ -23,43 +23,80 @@
     };
 
     onMounted(() => {
-        getArticle();
+        getTag();
     });
 
     const columns = [
         {
-            title: 'id',
-            width: '100px',
-            field: 'id',
-            x: 'center'
-        },
-        {
-            title: '标题',
+            title: '标签名',
             width: '180px',
             field: 'title'
         },
         {
-            title: '内容',
+            title: '绑定文章',
             width: 'auto',
-            field: 'content',
+            field: 'article',
             x: 'start'
+        },
+        {
+            title: '操作',
+            width: '80px',
+            field: 'action',
+            x: 'center',
+            sticky: 'right',
+            offsetX: '0px'
         }
     ];
+    const delOk = (e: any, id: number) => {
+        axios
+            .delete({
+                url: '/tag/' + id
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success('删除成功');
+                    getTag();
+                }
+            });
+        e.hide();
+    };
+
+    const delCancel = (e: any) => {
+        e.hide();
+    };
 </script>
 
 <template>
-    <div class="message-table">
+    <div class="tag-table">
         <lew-table :data="data" :columns="columns">
-            <template #id="{ row }"> {{ row.id }} </template>
-
             <template #title="{ row }">
                 {{ row.title }}
             </template>
-            <template #content="{ row }">
-                {{ row.content }}
+            <template #article="{ row }">
+                <lew-flex x="start" direction="column">
+                    <lew-tag
+                        size="small"
+                        type="info"
+                        v-for="(item, index) in row.article"
+                        :key="index"
+                        >{{ item.title }}</lew-tag
+                    >
+                </lew-flex>
+            </template>
+            <template #action="{ row }">
+                <lew-popok
+                    title="删除确认"
+                    content="删除之后无法恢复，请确认！"
+                    placement="top"
+                    width="200px"
+                    @ok="delOk($event, row.title)"
+                    @cancel="delCancel"
+                >
+                    <lew-button is-text type="error">删除</lew-button>
+                </lew-popok>
             </template>
         </lew-table>
-        <div style="margin: 20px 0px 40px 20px" v-show="total">
+        <div style="margin: 20px 0px" v-show="total">
             <lew-pagination
                 v-model:page-num="pageNum"
                 v-model:page-size="pageSize"

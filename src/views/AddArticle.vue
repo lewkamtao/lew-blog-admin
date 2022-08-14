@@ -110,6 +110,18 @@
             });
     };
 
+    const openAddModal = () => {
+        if (articleForm.value.title == '') {
+            LewMessage.error('标题不能为空');
+            return;
+        }
+        if (articleForm.value.content == '') {
+            LewMessage.error('内容不能为空');
+            return;
+        }
+        addModal.value = true;
+    };
+
     onMounted(() => {
         getSeries();
         if (route.query.id) {
@@ -121,7 +133,7 @@
     <div>
         <lew-flex x="start" class="header">
             <input type="text" placeholder="输入文章标题" v-model="articleForm.title" />
-            <lew-button @click="addModal = true">
+            <lew-button @click="openAddModal">
                 {{ articleForm.id ? '立即更新' : '立即发布' }}
             </lew-button>
         </lew-flex>
@@ -146,7 +158,7 @@
                 </lew-form-item>
 
                 <lew-form-item title="添加标签">
-                    <lew-input-tag v-model="articleForm.tags" />
+                    <lew-input-tag type="info" v-model="articleForm.tags" />
                 </lew-form-item>
                 <lew-form-item title="封面图片">
                     <lew-input v-model="articleForm.cover" />

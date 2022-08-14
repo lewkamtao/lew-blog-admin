@@ -3,6 +3,8 @@
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
     import { Delete20Regular, NotepadEdit20Regular, Chat20Regular } from '@vicons/fluent';
+    import { Icon } from '@vicons/utils';
+
     const router = useRouter();
     let articleList: any = ref([]);
     let total = ref<number>(0);
@@ -89,7 +91,7 @@
                         </lew-flex>
                         <div class="article-cover">
                             <lew-avatar
-                                style="width: 80px; height: 80px"
+                                style="width: 120px; height: 120px"
                                 :src="item.cover"
                             ></lew-avatar>
                         </div>
@@ -112,7 +114,8 @@
                                 size="small"
                                 @click="toEdit(item.id)"
                             >
-                                <NotepadEdit20Regular />编辑
+                                <NotepadEdit20Regular style="width: 16px" />
+                                编辑
                             </lew-button>
 
                             <lew-popok
@@ -124,7 +127,7 @@
                                 @cancel="delCancel"
                             >
                                 <lew-button size="small" round type="error">
-                                    <Delete20Regular />删除
+                                    <Delete20Regular style="width: 16px" />删除
                                 </lew-button>
                             </lew-popok>
                         </div>
@@ -138,11 +141,11 @@
 <style lang="scss" scoped>
     .article-wrapper {
         margin: 0 auto;
-        padding: 100px 50px;
+        padding: 100px 30px;
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
         .article-main {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
 
             box-sizing: border-box;
@@ -150,11 +153,11 @@
         .article-grid-box {
             margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
             gap: 10px;
         }
         .article-item {
-            height: 200px;
+            height: 300px;
             background-color: var(--lew-bgcolor-0);
             border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
             border-radius: var(--lew-form-border-radius);
@@ -166,7 +169,7 @@
                 white-space: nowrap;
 
                 .article-content {
-                    width: calc(100% - 80px);
+                    width: calc(100% - 120px);
                     .title {
                         font-weight: bold;
                         font-size: 18px;
@@ -177,7 +180,7 @@
                     }
                 }
                 .article-cover {
-                    width: 80px;
+                    width: 120px;
                 }
             }
         }
