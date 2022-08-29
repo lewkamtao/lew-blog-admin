@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
+        "build": "vite build",
         "preview": "vite preview",
         "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .js 和 .vue 的文件",
         "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",

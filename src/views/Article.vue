@@ -141,19 +141,16 @@
 <style lang="scss" scoped>
     .article-wrapper {
         margin: 0 auto;
-        padding: 100px 30px;
+        padding: 30px;
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
         .article-main {
-            max-width: 1000px;
-            margin: 0 auto;
-
             box-sizing: border-box;
         }
         .article-grid-box {
             margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 10px;
         }
         .article-item {

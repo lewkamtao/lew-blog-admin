@@ -1,17 +1,75 @@
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
     import axios from '@/axios/http';
-    import { useRouter } from 'vue-router';
-    import dayjs from 'dayjs';
+
+    let comment_switch = ref();
+    let site_switch = ref();
+
+    const changeCommentSwitch = () => {
+        axios
+            .put({
+                url: '/user',
+                data: {
+                    comment_switch: !comment_switch.value
+                }
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    if (comment_switch.value) {
+                        LewMessage.success('已开启评论');
+                        comment_switch.value = true;
+                    } else {
+                        LewMessage.error('已关闭评论');
+                        comment_switch.value = false;
+                    }
+                }
+            });
+    };
+
     const closeOk = (e: any, id: number) => {
-        e.hide();
+        axios
+            .put({
+                url: '/user',
+                data: {
+                    site_switch: !site_switch.value
+                }
+            })
+            .then((res: any) => {
+                e.hide();
+                if (res.code == 200) {
+                    setTimeout(() => {
+                        if (site_switch.value) {
+                            LewMessage.error('已关闭站点');
+                            site_switch.value = false;
+                        } else {
+                            LewMessage.success('已开启站点');
+                            site_switch.value = true;
+                        }
+                    }, 200);
+                }
+            });
     };
 
     const closeCancel = (e: any) => {
         e.hide();
     };
 
-    onMounted(() => {});
+    const getUser = () => {
+        axios
+            .get({
+                url: '/user'
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    comment_switch.value = res.data.comment_switch;
+                    site_switch.value = res.data.site_switch;
+                }
+            });
+    };
+
+    onMounted(() => {
+        getUser();
+    });
 </script>
 <template>
     <div class="setting-wrapper">
@@ -20,22 +78,22 @@
             <br />
 
             <lew-form-item direction="y" title="是否开启评论功能" class="info-item">
-                <lew-switch />
+                <lew-switch @change="changeCommentSwitch" v-model="comment_switch" />
             </lew-form-item>
 
-            <lew-form-item direction="y" title="是否允许评论" class="info-item">
-                <lew-switch />
-            </lew-form-item>
             <lew-popok
-                title="关闭确认"
+                :title="`${site_switch ? '关闭' : '开启'}`"
                 type="error"
-                content="确认关闭之后，前台将显示正在维护站点。"
+                :content="`${
+                    site_switch ? '确认关闭之后，前台将显示正在维护站点。' : '确认开启站点？'
+                }`"
                 placement="top"
                 width="200px"
                 @ok="closeOk"
                 @cancel="closeCancel"
             >
-                <lew-button type="error">临时关闭站点</lew-button>
+                <lew-button v-show="site_switch" type="error">临时关闭站点</lew-button>
+                <lew-button v-show="!site_switch" type="primary">开启站点</lew-button>
             </lew-popok>
         </div>
         <br />

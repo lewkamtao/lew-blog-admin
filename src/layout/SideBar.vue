@@ -26,11 +26,11 @@
         {
             title: '通用',
             routes: [
-                {
-                    path: '/',
-                    icon: ArrowTrending24Regular,
-                    title: '仪表盘'
-                },
+                // {
+                //     path: '/',
+                //     icon: ArrowTrending24Regular,
+                //     title: '仪表盘'
+                // },
                 {
                     path: '/Article',
                     icon: ClipboardTextLtr24Regular,
@@ -87,7 +87,7 @@
         <div class="header">
             <lew-flex x="start" class="logo"> Lew Blog </lew-flex>
         </div>
-        <div class="menu" v-for="(menu, index) in menus" :key="index">
+        <div class="menu" v-for="(menu, mIndex) in menus" :key="mIndex">
             <div class="title"> {{ menu.title }} </div>
             <li
                 v-for="(item, index) in menu.routes"
@@ -97,7 +97,6 @@
                 <icon size="18px">
                     <component :is="item.icon"></component>
                 </icon>
-
                 <div>{{ item.title }}</div>
             </li>
         </div>
