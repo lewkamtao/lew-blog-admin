@@ -23,8 +23,6 @@
                     LewMessage.success('登录成功');
                     localStorage.setItem('token', res.data);
                     router.push('/');
-                } else {
-                    LewMessage.error(res.msg);
                 }
             });
     };

@@ -26,11 +26,11 @@
         {
             title: '通用',
             routes: [
-                // {
-                //     path: '/',
-                //     icon: ArrowTrending24Regular,
-                //     title: '仪表盘'
-                // },
+                {
+                    path: '/',
+                    icon: ArrowTrending24Regular,
+                    title: '仪表盘'
+                },
                 {
                     path: '/Article',
                     icon: ClipboardTextLtr24Regular,

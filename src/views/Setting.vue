@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
     import axios from '@/axios/http';
+    import { locale } from 'dayjs';
 
     let comment_switch = ref();
     let site_switch = ref();
@@ -96,6 +97,8 @@
             .then((res: any) => {
                 if (res.code == 200) {
                     LewMessage.success('修改成功');
+                    localStorage.clear();
+                    location.reload();
                 }
             });
     };

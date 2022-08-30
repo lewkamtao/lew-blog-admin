@@ -34,7 +34,7 @@ class xwlRequest {
                     if (res.code == 444) {
                         router.push('/Login');
                     }
-                    LewMessage.error(response.data.data || "response.data.msg");
+                    LewMessage.error(response.data.msg || response.data.data);
                 }
                 return response.data;
             },

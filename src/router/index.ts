@@ -26,6 +26,7 @@ const routes: Array<RouteRecordRaw> = [
                     title: '开始'
                 }
             },
+
             {
                 path: '/Article',
                 name: 'Article',
