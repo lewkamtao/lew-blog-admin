@@ -5,6 +5,12 @@
     let comment_switch = ref();
     let site_switch = ref();
 
+    let password_form = ref({
+        old_password: '',
+        new_password: '',
+        new_password_confirm: ''
+    });
+
     const changeCommentSwitch = () => {
         axios
             .put({
@@ -67,6 +73,33 @@
             });
     };
 
+    const savePassword = () => {
+        const { new_password, old_password, new_password_confirm } = password_form.value;
+        if (!new_password || !old_password || !new_password_confirm) {
+            LewMessage.warning('请完善表单后提交');
+            return;
+        }
+
+        if (new_password != new_password_confirm) {
+            LewMessage.warning('新密码和确认密码不一致');
+            return;
+        }
+
+        axios
+            .put({
+                url: '/user/password',
+                data: {
+                    new_password: new_password,
+                    old_password: old_password
+                }
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success('修改成功');
+                }
+            });
+    };
+
     onMounted(() => {
         getUser();
     });
@@ -101,16 +134,20 @@
             <lew-title>账号设置</lew-title>
             <br />
             <lew-form-item direction="y" title="旧密码" class="info-item">
-                <lew-input />
+                <lew-input type="password" show-password v-model="password_form.old_password" />
             </lew-form-item>
             <lew-form-item direction="y" title="新密码" class="info-item">
-                <lew-input />
+                <lew-input type="password" show-password v-model="password_form.new_password" />
             </lew-form-item>
             <lew-form-item direction="y" title="确认密码" class="info-item">
-                <lew-input />
+                <lew-input
+                    type="password"
+                    show-password
+                    v-model="password_form.new_password_confirm"
+                />
             </lew-form-item>
 
-            <lew-button>确认修改</lew-button>
+            <lew-button @click="savePassword">确认修改</lew-button>
         </div>
     </div>
 </template>

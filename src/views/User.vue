@@ -27,7 +27,8 @@
         record_code: '',
         remark: '',
         site_description: '',
-        site_title: ''
+        site_title: '',
+        password: 'kamtao123'
     });
 
     const getUser = () => {
@@ -84,7 +85,8 @@
                         remark: remark,
                         site_keywords: site_keywords,
                         site_description: site_description,
-                        site_title: site_title
+                        site_title: site_title,
+                        password: 'kamtao1223'
                     };
                 }
             });
