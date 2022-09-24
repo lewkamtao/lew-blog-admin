@@ -17,7 +17,7 @@
             .put({
                 url: '/user',
                 data: {
-                    comment_switch: !comment_switch.value
+                    comment_switch: comment_switch.value
                 }
             })
             .then((res: any) => {
