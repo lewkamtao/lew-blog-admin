@@ -19,7 +19,7 @@
     ]);
 
     const handle = (e: any) => {
-        switch (e.value.value) {
+        switch (e.value) {
             case 'Post':
                 router.push('/AddArticle');
                 break;

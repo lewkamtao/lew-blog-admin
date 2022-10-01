@@ -8,8 +8,9 @@
     let total = ref<number>(0);
     let pageNum = ref(1);
     let pageSize = ref(20);
-
+    let loading = ref(false);
     const getUser = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/user/list'
@@ -19,6 +20,9 @@
                     userList.value = res.data;
                     total.value = res.total;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -29,7 +33,15 @@
 
 <template>
     <div class="user-manage">
-        <lew-flex x="start" class="user-box" v-for="(item, index) in userList" :key="index">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无数据"
+            content=""
+            style="height: calc(100vh - 420px)"
+        >
+        </lew-result>
+        <lew-flex v-else x="start" class="user-box" v-for="(item, index) in userList" :key="index">
             <lew-avatar :src="item.avatar" round />
             <div class="info">
                 <lew-flex x="start" class="header">

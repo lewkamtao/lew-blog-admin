@@ -18,7 +18,10 @@
         comment_id: ''
     });
 
+    let loading = ref(false);
+
     const getComment = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/comment/list?type=101'
@@ -28,6 +31,9 @@
                     commentList.value = res.data;
                     total.value = res.total;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -84,7 +90,15 @@
 
 <template>
     <div class="comment-manage">
-        <div class="comment-box">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无数据"
+            content=""
+            style="height: calc(100vh - 420px)"
+        >
+        </lew-result>
+        <div v-else class="comment-box">
             <div v-for="(comment, index) in commentList" :key="index">
                 <lew-comment style="padding: 10px 0px 10px 0px">
                     <template #avatar>

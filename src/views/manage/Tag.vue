@@ -8,8 +8,10 @@
     let total = ref<number>(0);
     let pageNum = ref(1);
     let pageSize = ref(20);
+    let loading = ref(false);
 
     const getTag = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/tag/list'
@@ -19,6 +21,9 @@
                     data.value = res.data;
                     total.value = res.total;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -33,7 +38,7 @@
             field: 'title'
         },
         {
-            title: '绑定文章',
+            title: '文章',
             width: 'auto',
             field: 'article',
             x: 'start'
@@ -68,7 +73,15 @@
 
 <template>
     <div class="tag-table">
-        <lew-table :data="data" :columns="columns">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无数据"
+            content=""
+            style="height: calc(100vh - 420px)"
+        >
+        </lew-result>
+        <lew-table v-else :data="data" :columns="columns">
             <template #title="{ row }">
                 {{ row.title }}
             </template>
@@ -114,7 +127,6 @@
                         value: 30
                     }
                 ]"
-                :page-num="pageNum"
                 :total="total"
             />
         </div>

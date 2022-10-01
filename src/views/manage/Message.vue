@@ -1,6 +1,5 @@
 <script lang="ts" setup>
     import { Chat24Regular, Delete24Regular } from '@vicons/fluent';
-    import { Icon } from '@vicons/utils';
     import { ref, onMounted } from 'vue';
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
@@ -18,8 +17,10 @@
         reply_id: '',
         comment_id: ''
     });
+    let loading = ref(false);
 
     const getComment = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/comment/list?type=201'
@@ -29,6 +30,9 @@
                     commentList.value = res.data;
                     total.value = res.total;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -55,7 +59,7 @@
                         reply_id: '',
                         comment_id: ''
                     };
-                    curCommentId.value = '';
+                    curCommentId.value = 0;
                     getComment();
                 }
             });
@@ -85,7 +89,15 @@
 
 <template>
     <div class="comment-manage">
-        <div class="comment-box">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无数据"
+            content=""
+            style="height: calc(100vh - 420px)"
+        >
+        </lew-result>
+        <div v-else class="comment-box">
             <div v-for="(comment, index) in commentList" :key="index">
                 <lew-comment style="padding: 10px 0px 10px 0px">
                     <template #avatar>
@@ -171,7 +183,7 @@
                     <template #footer>
                         <lew-flex x="start" style="margin-top: 10px">
                             <lew-button @click="postComment" size="small">回复</lew-button>
-                            <lew-button @click="curCommentId = ''" type="normal" size="small"
+                            <lew-button @click="curCommentId = 0" type="normal" size="small"
                                 >取消</lew-button
                             >
                         </lew-flex>
@@ -267,9 +279,9 @@
                         <template #footer>
                             <lew-flex x="start" style="margin-top: 10px">
                                 <lew-button @click="postComment" size="small">回复</lew-button>
-                                <lew-button @click="curCommentId = ''" type="normal" size="small"
-                                    >取消</lew-button
-                                >
+                                <lew-button @click="curCommentId = 0" type="normal" size="small"
+                                    >取消
+                                </lew-button>
                             </lew-flex>
                         </template>
                     </lew-comment>

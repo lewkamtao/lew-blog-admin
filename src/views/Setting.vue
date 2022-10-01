@@ -33,32 +33,30 @@
             });
     };
 
-    const closeOk = (e: any, id: number) => {
-        axios
-            .put({
-                url: '/user',
-                data: {
-                    site_switch: !site_switch.value
-                }
-            })
-            .then((res: any) => {
-                e.hide();
-                if (res.code == 200) {
-                    setTimeout(() => {
-                        if (site_switch.value) {
-                            LewMessage.error('已关闭站点');
-                            site_switch.value = false;
-                        } else {
-                            LewMessage.success('已开启站点');
-                            site_switch.value = true;
-                        }
-                    }, 200);
-                }
-            });
-    };
-
-    const closeCancel = (e: any) => {
-        e.hide();
+    const closeOk = () => {
+        return new Promise((resolve) => {
+            axios
+                .put({
+                    url: '/user',
+                    data: {
+                        site_switch: !site_switch.value
+                    }
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        setTimeout(() => {
+                            if (site_switch.value) {
+                                LewMessage.error('已关闭站点');
+                                site_switch.value = false;
+                            } else {
+                                LewMessage.success('已开启站点');
+                                site_switch.value = true;
+                            }
+                        }, 200);
+                    }
+                    resolve(true);
+                });
+        });
     };
 
     const getUser = () => {
@@ -125,8 +123,7 @@
                 }`"
                 placement="top"
                 width="200px"
-                @ok="closeOk"
-                @cancel="closeCancel"
+                :ok="closeOk"
             >
                 <lew-button v-show="site_switch" type="error">临时关闭站点</lew-button>
                 <lew-button v-show="!site_switch" type="primary">开启站点</lew-button>

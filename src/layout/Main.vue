@@ -35,7 +35,6 @@
             box-shadow: 0px 0px 3px rgba($color: #000000, $alpha: 0.2);
             overflow: hidden;
             padding-top: 50px;
-            box-sizing: border-box;
             background-color: var(--lew-form-bgcolor);
             .Header {
                 position: fixed;

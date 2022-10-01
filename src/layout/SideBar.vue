@@ -147,7 +147,7 @@
                 align-items: center;
                 cursor: pointer;
                 transition: all 0.1s;
-                color: var(--lew-text-color-7);
+                color: var(--lew-text-color-5);
                 border-radius: var(--lew-form-border-radius);
                 div {
                     margin-left: 10px;

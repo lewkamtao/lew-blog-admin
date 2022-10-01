@@ -10,7 +10,6 @@
         avatar: '',
         birthday: dayjs('1998-11-17').format('YYYY-MM-DD'),
         contact: '',
-        content: '',
         description: '',
         email: '',
         facebook: '',
@@ -42,7 +41,6 @@
                         avatar,
                         birthday,
                         contact,
-                        content,
                         description,
                         email,
                         facebook,
@@ -67,7 +65,6 @@
                         avatar: avatar,
                         birthday: dayjs(birthday).format('YYYY-MM-DD'),
                         contact: contact,
-                        content: content,
                         description: description,
                         email: email,
                         facebook: facebook,
@@ -86,7 +83,6 @@
                         site_description: site_description,
                         site_title: site_title
                     };
-                    console.log(userForm.value);
                 }
             });
     };

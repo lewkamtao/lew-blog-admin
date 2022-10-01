@@ -32,7 +32,6 @@
                             value: String(e.id)
                         };
                     });
-                    console.log(options.value);
                 }
             });
     };
@@ -84,6 +83,7 @@
                     }
                 });
         } else {
+            delete data.id;
             axios
                 .post({
                     url: '/article',

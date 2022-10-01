@@ -2,18 +2,37 @@
     import { ref, onMounted, computed } from 'vue';
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
-    import { Delete20Regular, NotepadEdit20Regular, Chat20Regular } from '@vicons/fluent';
-    import { Icon } from '@vicons/utils';
+    import { dateFormat } from '@/utils';
 
     const router = useRouter();
     let articleList: any = ref([]);
     let total = ref<number>(0);
+    let loading = ref(false);
 
     let statusArr = computed(() => {
         return articleList.value.map((e: any) => e.status == 101);
     });
 
+    const changeStatus = (status: boolean, id: number) => {
+        axios
+            .put({
+                url: '/article/' + id,
+                data: {
+                    status: status ? 101 : 201
+                }
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success(status ? '已开启' : '已关闭');
+                }
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+    };
+
     const getArticle = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/article/list'
@@ -23,43 +42,49 @@
                     articleList.value = res.data;
                     total.value = res.total | 0;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
+    const delOk = (id: number) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .delete({
+                    url: '/article/' + id
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('删除成功');
+                        getArticle();
+                    }
+                    resolve(true);
+                });
+        });
+    };
     onMounted(() => {
         getArticle();
     });
-
-    const delOk = (e: any, id: number) => {
-        axios
-            .delete({
-                url: '/article/' + id
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('删除成功');
-                    getArticle();
-                }
-            });
-        e.hide();
-    };
-
-    const delCancel = (e: any) => {
-        e.hide();
-    };
-
-    const toEdit = (id: number) => {
-        router.push('/AddArticle?id=' + id);
-    };
-
-    const changeStatus = (i: any) => {
-        console.log(statusArr.value[i]);
-    };
 </script>
 
 <template>
-    <div class="article-wrapper" v-show="total">
-        <div class="article-main">
+    <div class="article-wrapper">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无文章"
+            content=""
+            style="height: calc(100vh - 320px)"
+        >
+            <template #handle>
+                <lew-flex style="margin-top: 50px">
+                    <lew-button type="normal">返回</lew-button>
+                    <lew-button @click="router.push('/AddArticle')">前往发布</lew-button>
+                </lew-flex>
+            </template>
+        </lew-result>
+        <div v-else class="article-main">
             <lew-flex gap="20px" x="start" class="header">
                 <lew-button @click="router.push('/AddArticle')">新建文章</lew-button>
             </lew-flex>
@@ -96,25 +121,36 @@
                             ></lew-avatar>
                         </div>
                     </lew-flex>
-                    <lew-flex gap="5px" mode="between" style="width: 100%">
-                        <lew-switch
-                            v-model="statusArr[index]"
-                            @change="changeStatus(index)"
-                            v-tooltip="{
-                                content: `显示/隐藏`,
-                                trigger: 'mouseenter'
-                            }"
-                        />
+                    <lew-flex class="article-footer" gap="5px" style="width: 100%">
+                        <lew-flex class="left" x="start" gap="15px">
+                            <span>
+                                浏览
+                                {{ item.view_num }}
+                            </span>
 
-                        <div>
+                            <span>
+                                评论
+                                {{ item.comment_num }}
+                            </span>
+                            <span>{{ dateFormat(item.created_at) }}</span>
+                        </lew-flex>
+                        <lew-flex x="end" gap="5px" class="right">
+                            <lew-switch
+                                style="margin-right: 12px"
+                                v-model="statusArr[index]"
+                                @change="changeStatus(statusArr[index], item.id)"
+                                v-tooltip="{
+                                    content: `开启 / 关闭`,
+                                    trigger: 'mouseenter'
+                                }"
+                            />
                             <lew-button
                                 type="normal"
                                 style="margin-right: 10px"
                                 round
                                 size="small"
-                                @click="toEdit(item.id)"
+                                @click="router.push('/AddArticle?id=' + item.id)"
                             >
-                                <NotepadEdit20Regular style="width: 16px" />
                                 编辑
                             </lew-button>
 
@@ -123,25 +159,22 @@
                                 content="删除之后无法恢复，请确认！"
                                 placement="top"
                                 width="200px"
-                                @ok="delOk($event, item.id)"
-                                @cancel="delCancel"
+                                :ok="() => delOk(item.id)"
                             >
-                                <lew-button size="small" round type="error">
-                                    <Delete20Regular style="width: 16px" />删除
-                                </lew-button>
+                                <lew-button size="small" round type="error"> 删除 </lew-button>
                             </lew-popok>
-                        </div>
+                        </lew-flex>
                     </lew-flex>
                 </lew-flex>
             </div>
-        </div></div
-    >
+        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
     .article-wrapper {
         margin: 0 auto;
-        padding: 30px;
+        padding: 100px 30px;
         min-height: calc(100vh - 50px);
         box-sizing: border-box;
         .article-main {
@@ -150,11 +183,11 @@
         .article-grid-box {
             margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 10px;
         }
         .article-item {
-            height: 300px;
+            height: 250px;
             background-color: var(--lew-bgcolor-0);
             border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
             border-radius: var(--lew-form-border-radius);
@@ -163,26 +196,28 @@
             .article-info {
                 width: 100%;
                 height: 200px;
-                white-space: nowrap;
 
                 .article-content {
-                    width: calc(100% - 120px);
+                    width: calc(100% - 150px);
                     .title {
-                        font-weight: bold;
-                        font-size: 18px;
+                        font-weight: 600;
+                        font-size: 16px;
                     }
                     .description {
                         color: var(--lew-text-color-5);
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                 }
                 .article-cover {
                     width: 120px;
                 }
             }
-        }
-        .article-item:hover {
-            border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
+            .article-footer {
+                .left {
+                    font-size: 14px;
+                    color: var(--lew-text-color-7);
+                }
+            }
         }
         .article-box {
             margin-top: 30px;

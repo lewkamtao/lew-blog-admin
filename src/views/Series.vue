@@ -7,6 +7,7 @@
     let seriesList: any = ref([]);
     let total = ref<number>(0);
     let addModal = ref(false);
+    let loading = ref(false);
 
     let seriesForm = ref({
         id: '',
@@ -21,6 +22,7 @@
     });
 
     const getSeries = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/series/list'
@@ -30,6 +32,9 @@
                     seriesList.value = res.data;
                     total.value = res.total | 0;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -38,54 +43,56 @@
     });
 
     const save = () => {
-        const id = seriesForm.value.id;
+        let _data = JSON.parse(JSON.stringify(seriesForm.value));
+        const id = _data.id;
         if (id) {
             axios
                 .put({
                     url: '/series/' + id,
-                    data: seriesForm.value
+                    data: _data
                 })
                 .then((res: any) => {
                     if (res.code == 200) {
-                        LewMessage.success('保存成功');
+                        LewMessage.success('更新成功');
                         getSeries();
+                        addModal.value = false;
+                        initForm();
                     }
-                    initForm();
-                    addModal.value = false;
                 });
         } else {
+            delete _data.id;
             axios
                 .post({
                     url: '/series',
-                    data: seriesForm.value
+                    data: _data
                 })
                 .then((res: any) => {
                     if (res.code == 200) {
-                        LewMessage.success('保存成功');
+                        LewMessage.success('添加成功');
                         getSeries();
+                        initForm();
+                        addModal.value = false;
                     }
-                    initForm();
-                    addModal.value = false;
                 });
         }
     };
-    const delOk = (e: any, id: number) => {
-        axios
-            .delete({
-                url: '/series/' + id
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('删除成功');
-                    getSeries();
-                }
-            });
-        e.hide();
+
+    const delOk = (id: number) => {
+        return new Promise((resolve) => {
+            axios
+                .delete({
+                    url: '/series/' + id
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('删除成功');
+                        getSeries();
+                    }
+                    resolve(true);
+                });
+        });
     };
 
-    const delCancel = (e: any) => {
-        e.hide();
-    };
     const initForm = () => {
         seriesForm.value = {
             id: '',
@@ -109,12 +116,26 @@
 </script>
 
 <template>
-    <div class="series-wrapper" v-show="total">
-        <div class="series-main">
+    <div class="series-wrapper">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无系列"
+            content=""
+            style="height: calc(100vh - 320px)"
+        >
+            <template #handle>
+                <lew-flex style="margin-top: 50px">
+                    <lew-button type="normal">返回</lew-button>
+                    <lew-button @click="initForm(), (addModal = true)">立即添加</lew-button>
+                </lew-flex>
+            </template>
+        </lew-result>
+        <div v-else class="series-main">
             <lew-flex gap="20px" x="start" class="header">
                 <lew-button @click="initForm(), (addModal = true)">新建系列</lew-button>
             </lew-flex>
-            <lew-flex gap="10px" direction="column" x="start" class="series-box">
+            <lew-flex gap="10px" direction="column" x="start" class="series-box" v-show="total">
                 <lew-flex
                     x="start"
                     class="series-item"
@@ -135,11 +156,11 @@
                             <div class="title"> {{ item.title }}</div>
                             <div class="description"> {{ item.description }}</div>
                         </lew-flex>
-                        <lew-flex gap="5px" x="end" style="width: 230px">
+                        <lew-flex gap="10px" x="end" style="width: 230px">
                             <lew-switch
                                 v-model="statusArr[index]"
                                 v-tooltip="{
-                                    content: `显示/隐藏`,
+                                    content: `开启 / 关闭`,
                                     trigger: 'mouseenter'
                                 }"
                             />
@@ -151,8 +172,7 @@
                                 content="删除之后无法恢复，请确认！"
                                 placement="top"
                                 width="200px"
-                                @ok="delOk($event, item.id)"
-                                @cancel="delCancel"
+                                :ok="() => delOk(item.id)"
                             >
                                 <lew-button round is-icon type="error">
                                     <Delete20Regular />
@@ -162,37 +182,32 @@
                     </lew-flex>
                 </lew-flex>
             </lew-flex>
-            <lew-modal :visible="addModal" width="400px" @mask-click="addModal = false">
-                <div class="modal-body">
-                    <lew-title :bold="700" style="margin-bottom: 20px">新建系列 </lew-title>
+        </div>
+        <lew-modal :visible="addModal" width="400px" @mask-click="addModal = false">
+            <div class="modal-body">
+                <lew-title :bold="700" style="margin-bottom: 20px">新建系列 </lew-title>
 
-                    <lew-form-item style="margin-bottom: 30px" title="系列名称">
-                        <lew-input
-                            v-model="seriesForm.title"
-                            show-count
-                            :max-length="20"
-                            nice-count
-                        />
-                    </lew-form-item>
-                    <lew-form-item style="margin-bottom: 30px" title="头图链接">
-                        <lew-input v-model="seriesForm.cover" />
-                    </lew-form-item>
-                    <lew-form-item style="margin-bottom: 30px" title="系列描述">
-                        <lew-input
-                            v-model="seriesForm.description"
-                            type="textarea"
-                            show-count
-                            :max-length="100"
-                        />
-                    </lew-form-item>
-                    <lew-flex x="end">
-                        <lew-button type="normal" @click="addModal = false"> 关闭 </lew-button>
-                        <lew-button @click="save"> 确认保存 </lew-button>
-                    </lew-flex>
-                </div>
-            </lew-modal>
-        </div></div
-    >
+                <lew-form-item style="margin-bottom: 30px" title="系列名称">
+                    <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
+                </lew-form-item>
+                <lew-form-item style="margin-bottom: 30px" title="头图链接">
+                    <lew-input v-model="seriesForm.cover" />
+                </lew-form-item>
+                <lew-form-item style="margin-bottom: 30px" title="系列描述">
+                    <lew-input
+                        v-model="seriesForm.description"
+                        type="textarea"
+                        show-count
+                        :max-length="100"
+                    />
+                </lew-form-item>
+                <lew-flex x="end">
+                    <lew-button type="normal" @click="addModal = false"> 关闭 </lew-button>
+                    <lew-button @click="save"> 确认 </lew-button>
+                </lew-flex>
+            </div>
+        </lew-modal>
+    </div>
 </template>
 
 <style lang="scss" scoped>
