@@ -3,8 +3,11 @@
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
     import dayjs from 'dayjs';
+    import UploadButton from '@/components/UploadButton.vue';
+
     const router = useRouter();
 
+    let loading = ref(false);
     let userForm = ref({
         about_bg: '',
         avatar: '',
@@ -30,6 +33,7 @@
     });
 
     const getUser = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/user'
@@ -84,6 +88,9 @@
                         site_title: site_title
                     };
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -108,15 +115,16 @@
     });
 </script>
 <template>
-    <div class="user-wrapper">
+    <div class="user-wrapper" v-show="!loading">
         <lew-flex gap="0px" style="height: 100%" y="start" class="user-box">
             <lew-flex direction="column" gap="10px" x="start" y="start" class="left">
                 <lew-title>个人资料</lew-title>
                 <lew-avatar
                     round
                     style="width: 120px; height: 120px"
-                    src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1057072668"
+                    :src="userForm.avatar"
                 ></lew-avatar>
+                <upload-button @upload-success="(url:string) => (userForm.avatar = url)" />
                 <br />
                 <lew-form-item direction="x" title="昵称" class="info-item">
                     <lew-input v-model="userForm.nickname" />
@@ -124,15 +132,11 @@
                 <lew-form-item direction="x" title="描述" class="info-item">
                     <lew-input v-model="userForm.description" type="textarea" />
                 </lew-form-item>
-
-                <lew-form-item direction="y" title="头像地址" class="info-item">
-                    <lew-input v-model="userForm.avatar" />
-                </lew-form-item>
                 <lew-form-item direction="y" title="生日" class="info-item">
                     <lew-date-picker v-model="userForm.birthday" style="width: 100%" auto-close />
                 </lew-form-item>
                 <lew-form-item direction="y" title="手机号" class="info-item">
-                    <lew-input v-model="userForm.phone" />
+                    <lew-input v-model="userForm.phone" max-length="11" />
                 </lew-form-item>
                 <lew-form-item direction="y" title="邮箱地址" class="info-item">
                     <lew-input v-model="userForm.email" />
@@ -159,19 +163,61 @@
                     <lew-input v-model="userForm.site_keywords" />
                 </lew-form-item>
                 <lew-form-item direction="y" title="favicon" class="info-item">
-                    <lew-input v-model="userForm.favicon" />
+                    <lew-flex direction="column" x="start">
+                        <img
+                            style="width: 20px; height: 20px"
+                            class="cover"
+                            v-show="userForm.favicon"
+                            :src="userForm.favicon"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button @upload-success="(url:string) => (userForm.favicon = url)" />
+                    </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" title="Logo" class="info-item">
-                    <lew-input v-model="userForm.logo" />
+                    <lew-flex direction="column" x="start">
+                        <img
+                            style="width: 40px; height: 40px"
+                            class="cover"
+                            v-show="userForm.logo"
+                            :src="userForm.logo"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button @upload-success="(url:string) => (userForm.logo = url)" />
+                    </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" title="备案码" class="info-item">
                     <lew-input v-model="userForm.record_code" />
                 </lew-form-item>
                 <lew-form-item direction="y" y="center" title="关于背景图" class="info-item">
-                    <lew-input v-model="userForm.about_bg" />
+                    <lew-flex direction="column" x="start">
+                        <img
+                            style="width: 120px; height: 120px"
+                            class="cover"
+                            v-show="userForm.about_bg"
+                            :src="userForm.about_bg"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button
+                            @upload-success="(url:string) => (userForm.about_bg = url)"
+                        />
+                    </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" y="center" title="友链背景图" class="info-item">
-                    <lew-input v-model="userForm.link_bg" />
+                    <lew-flex direction="column" x="start">
+                        <img
+                            style="width: 120px; height: 120px"
+                            class="cover"
+                            v-show="userForm.link_bg"
+                            :src="userForm.link_bg"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button @upload-success="(url:string) => (userForm.link_bg = url)" />
+                    </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" y="center" title="社交媒体配置" class="info-item">
                     <lew-input v-model="userForm.contact" />
@@ -228,5 +274,8 @@
         .right {
             width: 50% !important;
         }
+    }
+    .cover {
+        object-fit: contain;
     }
 </style>

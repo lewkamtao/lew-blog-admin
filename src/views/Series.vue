@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     import { ref, onMounted, computed } from 'vue';
     import axios from '@/axios/http';
-
+    import UploadButton from '@/components/UploadButton.vue';
     import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
 
     let seriesList: any = ref([]);
@@ -31,6 +31,24 @@
                 if (res.code == 200) {
                     seriesList.value = res.data;
                     total.value = res.total | 0;
+                }
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+    };
+
+    const changeStatus = (status: boolean, id: number) => {
+        axios
+            .put({
+                url: '/series/' + id,
+                data: {
+                    status: status ? 101 : 201
+                }
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success(status ? '已开启' : '已关闭');
                 }
             })
             .finally(() => {
@@ -159,12 +177,22 @@
                         <lew-flex gap="10px" x="end" style="width: 230px">
                             <lew-switch
                                 v-model="statusArr[index]"
+                                @change="changeStatus(statusArr[index], item.id)"
                                 v-tooltip="{
-                                    content: `开启 / 关闭`,
+                                    content: `关闭 / 开启`,
                                     trigger: 'mouseenter'
                                 }"
                             />
-                            <lew-button style="margin-left: 5px" round is-icon @click="edit(item)">
+                            <lew-button
+                                style="margin-left: 5px"
+                                round
+                                is-icon
+                                @click="edit(item)"
+                                v-tooltip="{
+                                    content: `编辑系列`,
+                                    trigger: 'mouseenter'
+                                }"
+                            >
                                 <NotepadEdit20Regular />
                             </lew-button>
                             <lew-popok
@@ -174,7 +202,15 @@
                                 width="200px"
                                 :ok="() => delOk(item.id)"
                             >
-                                <lew-button round is-icon type="error">
+                                <lew-button
+                                    round
+                                    is-icon
+                                    type="error"
+                                    v-tooltip="{
+                                        content: `删除系列`,
+                                        trigger: 'mouseenter'
+                                    }"
+                                >
                                     <Delete20Regular />
                                 </lew-button>
                             </lew-popok>
@@ -183,16 +219,25 @@
                 </lew-flex>
             </lew-flex>
         </div>
-        <lew-modal :visible="addModal" width="400px" @mask-click="addModal = false">
+        <lew-modal :visible="addModal" width="400px">
             <div class="modal-body">
                 <lew-title :bold="700" style="margin-bottom: 20px">新建系列 </lew-title>
-
+                <lew-form-item style="margin-bottom: 30px" title="封面图片">
+                    <lew-flex direction="column" x="start">
+                        <img
+                            class="cover"
+                            v-show="seriesForm.cover"
+                            :src="seriesForm.cover"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button @upload-success="(url:string) => (seriesForm.cover = url)" />
+                    </lew-flex>
+                </lew-form-item>
                 <lew-form-item style="margin-bottom: 30px" title="系列名称">
                     <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
                 </lew-form-item>
-                <lew-form-item style="margin-bottom: 30px" title="头图链接">
-                    <lew-input v-model="seriesForm.cover" />
-                </lew-form-item>
+
                 <lew-form-item style="margin-bottom: 30px" title="系列描述">
                     <lew-input
                         v-model="seriesForm.description"
@@ -251,5 +296,10 @@
 
     .modal-body {
         padding: 30px;
+        .cover {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
     }
 </style>

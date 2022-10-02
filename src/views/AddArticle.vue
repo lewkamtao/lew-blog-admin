@@ -2,12 +2,13 @@
     import axios from '@/axios/http';
     import { useRouter, useRoute } from 'vue-router';
     import { ref, onMounted } from 'vue';
+    import UploadButton from '@/components/UploadButton.vue';
 
     const route = useRoute();
     const router = useRouter();
     let addModal = ref(false);
-
     let options = ref([]);
+    let loading = ref(false);
 
     let articleForm = ref({
         id: '',
@@ -20,6 +21,7 @@
     });
 
     const getSeries = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/series/list'
@@ -33,6 +35,9 @@
                         };
                     });
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -130,11 +135,11 @@
     });
 </script>
 <template>
-    <div>
+    <div v-show="!loading">
         <lew-flex x="start" class="header">
             <input type="text" placeholder="输入文章标题" v-model="articleForm.title" />
             <lew-button @click="openAddModal">
-                {{ articleForm.id ? '立即更新' : '立即发布' }}
+                {{ articleForm.id ? '更新文章' : '发布文章' }}
             </lew-button>
         </lew-flex>
         <v-md-editor
@@ -142,27 +147,40 @@
             v-model="articleForm.content"
             height="calc(100vh - 110px)"
         ></v-md-editor>
-        <lew-modal :visible="addModal" width="400px" @mask-click="addModal = false">
+        <lew-modal :visible="addModal" width="400px">
             <div class="modal-body">
                 <lew-title :bold="700" style="margin-bottom: 20px"
                     >{{ articleForm.id ? '更新文章' : '发布文章' }}
                 </lew-title>
+                <lew-form-item title="封面图片">
+                    <lew-flex direction="column" x="start">
+                        <img
+                            class="cover"
+                            v-show="articleForm.cover"
+                            :src="articleForm.cover"
+                            alt=""
+                            srcset=""
+                        />
+                        <upload-button
+                            @upload-success="(url:string) => (articleForm.cover = url)"
+                        />
+                    </lew-flex>
+                </lew-form-item>
 
                 <lew-form-item title="选择系列">
-                    <lew-radio-group
+                    <lew-select
                         v-model="articleForm.series_id"
                         block
+                        :show-icon="false"
                         :iconable="false"
                         :options="options"
-                    ></lew-radio-group>
+                    ></lew-select>
                 </lew-form-item>
 
                 <lew-form-item title="添加标签">
                     <lew-input-tag type="info" v-model="articleForm.tags" />
                 </lew-form-item>
-                <lew-form-item title="封面图片">
-                    <lew-input v-model="articleForm.cover" />
-                </lew-form-item>
+
                 <lew-form-item title="文章标题">
                     <lew-input
                         v-model="articleForm.title"
@@ -215,5 +233,10 @@
     }
     .modal-body {
         padding: 30px;
+        .cover {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
     }
 </style>

@@ -5,9 +5,9 @@ declare module '*.vue' {
     export default component;
 }
 declare module '@bytemd/vue';
-declare module '@bytemd/plugin-gfm' ;
-declare module 'lew-ui'; 
-declare module '*';  
- 
+declare module '@bytemd/plugin-gfm';
+declare module 'lew-ui';
+declare module '*';
+
 declare const LewMessage: any;
 declare const LewDialog: any;

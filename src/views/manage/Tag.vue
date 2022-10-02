@@ -48,8 +48,6 @@
             width: '80px',
             field: 'action',
             x: 'center',
-            sticky: 'right',
-            offsetX: '0px'
         }
     ];
     const delOk = (e: any, id: number) => {

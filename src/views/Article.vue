@@ -3,6 +3,7 @@
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
     import { dateFormat } from '@/utils';
+    import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
 
     const router = useRouter();
     let articleList: any = ref([]);
@@ -134,24 +135,18 @@
                             </span>
                             <span>{{ dateFormat(item.created_at) }}</span>
                         </lew-flex>
-                        <lew-flex x="end" gap="5px" class="right">
-                            <lew-switch
-                                style="margin-right: 12px"
-                                v-model="statusArr[index]"
-                                @change="changeStatus(statusArr[index], item.id)"
-                                v-tooltip="{
-                                    content: `开启 / 关闭`,
-                                    trigger: 'mouseenter'
-                                }"
-                            />
+                        <lew-flex x="end" gap="10px" class="right">
                             <lew-button
                                 type="normal"
-                                style="margin-right: 10px"
                                 round
-                                size="small"
+                                is-icon
                                 @click="router.push('/AddArticle?id=' + item.id)"
+                                v-tooltip="{
+                                    content: `编辑文章`,
+                                    trigger: 'mouseenter'
+                                }"
                             >
-                                编辑
+                                <NotepadEdit20Regular />
                             </lew-button>
 
                             <lew-popok
@@ -161,8 +156,26 @@
                                 width="200px"
                                 :ok="() => delOk(item.id)"
                             >
-                                <lew-button size="small" round type="error"> 删除 </lew-button>
+                                <lew-button
+                                    is-icon
+                                    round
+                                    type="error"
+                                    v-tooltip="{
+                                        content: `删除文章`,
+                                        trigger: 'mouseenter'
+                                    }"
+                                >
+                                    <Delete20Regular />
+                                </lew-button>
                             </lew-popok>
+                            <lew-switch
+                                v-model="statusArr[index]"
+                                @change="changeStatus(statusArr[index], item.id)"
+                                v-tooltip="{
+                                    content: `关闭 / 开启`,
+                                    trigger: 'mouseenter'
+                                }"
+                            />
                         </lew-flex>
                     </lew-flex>
                 </lew-flex>
@@ -176,6 +189,7 @@
         margin: 0 auto;
         padding: 100px 30px;
         min-height: calc(100vh - 50px);
+        max-width: 1000px;
         box-sizing: border-box;
         .article-main {
             box-sizing: border-box;
@@ -183,7 +197,7 @@
         .article-grid-box {
             margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
             gap: 10px;
         }
         .article-item {
@@ -191,7 +205,7 @@
             background-color: var(--lew-bgcolor-0);
             border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
             border-radius: var(--lew-form-border-radius);
-            padding: 20px;
+            padding: 30px;
             box-sizing: border-box;
             .article-info {
                 width: 100%;
@@ -200,12 +214,11 @@
                 .article-content {
                     width: calc(100% - 150px);
                     .title {
-                        font-weight: 600;
                         font-size: 16px;
                     }
                     .description {
                         color: var(--lew-text-color-5);
-                        font-size: 14px;
+                        font-size: 12px;
                     }
                 }
                 .article-cover {
@@ -214,7 +227,8 @@
             }
             .article-footer {
                 .left {
-                    font-size: 14px;
+                    white-space: nowrap;
+                    font-size: 12px;
                     color: var(--lew-text-color-7);
                 }
             }

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
     import { ref, onMounted } from 'vue';
     import axios from '@/axios/http';
-    import { locale } from 'dayjs';
-
+    let loading = ref(false);
     let comment_switch = ref();
     let site_switch = ref();
 
@@ -60,6 +59,7 @@
     };
 
     const getUser = () => {
+        loading.value = true;
         axios
             .get({
                 url: '/user'
@@ -69,6 +69,9 @@
                     comment_switch.value = res.data.comment_switch;
                     site_switch.value = res.data.site_switch;
                 }
+            })
+            .finally(() => {
+                loading.value = false;
             });
     };
 
@@ -106,7 +109,7 @@
     });
 </script>
 <template>
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" v-show="!loading">
         <div gap="0px" class="setting-box">
             <lew-title>设置</lew-title>
             <br />
