@@ -1,136 +1,136 @@
 <script lang="ts" setup>
-    import { ref, onMounted, computed } from 'vue';
-    import axios from '@/axios/http';
-    import UploadButton from '@/components/UploadButton.vue';
-    import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
+import { ref, onMounted, computed } from 'vue';
+import axios from '@/axios/http';
+import UploadButton from '@/components/UploadButton.vue';
+import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
 
-    let seriesList: any = ref([]);
-    let total = ref<number>(0);
-    let addModal = ref(false);
-    let loading = ref(false);
+let seriesList: any = ref([]);
+let total = ref<number>(0);
+let addModal = ref(false);
+let loading = ref(false);
 
-    let seriesForm = ref({
-        id: '',
-        title: '',
-        cover: '',
-        type: 101,
-        description: ''
-    });
+let seriesForm = ref({
+    id: '',
+    title: '',
+    cover: '',
+    type: 101,
+    description: ''
+});
 
-    let statusArr = computed(() => {
-        return seriesList.value.map((e: any) => e.status == 101);
-    });
+let statusArr = computed(() => {
+    return seriesList.value.map((e: any) => e.status == 101);
+});
 
-    const getSeries = () => {
-        loading.value = true;
-        axios
-            .get({
-                url: '/series/list'
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    seriesList.value = res.data;
-                    total.value = res.total | 0;
-                }
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-    };
+const getSeries = () => {
+    loading.value = true;
+    axios
+        .get({
+            url: '/series/list'
+        })
+        .then((res: any) => {
+            if (res.code == 200) {
+                seriesList.value = res.data;
+                total.value = res.total | 0;
+            }
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
 
-    const changeStatus = (status: boolean, id: number) => {
+const changeStatus = (status: boolean, id: number) => {
+    axios
+        .put({
+            url: '/series/' + id,
+            data: {
+                status: status ? 101 : 201
+            }
+        })
+        .then((res: any) => {
+            if (res.code == 200) {
+                LewMessage.success(status ? '已开启' : '已关闭');
+            }
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
+
+onMounted(() => {
+    getSeries();
+});
+
+const save = () => {
+    let _data = JSON.parse(JSON.stringify(seriesForm.value));
+    const id = _data.id;
+    if (id) {
         axios
             .put({
                 url: '/series/' + id,
-                data: {
-                    status: status ? 101 : 201
-                }
+                data: _data
             })
             .then((res: any) => {
                 if (res.code == 200) {
-                    LewMessage.success(status ? '已开启' : '已关闭');
+                    LewMessage.success('更新成功');
+                    getSeries();
+                    addModal.value = false;
+                    initForm();
                 }
-            })
-            .finally(() => {
-                loading.value = false;
             });
-    };
+    } else {
+        delete _data.id;
+        axios
+            .post({
+                url: '/series',
+                data: _data
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success('添加成功');
+                    getSeries();
+                    initForm();
+                    addModal.value = false;
+                }
+            });
+    }
+};
 
-    onMounted(() => {
-        getSeries();
+const delOk = (id: number) => {
+    return new Promise((resolve) => {
+        axios
+            .delete({
+                url: '/series/' + id
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    LewMessage.success('删除成功');
+                    getSeries();
+                }
+                resolve(true);
+            });
     });
+};
 
-    const save = () => {
-        let _data = JSON.parse(JSON.stringify(seriesForm.value));
-        const id = _data.id;
-        if (id) {
-            axios
-                .put({
-                    url: '/series/' + id,
-                    data: _data
-                })
-                .then((res: any) => {
-                    if (res.code == 200) {
-                        LewMessage.success('更新成功');
-                        getSeries();
-                        addModal.value = false;
-                        initForm();
-                    }
-                });
-        } else {
-            delete _data.id;
-            axios
-                .post({
-                    url: '/series',
-                    data: _data
-                })
-                .then((res: any) => {
-                    if (res.code == 200) {
-                        LewMessage.success('添加成功');
-                        getSeries();
-                        initForm();
-                        addModal.value = false;
-                    }
-                });
-        }
+const initForm = () => {
+    seriesForm.value = {
+        id: '',
+        cover: '',
+        title: '',
+        type: 101,
+        description: ''
     };
-
-    const delOk = (id: number) => {
-        return new Promise((resolve) => {
-            axios
-                .delete({
-                    url: '/series/' + id
-                })
-                .then((res: any) => {
-                    if (res.code == 200) {
-                        LewMessage.success('删除成功');
-                        getSeries();
-                    }
-                    resolve(true);
-                });
-        });
+};
+const edit = (item: any) => {
+    const { id, title, type, cover, description } = item;
+    seriesForm.value = {
+        id: id,
+        cover: cover,
+        title: title,
+        type: type,
+        description: description
     };
-
-    const initForm = () => {
-        seriesForm.value = {
-            id: '',
-            cover: '',
-            title: '',
-            type: 101,
-            description: ''
-        };
-    };
-    const edit = (item: any) => {
-        const { id, title, type, cover, description } = item;
-        seriesForm.value = {
-            id: id,
-            cover: cover,
-            title: title,
-            type: type,
-            description: description
-        };
-        addModal.value = true;
-    };
+    addModal.value = true;
+};
 </script>
 
 <template>
@@ -231,7 +231,10 @@
                             alt=""
                             srcset=""
                         />
-                        <upload-button @upload-success="(url:string) => (seriesForm.cover = url)" />
+                        <upload-button
+                            text="上传封面"
+                            @upload-success="(url) => (seriesForm.cover = url)"
+                        />
                     </lew-flex>
                 </lew-form-item>
                 <lew-form-item style="margin-bottom: 30px" title="系列名称">
@@ -256,50 +259,50 @@
 </template>
 
 <style lang="scss" scoped>
-    .series-wrapper {
+.series-wrapper {
+    margin: 0 auto;
+    padding: 100px 30px;
+    min-height: calc(100vh - 50px);
+    box-sizing: border-box;
+
+    .series-main {
+        max-width: 600px;
         margin: 0 auto;
-        padding: 100px 30px;
-        min-height: calc(100vh - 50px);
+    }
+    .series-item {
+        width: 100%;
+        background-color: var(--lew-bgcolor-0);
+        border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
+        border-radius: var(--lew-form-border-radius);
+        padding: 15px;
         box-sizing: border-box;
-
-        .series-main {
-            max-width: 600px;
-            margin: 0 auto;
+        .left {
+            font-size: 0px;
         }
-        .series-item {
-            width: 100%;
-            background-color: var(--lew-bgcolor-0);
-            border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
-            border-radius: var(--lew-form-border-radius);
-            padding: 15px;
-            box-sizing: border-box;
-            .left {
-                font-size: 0px;
+        .right {
+            white-space: nowrap;
+            .title {
+                font-weight: bold;
             }
-            .right {
-                white-space: nowrap;
-                .title {
-                    font-weight: bold;
-                }
-                .description {
-                    color: var(--lew-text-color-5);
-                }
+            .description {
+                color: var(--lew-text-color-5);
             }
         }
-        .series-item:hover {
-            border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
-        }
-        .series-box {
-            margin-top: 30px;
-        }
     }
+    .series-item:hover {
+        border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
+    }
+    .series-box {
+        margin-top: 30px;
+    }
+}
 
-    .modal-body {
-        padding: 30px;
-        .cover {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
+.modal-body {
+    padding: 30px;
+    .cover {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
     }
+}
 </style>

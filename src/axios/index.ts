@@ -12,7 +12,7 @@ class xwlRequest {
             //实例中的请求拦截器
             (config: AxiosRequestConfig) => {
                 //请求成功的拦截
-                let token = localStorage.getItem('token');
+                const token = localStorage.getItem('token');
                 if (token) {
                     config.headers = {
                         Authorization: `${token}`
@@ -29,9 +29,9 @@ class xwlRequest {
             //实例中的响应拦截器
             (response: AxiosResponse) => {
                 //响应成功的拦截
-                var res: any = response.data;
+                const res: any = response.data;
                 if (res.code != 200) {
-                    if (res.code == 444) {
+                    if (res.code == 401) {
                         router.push('/Login');
                     }
                     LewMessage.error(response?.data?.message);

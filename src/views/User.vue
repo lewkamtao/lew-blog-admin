@@ -1,118 +1,118 @@
 <script lang="ts" setup>
-    import { ref, onMounted } from 'vue';
-    import axios from '@/axios/http';
-    import { useRouter } from 'vue-router';
-    import dayjs from 'dayjs';
-    import UploadButton from '@/components/UploadButton.vue';
+import { ref, onMounted } from 'vue';
+import axios from '@/axios/http';
+import { useRouter } from 'vue-router';
+import dayjs from 'dayjs';
+import UploadButton from '@/components/UploadButton.vue';
 
-    const router = useRouter();
+const router = useRouter();
 
-    let loading = ref(false);
-    let userForm = ref({
-        about_bg: '',
-        avatar: '',
-        birthday: dayjs('1998-11-17').format('YYYY-MM-DD'),
-        contact: '',
-        description: '',
-        email: '',
-        facebook: '',
-        favicon: '',
-        home: '',
-        link_bg: '',
-        logo: '',
-        company: '',
-        site_keywords: '',
-        name: '',
-        nickname: '',
-        phone: '',
-        realname: '',
-        record_code: '',
-        remark: '',
-        site_description: '',
-        site_title: ''
-    });
+let loading = ref(false);
+let userForm = ref({
+    about_bg: '',
+    avatar: '',
+    birthday: dayjs('1998-11-17').format('YYYY-MM-DD'),
+    contact: '',
+    description: '',
+    email: '',
+    facebook: '',
+    favicon: '',
+    home: '',
+    link_bg: '',
+    logo: '',
+    company: '',
+    site_keywords: '',
+    name: '',
+    nickname: '',
+    phone: '',
+    realname: '',
+    record_code: '',
+    remark: '',
+    site_description: '',
+    site_title: ''
+});
 
-    const getUser = () => {
-        loading.value = true;
-        axios
-            .get({
-                url: '/user'
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    const {
-                        about_bg,
-                        avatar,
-                        birthday,
-                        contact,
-                        description,
-                        email,
-                        facebook,
-                        favicon,
-                        home,
-                        link_bg,
-                        logo,
-                        company,
-                        site_keywords,
-                        name,
-                        nickname,
-                        phone,
-                        realname,
-                        record_code,
-                        remark,
-                        site_description,
-                        site_title
-                    } = res.data;
+const getUser = () => {
+    loading.value = true;
+    axios
+        .get({
+            url: '/user'
+        })
+        .then((res: any) => {
+            if (res.code == 200) {
+                const {
+                    about_bg,
+                    avatar,
+                    birthday,
+                    contact,
+                    description,
+                    email,
+                    facebook,
+                    favicon,
+                    home,
+                    link_bg,
+                    logo,
+                    company,
+                    site_keywords,
+                    name,
+                    nickname,
+                    phone,
+                    realname,
+                    record_code,
+                    remark,
+                    site_description,
+                    site_title
+                } = res.data;
 
-                    userForm.value = {
-                        about_bg: about_bg,
-                        avatar: avatar,
-                        birthday: dayjs(birthday).format('YYYY-MM-DD'),
-                        contact: contact,
-                        description: description,
-                        email: email,
-                        facebook: facebook,
-                        favicon: favicon,
-                        home: home,
-                        link_bg: link_bg,
-                        logo: logo,
-                        company: company,
-                        name: name,
-                        nickname: nickname,
-                        phone: phone,
-                        realname: realname,
-                        record_code: record_code,
-                        remark: remark,
-                        site_keywords: site_keywords,
-                        site_description: site_description,
-                        site_title: site_title
-                    };
-                }
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-    };
+                userForm.value = {
+                    about_bg: about_bg,
+                    avatar: avatar,
+                    birthday: dayjs(birthday).format('YYYY-MM-DD'),
+                    contact: contact,
+                    description: description,
+                    email: email,
+                    facebook: facebook,
+                    favicon: favicon,
+                    home: home,
+                    link_bg: link_bg,
+                    logo: logo,
+                    company: company,
+                    name: name,
+                    nickname: nickname,
+                    phone: phone,
+                    realname: realname,
+                    record_code: record_code,
+                    remark: remark,
+                    site_keywords: site_keywords,
+                    site_description: site_description,
+                    site_title: site_title
+                };
+            }
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
 
-    const save = () => {
-        let data = JSON.parse(JSON.stringify(userForm.value));
-        data.birthday = dayjs(data.birthday).format('YYYY-MM-DD HH:mm:ss');
-        axios
-            .put({
-                url: '/user',
-                data: data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('保存成功');
-                    location.reload();
-                }
-            });
-    };
+const save = () => {
+    let data = JSON.parse(JSON.stringify(userForm.value));
+    data.birthday = dayjs(data.birthday).format('YYYY-MM-DD HH:mm:ss');
+    axios
+        .put({
+            url: '/user',
+            data: data
+        })
+        .then((res: any) => {
+            if (res.code == 200) {
+                LewMessage.success('保存成功');
+                location.reload();
+            }
+        });
+};
 
-    onMounted(() => {
-        getUser();
-    });
+onMounted(() => {
+    getUser();
+});
 </script>
 <template>
     <div class="user-wrapper" v-show="!loading">
@@ -124,7 +124,7 @@
                     style="width: 120px; height: 120px"
                     :src="userForm.avatar"
                 ></lew-avatar>
-                <upload-button @upload-success="(url:string) => (userForm.avatar = url)" />
+                <upload-button text="上传头像" @upload-success="(url) => (userForm.avatar = url)" />
                 <br />
                 <lew-form-item direction="x" title="昵称" class="info-item">
                     <lew-input v-model="userForm.nickname" />
@@ -136,7 +136,7 @@
                     <lew-date-picker v-model="userForm.birthday" style="width: 100%" auto-close />
                 </lew-form-item>
                 <lew-form-item direction="y" title="手机号" class="info-item">
-                    <lew-input v-model="userForm.phone" max-length="11" />
+                    <lew-input v-model="userForm.phone" :max-length="11" />
                 </lew-form-item>
                 <lew-form-item direction="y" title="邮箱地址" class="info-item">
                     <lew-input v-model="userForm.email" />
@@ -172,7 +172,10 @@
                             alt=""
                             srcset=""
                         />
-                        <upload-button @upload-success="(url:string) => (userForm.favicon = url)" />
+                        <upload-button
+                            text="上传 favicon"
+                            @upload-success="(url) => (userForm.favicon = url)"
+                        />
                     </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" title="Logo" class="info-item">
@@ -185,7 +188,10 @@
                             alt=""
                             srcset=""
                         />
-                        <upload-button @upload-success="(url:string) => (userForm.logo = url)" />
+                        <upload-button
+                            text="上传 Logo"
+                            @upload-success="(url) => (userForm.logo = url)"
+                        />
                     </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" title="备案码" class="info-item">
@@ -202,7 +208,8 @@
                             srcset=""
                         />
                         <upload-button
-                            @upload-success="(url:string) => (userForm.about_bg = url)"
+                            text="上传图片"
+                            @upload-success="(url) => (userForm.about_bg = url)"
                         />
                     </lew-flex>
                 </lew-form-item>
@@ -216,7 +223,10 @@
                             alt=""
                             srcset=""
                         />
-                        <upload-button @upload-success="(url:string) => (userForm.link_bg = url)" />
+                        <upload-button
+                            text="上传图片"
+                            @upload-success="(url) => (userForm.link_bg = url)"
+                        />
                     </lew-flex>
                 </lew-form-item>
                 <lew-form-item direction="y" y="center" title="社交媒体配置" class="info-item">
@@ -230,52 +240,52 @@
     </div>
 </template>
 <style lang="scss">
-    .user-wrapper {
-        padding: 100px 30px;
-        min-height: calc(100vh - 50px);
+.user-wrapper {
+    padding: 100px 30px;
+    min-height: calc(100vh - 50px);
+    box-sizing: border-box;
+
+    .user-box {
+        max-width: 800px !important;
+        margin: 0 auto;
+        border-radius: var(--lew-form-border-radius);
+        background-color: var(--lew-bgcolor-0);
+        overflow: hidden;
+        border: var(--lew-form-border-width) var(--lew-form-border-color) solid;
+    }
+
+    .left,
+    .right {
+        padding: 40px;
         box-sizing: border-box;
+    }
 
-        .user-box {
-            max-width: 800px !important;
-            margin: 0 auto;
-            border-radius: var(--lew-form-border-radius);
-            background-color: var(--lew-bgcolor-0);
-            overflow: hidden;
-            border: var(--lew-form-border-width) var(--lew-form-border-color) solid;
+    .left {
+        width: 50% !important;
+        border-right: var(--lew-form-border-width) var(--lew-form-border-color) solid;
+
+        .nickname {
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        .left,
-        .right {
-            padding: 40px;
-            box-sizing: border-box;
-        }
-
-        .left {
-            width: 50% !important;
-            border-right: var(--lew-form-border-width) var(--lew-form-border-color) solid;
-
-            .nickname {
-                font-size: 18px;
-                font-weight: bold;
-            }
-
-            .info-item {
-                .title {
-                    color: var(--lew-text-color-7);
-                    font-weight: 100;
-                }
-            }
-
-            .description {
+        .info-item {
+            .title {
                 color: var(--lew-text-color-7);
+                font-weight: 100;
             }
         }
 
-        .right {
-            width: 50% !important;
+        .description {
+            color: var(--lew-text-color-7);
         }
     }
-    .cover {
-        object-fit: contain;
+
+    .right {
+        width: 50% !important;
     }
+}
+.cover {
+    object-fit: contain;
+}
 </style>
