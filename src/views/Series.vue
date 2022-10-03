@@ -1,136 +1,141 @@
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue';
-import axios from '@/axios/http';
-import UploadButton from '@/components/UploadButton.vue';
-import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
+    import { ref, onMounted, computed } from 'vue';
+    import axios from '@/axios/http';
+    import UploadButton from '@/components/UploadButton.vue';
+    import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
 
-let seriesList: any = ref([]);
-let total = ref<number>(0);
-let addModal = ref(false);
-let loading = ref(false);
+    let seriesList: any = ref([]);
+    let total = ref<number>(0);
+    let addModal = ref(false);
+    let loading = ref(false);
 
-let seriesForm = ref({
-    id: '',
-    title: '',
-    cover: '',
-    type: 101,
-    description: ''
-});
-
-let statusArr = computed(() => {
-    return seriesList.value.map((e: any) => e.status == 101);
-});
-
-const getSeries = () => {
-    loading.value = true;
-    axios
-        .get({
-            url: '/series/list'
-        })
-        .then((res: any) => {
-            if (res.code == 200) {
-                seriesList.value = res.data;
-                total.value = res.total | 0;
-            }
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-};
-
-const changeStatus = (status: boolean, id: number) => {
-    axios
-        .put({
-            url: '/series/' + id,
-            data: {
-                status: status ? 101 : 201
-            }
-        })
-        .then((res: any) => {
-            if (res.code == 200) {
-                LewMessage.success(status ? '已开启' : '已关闭');
-            }
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-};
-
-onMounted(() => {
-    getSeries();
-});
-
-const save = () => {
-    let _data = JSON.parse(JSON.stringify(seriesForm.value));
-    const id = _data.id;
-    if (id) {
-        axios
-            .put({
-                url: '/series/' + id,
-                data: _data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('更新成功');
-                    getSeries();
-                    addModal.value = false;
-                    initForm();
-                }
-            });
-    } else {
-        delete _data.id;
-        axios
-            .post({
-                url: '/series',
-                data: _data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('添加成功');
-                    getSeries();
-                    initForm();
-                    addModal.value = false;
-                }
-            });
-    }
-};
-
-const delOk = (id: number) => {
-    return new Promise((resolve) => {
-        axios
-            .delete({
-                url: '/series/' + id
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('删除成功');
-                    getSeries();
-                }
-                resolve(true);
-            });
-    });
-};
-
-const initForm = () => {
-    seriesForm.value = {
+    let seriesForm = ref({
         id: '',
-        cover: '',
         title: '',
+        cover: '',
         type: 101,
         description: ''
+    });
+
+    let statusArr = computed(() => {
+        return seriesList.value.map((e: any) => e.status == 101);
+    });
+
+    const getSeries = () => {
+        loading.value = true;
+        axios
+            .get({
+                url: '/series/list'
+            })
+            .then((res: any) => {
+                if (res.code == 200) {
+                    seriesList.value = res.data;
+                    total.value = res.total | 0;
+                }
+            })
+            .finally(() => {
+                loading.value = false;
+            });
     };
-};
-const edit = (item: any) => {
-    const { id, title, type, cover, description } = item;
-    seriesForm.value = {
-        id: id,
-        cover: cover,
-        title: title,
-        type: type,
-        description: description
+
+    const changeStatus = (status: boolean, id: number) => {
+        return new Promise((resolve) => {
+            axios
+                .put({
+                    url: '/series/' + id,
+                    data: {
+                        status: !status ? 101 : 201
+                    }
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        resolve(true);
+                        LewMessage.success(!status ? '已开启' : '已关闭');
+                    } else {
+                        resolve(false);
+                    }
+                })
+                .finally(() => {
+                    loading.value = false;
+                });
+        });
     };
-    addModal.value = true;
-};
+
+    onMounted(() => {
+        getSeries();
+    });
+
+    const save = () => {
+        let _data = JSON.parse(JSON.stringify(seriesForm.value));
+        const id = _data.id;
+        if (id) {
+            axios
+                .put({
+                    url: '/series/' + id,
+                    data: _data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('更新成功');
+                        getSeries();
+                        addModal.value = false;
+                        initForm();
+                    }
+                });
+        } else {
+            delete _data.id;
+            axios
+                .post({
+                    url: '/series',
+                    data: _data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('添加成功');
+                        getSeries();
+                        initForm();
+                        addModal.value = false;
+                    }
+                });
+        }
+    };
+
+    const delOk = (id: number) => {
+        return new Promise((resolve) => {
+            axios
+                .delete({
+                    url: '/series/' + id
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('删除成功');
+                        getSeries();
+                    }
+                    resolve(true);
+                });
+        });
+    };
+
+    const initForm = () => {
+        seriesForm.value = {
+            id: '',
+            cover: '',
+            title: '',
+            type: 101,
+            description: ''
+        };
+    };
+    const edit = (item: any) => {
+        const { id, title, type, cover, description } = item;
+        seriesForm.value = {
+            id: id,
+            cover: cover,
+            title: title,
+            type: type,
+            description: description
+        };
+        addModal.value = true;
+    };
 </script>
 
 <template>
@@ -177,7 +182,7 @@ const edit = (item: any) => {
                         <lew-flex gap="10px" x="end" style="width: 230px">
                             <lew-switch
                                 v-model="statusArr[index]"
-                                @change="changeStatus(statusArr[index], item.id)"
+                                :request="() => changeStatus(statusArr[index], item.id)"
                                 v-tooltip="{
                                     content: `关闭 / 开启`,
                                     trigger: 'mouseenter'
@@ -259,50 +264,50 @@ const edit = (item: any) => {
 </template>
 
 <style lang="scss" scoped>
-.series-wrapper {
-    margin: 0 auto;
-    padding: 100px 30px;
-    min-height: calc(100vh - 50px);
-    box-sizing: border-box;
-
-    .series-main {
-        max-width: 600px;
+    .series-wrapper {
         margin: 0 auto;
-    }
-    .series-item {
-        width: 100%;
-        background-color: var(--lew-bgcolor-0);
-        border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
-        border-radius: var(--lew-form-border-radius);
-        padding: 15px;
+        padding: 100px 30px;
+        min-height: calc(100vh - 50px);
         box-sizing: border-box;
-        .left {
-            font-size: 0px;
-        }
-        .right {
-            white-space: nowrap;
-            .title {
-                font-weight: bold;
-            }
-            .description {
-                color: var(--lew-text-color-5);
-            }
-        }
-    }
-    .series-item:hover {
-        border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
-    }
-    .series-box {
-        margin-top: 30px;
-    }
-}
 
-.modal-body {
-    padding: 30px;
-    .cover {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
+        .series-main {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .series-item {
+            width: 100%;
+            background-color: var(--lew-bgcolor-0);
+            border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
+            border-radius: var(--lew-form-border-radius);
+            padding: 15px;
+            box-sizing: border-box;
+            .left {
+                font-size: 0px;
+            }
+            .right {
+                white-space: nowrap;
+                .title {
+                    font-weight: bold;
+                }
+                .description {
+                    color: var(--lew-text-color-5);
+                }
+            }
+        }
+        .series-item:hover {
+            border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
+        }
+        .series-box {
+            margin-top: 30px;
+        }
     }
-}
+
+    .modal-body {
+        padding: 30px;
+        .cover {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+    }
 </style>

@@ -15,21 +15,26 @@
     });
 
     const changeStatus = (status: boolean, id: number) => {
-        axios
-            .put({
-                url: '/article/' + id,
-                data: {
-                    status: status ? 101 : 201
-                }
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success(status ? '已开启' : '已关闭');
-                }
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        return new Promise((resolve) => {
+            axios
+                .put({
+                    url: '/article/' + id,
+                    data: {
+                        status: !status ? 101 : 201
+                    }
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        resolve(true);
+                        LewMessage.success(!status ? '已开启' : '已关闭');
+                    } else {
+                        resolve(false);
+                    }
+                })
+                .finally(() => {
+                    loading.value = false;
+                });
+        });
     };
 
     const getArticle = () => {
@@ -170,7 +175,7 @@
                             </lew-popok>
                             <lew-switch
                                 v-model="statusArr[index]"
-                                @change="changeStatus(statusArr[index], item.id)"
+                                :request="() => changeStatus(statusArr[index], item.id)"
                                 v-tooltip="{
                                     content: `关闭 / 开启`,
                                     trigger: 'mouseenter'

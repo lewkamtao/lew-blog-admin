@@ -16,7 +16,7 @@ specifiers:
   eslint-plugin-vue: ^8.5.0
   highlight.js: ^11.6.0
   husky: ^7.0.4
-  lew-ui: 1.1.6
+  lew-ui: 1.1.7
   lint-staged: ^12.3.7
   pinia: ^2.0.12
   prettier: ^2.6.1
@@ -32,7 +32,7 @@ dependencies:
   axios: 0.26.1
   dayjs: 1.11.5
   highlight.js: 11.6.0
-  lew-ui: 1.1.6
+  lew-ui: 1.1.7
   pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
   sass: 1.55.0
   vue: 3.2.40
@@ -2839,8 +2839,8 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /lew-ui/1.1.6:
-    resolution: {integrity: sha512-lYP5dOFgWCRuu7DO09so0iIoCM+GAsWC+Tleqj2v3pz68eZnNS1HRFz1DTt4BY6WO0OkIDDYVhZu/97Ib218bQ==}
+  /lew-ui/1.1.7:
+    resolution: {integrity: sha512-VxwvXb459tBw7Nc35SpA6OZtKwN88hhUr5F/GlEcRkU+Nfb/BFva64hQ9d51gAXqNZzMPbluWn28Qe90KeOH3Q==}
     dependencies:
       '@vicons/fluent': 0.12.0
       '@vicons/ionicons5': 0.12.0
