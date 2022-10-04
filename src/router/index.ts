@@ -22,6 +22,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/',
                 name: 'Dashboard',
                 component: Dashboard,
+                redirect: '/Article',
                 meta: {
                     title: '开始'
                 }

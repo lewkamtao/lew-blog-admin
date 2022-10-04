@@ -113,44 +113,48 @@
         <div gap="0px" class="setting-box">
             <lew-title>设置</lew-title>
             <br />
+            <lew-form direction="y">
+                <lew-form-item title="是否开启评论功能" class="info-item">
+                    <lew-switch @change="changeCommentSwitch" v-model="comment_switch" />
+                </lew-form-item>
 
-            <lew-form-item direction="y" title="是否开启评论功能" class="info-item">
-                <lew-switch @change="changeCommentSwitch" v-model="comment_switch" />
-            </lew-form-item>
-
-            <lew-popok
-                :title="`${site_switch ? '关闭' : '开启'}`"
-                type="error"
-                :content="`${
-                    site_switch ? '确认关闭之后，前台将显示正在维护站点。' : '确认开启站点？'
-                }`"
-                placement="top"
-                width="200px"
-                :ok="closeOk"
-            >
-                <lew-button v-show="site_switch" type="error">临时关闭站点</lew-button>
-                <lew-button v-show="!site_switch" type="primary">开启站点</lew-button>
-            </lew-popok>
+                <lew-popok
+                    :title="`${site_switch ? '关闭' : '开启'}`"
+                    type="error"
+                    :content="`${
+                        site_switch ? '确认关闭之后，前台将显示正在维护站点。' : '确认开启站点？'
+                    }`"
+                    placement="top"
+                    width="200px"
+                    :ok="closeOk"
+                >
+                    <lew-button v-show="site_switch" type="error">临时关闭站点</lew-button>
+                    <lew-button v-show="!site_switch" type="primary">开启站点</lew-button>
+                </lew-popok>
+            </lew-form>
         </div>
         <br />
         <div gap="0px" class="setting-box">
             <lew-title>账号设置</lew-title>
             <br />
-            <lew-form-item direction="y" title="旧密码" class="info-item">
-                <lew-input type="password" show-password v-model="password_form.old_password" />
-            </lew-form-item>
-            <lew-form-item direction="y" title="新密码" class="info-item">
-                <lew-input type="password" show-password v-model="password_form.new_password" />
-            </lew-form-item>
-            <lew-form-item direction="y" title="确认密码" class="info-item">
-                <lew-input
-                    type="password"
-                    show-password
-                    v-model="password_form.new_password_confirm"
-                />
-            </lew-form-item>
-
-            <lew-button @click="savePassword">确认修改</lew-button>
+            <lew-form label-width="60px">
+                <lew-form-item label="旧密码">
+                    <lew-input type="password" show-password v-model="password_form.old_password" />
+                </lew-form-item>
+                <lew-form-item label="新密码">
+                    <lew-input type="password" show-password v-model="password_form.new_password" />
+                </lew-form-item>
+                <lew-form-item label="确认密码">
+                    <lew-input
+                        type="password"
+                        show-password
+                        v-model="password_form.new_password_confirm"
+                    />
+                </lew-form-item>
+                <lew-button style="width: auto" @click="savePassword"
+                    >确认修改</lew-button
+                ></lew-form
+            >
         </div>
     </div>
 </template>
