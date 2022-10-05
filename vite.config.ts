@@ -20,7 +20,7 @@ export default defineConfig({
         // 设置代理
         proxy: {
             '/api': {
-                target: 'http://localhost:3999/adm',
+                target: 'https://adm.blog.kamtao.com/api/adm',
                 changeOrigin: true,
                 rewrite: (path: string) => path.replace(/^\/api/, '')
             }
