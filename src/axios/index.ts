@@ -33,8 +33,10 @@ class xwlRequest {
                 if (res.code != 200) {
                     if (res.code == 401) {
                         router.push('/Login');
+                        LewMessage.error('请登录');
+                    } else {
+                        LewMessage.error(response?.data?.message);
                     }
-                    LewMessage.error(response?.data?.message);
                 }
                 return response.data;
             },

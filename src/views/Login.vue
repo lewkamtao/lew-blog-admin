@@ -37,10 +37,10 @@ const login = () => {
                 <br />
                 <lew-form direction="y">
                     <lew-form-item label="用户名">
-                        <lew-input v-model="form.username"></lew-input>
+                        <lew-input v-model="form.username" />
                     </lew-form-item>
                     <lew-form-item label="密码">
-                        <lew-input v-model="form.password" type="password"></lew-input>
+                        <lew-input v-model="form.password" type="password" />
                     </lew-form-item>
                 </lew-form>
                 <br />
@@ -54,14 +54,17 @@ const login = () => {
 .login-wrapper {
     width: 100%;
     height: 100vh;
+
     .left,
     .right {
         width: 50% !important;
         height: 100%;
     }
+
     .left {
         background-color: var(--lew-primary-color);
     }
+
     .form {
         width: 280px;
     }

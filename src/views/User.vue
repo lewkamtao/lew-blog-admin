@@ -8,6 +8,15 @@ import UploadButton from '@/components/UploadButton.vue';
 const router = useRouter();
 
 let loading = ref(false);
+
+
+const options = ref([
+    { label: '个人资料', value: '1' },
+    { label: '站点信息', value: '2' },
+]);
+
+let tabValue = ref("1")
+
 let userForm = ref({
     about_bg: '',
     avatar: '',
@@ -116,128 +125,95 @@ onMounted(() => {
 </script>
 <template>
     <div class="user-wrapper" v-show="!loading">
-        <lew-flex gap="0px" style="height: 100%" y="start" class="user-box">
-            <lew-flex direction="column" gap="10px" x="start" y="start" class="left">
-                <lew-title>个人资料</lew-title>
-                <lew-avatar
-                    round
-                    style="width: 120px; height: 120px"
-                    :src="userForm.avatar"
-                ></lew-avatar>
+
+        <lew-flex gap="0px" direction="column" y="start" x="start" class="user-box">
+            <lew-flex direction="column" class="header">
+                <lew-avatar round style="width: 120px; height: 120px" :src="userForm.avatar"></lew-avatar>
                 <upload-button text="上传头像" @upload-success="(url) => (userForm.avatar = url)" />
-                <br />
-                <lew-form-item direction="x" title="昵称" class="info-item">
+            </lew-flex>
+
+            <lew-tabs v-model="tabValue" type="line" style="width: 100%" :options="options" />
+
+            <lew-form v-if="tabValue=='1'" direction="x" label-width="70px" label-align="left" class="form-box">
+                <lew-form-item label="昵称">
                     <lew-input v-model="userForm.nickname" />
                 </lew-form-item>
-                <lew-form-item direction="x" title="描述" class="info-item">
+                <lew-form-item label="描述">
                     <lew-input v-model="userForm.description" type="textarea" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="生日" class="info-item">
+                <lew-form-item label="生日">
                     <lew-date-picker v-model="userForm.birthday" style="width: 100%" auto-close />
                 </lew-form-item>
-                <lew-form-item direction="y" title="手机号" class="info-item">
+                <lew-form-item label="手机号">
                     <lew-input v-model="userForm.phone" :max-length="11" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="邮箱地址" class="info-item">
+                <lew-form-item label="邮箱地址">
                     <lew-input v-model="userForm.email" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="公司" class="info-item">
+                <lew-form-item label="公司">
                     <lew-input v-model="userForm.company" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="主页地址" class="info-item">
+                <lew-form-item label="主页地址">
                     <lew-input v-model="userForm.home" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="其他" class="info-item">
+                <lew-form-item label="其他">
                     <lew-input v-model="userForm.remark" />
                 </lew-form-item>
-            </lew-flex>
-            <lew-flex direction="column" gap="10px" x="start" y="start" class="right">
-                <lew-title>站点信息</lew-title>
-                <lew-form-item direction="y" title="标题" class="info-item">
+                <lew-flex x="end">
+                    <lew-button @click="save">保存信息</lew-button>
+                </lew-flex>
+            </lew-form>
+            <lew-form v-if="tabValue=='2'" direction="x" label-width="70px" label-align="left" class="form-box">
+                <lew-form-item label="站点标题">
                     <lew-input v-model="userForm.site_title" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="描述" class="info-item">
+                <lew-form-item label="站点描述">
                     <lew-input v-model="userForm.site_description" type="textarea" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="关键词" class="info-item">
+                <lew-form-item label="关键词">
                     <lew-input v-model="userForm.site_keywords" />
                 </lew-form-item>
-                <lew-form-item direction="y" title="favicon" class="info-item">
+                <lew-form-item label="favicon">
                     <lew-flex direction="column" x="start">
-                        <img
-                            style="width: 20px; height: 20px"
-                            class="cover"
-                            v-show="userForm.favicon"
-                            :src="userForm.favicon"
-                            alt=""
-                            srcset=""
-                        />
-                        <upload-button
-                            text="上传 favicon"
-                            @upload-success="(url) => (userForm.favicon = url)"
-                        />
+                        <img style="width: 20px; height: 20px" class="cover" v-show="userForm.favicon"
+                            :src="userForm.favicon" alt="" srcset="" />
+                        <upload-button text="上传 favicon" @upload-success="(url) => (userForm.favicon = url)" />
                     </lew-flex>
                 </lew-form-item>
-                <lew-form-item direction="y" title="Logo" class="info-item">
+                <lew-form-item label="Logo">
                     <lew-flex direction="column" x="start">
-                        <img
-                            style="width: 40px; height: 40px"
-                            class="cover"
-                            v-show="userForm.logo"
-                            :src="userForm.logo"
-                            alt=""
-                            srcset=""
-                        />
-                        <upload-button
-                            text="上传 Logo"
-                            @upload-success="(url) => (userForm.logo = url)"
-                        />
+                        <img style="width: 40px; height: 40px" class="cover" v-show="userForm.logo" :src="userForm.logo"
+                            alt="" srcset="" />
+                        <upload-button text="上传 Logo" @upload-success="(url) => (userForm.logo = url)" />
                     </lew-flex>
                 </lew-form-item>
-                <lew-form-item direction="y" title="备案码" class="info-item">
+                <lew-form-item label="备案码">
                     <lew-input v-model="userForm.record_code" />
                 </lew-form-item>
-                <lew-form-item direction="y" y="center" title="关于背景图" class="info-item">
+                <lew-form-item y="center" label="关于背景">
                     <lew-flex direction="column" x="start">
-                        <img
-                            style="width: 120px; height: 120px"
-                            class="cover"
-                            v-show="userForm.about_bg"
-                            :src="userForm.about_bg"
-                            alt=""
-                            srcset=""
-                        />
-                        <upload-button
-                            text="上传图片"
-                            @upload-success="(url) => (userForm.about_bg = url)"
-                        />
+                        <img style="width: 120px; height: 120px" class="cover" v-show="userForm.about_bg"
+                            :src="userForm.about_bg" alt="" srcset="" />
+                        <upload-button text="上传图片" @upload-success="(url) => (userForm.about_bg = url)" />
                     </lew-flex>
                 </lew-form-item>
-                <lew-form-item direction="y" y="center" title="友链背景图" class="info-item">
+                <lew-form-item y="center" label="友链背景">
                     <lew-flex direction="column" x="start">
-                        <img
-                            style="width: 120px; height: 120px"
-                            class="cover"
-                            v-show="userForm.link_bg"
-                            :src="userForm.link_bg"
-                            alt=""
-                            srcset=""
-                        />
-                        <upload-button
-                            text="上传图片"
-                            @upload-success="(url) => (userForm.link_bg = url)"
-                        />
+                        <img style="width: 120px; height: 120px" class="cover" v-show="userForm.link_bg"
+                            :src="userForm.link_bg" alt="" srcset="" />
+                        <upload-button text="上传图片" @upload-success="(url) => (userForm.link_bg = url)" />
                     </lew-flex>
                 </lew-form-item>
-                <lew-form-item direction="y" y="center" title="社交媒体配置" class="info-item">
+                <lew-form-item y="center" label="社交媒体">
                     <lew-input v-model="userForm.contact" />
                 </lew-form-item>
                 <lew-flex x="end">
                     <lew-button @click="save">保存信息</lew-button>
                 </lew-flex>
-            </lew-flex>
+            </lew-form>
         </lew-flex>
     </div>
+
 </template>
 <style lang="scss">
 .user-wrapper {
@@ -245,47 +221,30 @@ onMounted(() => {
     min-height: calc(100vh - 50px);
     box-sizing: border-box;
 
+    .header {
+        margin-bottom: 30px;
+    }
+
     .user-box {
-        max-width: 800px !important;
+        max-width: 500px !important;
         margin: 0 auto;
         border-radius: var(--lew-form-border-radius);
         background-color: var(--lew-bgcolor-0);
         overflow: hidden;
         border: var(--lew-form-border-width) var(--lew-form-border-color) solid;
+        padding: 30px;
     }
 
-    .left,
-    .right {
-        padding: 40px;
+    .form-box {
+        width: 100%;
+        padding: 15px;
         box-sizing: border-box;
     }
 
-    .left {
-        width: 50% !important;
-        border-right: var(--lew-form-border-width) var(--lew-form-border-color) solid;
-
-        .nickname {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .info-item {
-            .title {
-                color: var(--lew-text-color-7);
-                font-weight: 100;
-            }
-        }
-
-        .description {
-            color: var(--lew-text-color-7);
-        }
-    }
-
-    .right {
-        width: 50% !important;
-    }
 }
+
 .cover {
     object-fit: contain;
+    border: 1px #eee solid;
 }
 </style>
