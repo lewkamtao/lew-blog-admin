@@ -5,8 +5,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 let form = ref({
-    username: '',
-    password: ''
+    username: 'admin',
+    password: 'admin'
 });
 
 const login = () => {
