@@ -30,23 +30,20 @@ const login = () => {
 
 <template>
     <lew-flex class="login-wrapper">
-        <div class="left"> </div>
-        <lew-flex direction="column" class="right">
-            <div class="form">
-                <lew-title>Lew-Blog</lew-title>
-                <br />
-                <lew-form direction="y">
-                    <lew-form-item label="用户名">
-                        <lew-input v-model="form.username" />
-                    </lew-form-item>
-                    <lew-form-item label="密码">
-                        <lew-input v-model="form.password" type="password" />
-                    </lew-form-item>
-                </lew-form>
-                <br />
-                <lew-button style="width: 100%" @click="login"> 登录 </lew-button>
-            </div>
-        </lew-flex>
+        <div class="form">
+            <lew-title>Lew-Blog</lew-title>
+            <br />
+            <lew-form direction="y">
+                <lew-form-item label="用户名">
+                    <lew-input v-model="form.username" />
+                </lew-form-item>
+                <lew-form-item label="密码">
+                    <lew-input v-model="form.password" type="password" />
+                </lew-form-item>
+            </lew-form>
+            <br />
+            <lew-button style="width: 100%" @click="login"> 登录 </lew-button>
+        </div>
     </lew-flex>
 </template>  
 
@@ -54,19 +51,14 @@ const login = () => {
 .login-wrapper {
     width: 100%;
     height: 100vh;
-
-    .left,
-    .right {
-        width: 50% !important;
-        height: 100%;
-    }
-
-    .left {
-        background-color: var(--lew-primary-color);
-    }
+    background-color: #eee;
+    user-select: none; 
+    border-radius: var(--lew-form-border-radius);
 
     .form {
-        width: 280px;
+        width: 240px;
+        padding: 20px;
+        background-color: #fff;
     }
 }
 </style>

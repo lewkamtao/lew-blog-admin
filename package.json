@@ -3,7 +3,8 @@
     "private": true,
     "version": "0.0.1",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --mode dev",
+        "prod": "vite --mode prod",
         "build": "vite build",
         "preview": "vite preview",
         "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .js 和 .vue 的文件",
@@ -22,7 +23,7 @@
         "axios": "^0.26.1",
         "dayjs": "^1.11.4",
         "highlight.js": "^11.6.0",
-        "lew-ui": "^1.1.9",
+        "lew-ui": "^1.1.10",
         "pinia": "^2.0.12",
         "sass": "^1.54.1",
         "vue": "^3.2.25",
