@@ -1,146 +1,151 @@
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue';
-import axios from '@/axios/http';
-import UploadButton from '@/components/UploadButton.vue';
-import { Delete20Regular, NotepadEdit20Regular } from '@vicons/fluent';
+    import { ref, onMounted, computed } from 'vue';
+    import axios from '@/axios/http';
+    import UploadButton from '@/components/UploadButton.vue';
 
-let seriesList: any = ref([]);
-let total = ref<number>(0);
-let addModal = ref(false);
-let loading = ref(false);
+    let seriesList: any = ref([]);
+    let total = ref<number>(0);
+    let addModal = ref(false);
+    let loading = ref(false);
 
-let seriesForm = ref({
-    id: '',
-    title: '',
-    cover: '',
-    type: 101,
-    description: ''
-});
+    let seriesForm = ref({
+        id: '',
+        title: '',
+        cover: '',
+        type: 101,
+        description: ''
+    });
 
-let statusArr = computed(() => {
-    return seriesList.value.map((e: any) => e.status == 101);
-});
+    let statusArr = computed(() => {
+        return seriesList.value.map((e: any) => e.status == 101);
+    });
 
-const getSeries = () => {
-    loading.value = true;
-    axios
-        .get({
-            url: '/series/list'
-        })
-        .then((res: any) => {
-            if (res.code == 200) {
-                seriesList.value = res.data;
-                total.value = res.total | 0;
-            }
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-};
-
-const changeStatus = (status: boolean, id: number) => {
-    return new Promise((resolve) => {
+    const getSeries = () => {
+        loading.value = true;
         axios
-            .put({
-                url: '/series/' + id,
-                data: {
-                    status: !status ? 101 : 201
-                }
+            .get({
+                url: '/series/list'
             })
             .then((res: any) => {
                 if (res.code == 200) {
-                    resolve(true);
-                    LewMessage.success(!status ? '已开启' : '已关闭');
-                } else {
-                    resolve(false);
+                    seriesList.value = res.data;
+                    total.value = res.total | 0;
                 }
             })
             .finally(() => {
                 loading.value = false;
             });
-    });
-};
-
-onMounted(() => {
-    getSeries();
-});
-
-const save = () => {
-    let _data = JSON.parse(JSON.stringify(seriesForm.value));
-    const id = _data.id;
-    if (id) {
-        axios
-            .put({
-                url: '/series/' + id,
-                data: _data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('更新成功');
-                    getSeries();
-                    addModal.value = false;
-                    initForm();
-                }
-            });
-    } else {
-        delete _data.id;
-        axios
-            .post({
-                url: '/series',
-                data: _data
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('添加成功');
-                    getSeries();
-                    initForm();
-                    addModal.value = false;
-                }
-            });
-    }
-};
-
-const delOk = (id: number) => {
-    return new Promise((resolve) => {
-        axios
-            .delete({
-                url: '/series/' + id
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    LewMessage.success('删除成功');
-                    getSeries();
-                }
-                resolve(true);
-            });
-    });
-};
-
-const initForm = () => {
-    seriesForm.value = {
-        id: '',
-        cover: '',
-        title: '',
-        type: 101,
-        description: ''
     };
-};
-const edit = (item: any) => {
-    const { id, title, type, cover, description } = item;
-    seriesForm.value = {
-        id: id,
-        cover: cover,
-        title: title,
-        type: type,
-        description: description
+
+    const changeStatus = (status: boolean, id: number) => {
+        return new Promise((resolve) => {
+            axios
+                .put({
+                    url: '/series/' + id,
+                    data: {
+                        status: !status ? 101 : 201
+                    }
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        resolve(true);
+                        LewMessage.success(!status ? '已开启' : '已关闭');
+                    } else {
+                        resolve(false);
+                    }
+                })
+                .finally(() => {
+                    loading.value = false;
+                });
+        });
     };
-    addModal.value = true;
-};
+
+    onMounted(() => {
+        getSeries();
+    });
+
+    const save = () => {
+        let _data = JSON.parse(JSON.stringify(seriesForm.value));
+        const id = _data.id;
+        if (id) {
+            axios
+                .put({
+                    url: '/series/' + id,
+                    data: _data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('更新成功');
+                        getSeries();
+                        addModal.value = false;
+                        initForm();
+                    }
+                });
+        } else {
+            delete _data.id;
+            axios
+                .post({
+                    url: '/series',
+                    data: _data
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('添加成功');
+                        getSeries();
+                        initForm();
+                        addModal.value = false;
+                    }
+                });
+        }
+    };
+
+    const delOk = (id: number) => {
+        return new Promise((resolve) => {
+            axios
+                .delete({
+                    url: '/series/' + id
+                })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        LewMessage.success('删除成功');
+                        getSeries();
+                    }
+                    resolve(true);
+                });
+        });
+    };
+
+    const initForm = () => {
+        seriesForm.value = {
+            id: '',
+            cover: '',
+            title: '',
+            type: 101,
+            description: ''
+        };
+    };
+    const edit = (item: any) => {
+        const { id, title, type, cover, description } = item;
+        seriesForm.value = {
+            id: id,
+            cover: cover,
+            title: title,
+            type: type,
+            description: description
+        };
+        addModal.value = true;
+    };
 </script>
 
 <template>
     <div class="series-wrapper">
-        <lew-result v-if="!total && !loading" status="info" title="暂无系列" content="" style="height: calc(100vh - 320px)">
+        <lew-result
+            v-if="!total && !loading"
+            status="info"
+            title="暂无系列"
+            content=""
+            style="height: calc(100vh - 320px)"
+        >
             <template #handle>
                 <lew-flex style="margin-top: 50px">
                     <lew-button type="normal">返回</lew-button>
@@ -153,34 +158,64 @@ const edit = (item: any) => {
                 <lew-button @click="initForm(), (addModal = true)">新建系列</lew-button>
             </lew-flex>
             <lew-flex gap="10px" direction="column" x="start" class="series-box" v-show="total">
-                <lew-flex x="start" class="series-item" v-for="(item, index) in seriesList" :key="index">
+                <lew-flex
+                    x="start"
+                    class="series-item"
+                    v-for="(item, index) in seriesList"
+                    :key="index"
+                >
                     <div class="left">
                         <lew-avatar style="width: 50px; height: 50px" :src="item.cover" />
                     </div>
                     <lew-flex mode="between" class="right">
-                        <lew-flex direction="column" x="start" y="start" gap="5px" style="height: 50px">
+                        <lew-flex
+                            direction="column"
+                            x="start"
+                            y="start"
+                            gap="5px"
+                            style="height: 50px"
+                        >
                             <div class="title"> {{ item.title }}</div>
                             <div class="description"> {{ item.description }}</div>
                         </lew-flex>
                         <lew-flex gap="10px" x="end" style="width: 230px">
-                            <lew-switch v-model="statusArr[index]"
-                                :request="() => changeStatus(statusArr[index], item.id)" v-tooltip="{
+                            <lew-switch
+                                v-model="statusArr[index]"
+                                :request="() => changeStatus(statusArr[index], item.id)"
+                                v-tooltip="{
                                     content: `关闭 / 开启`,
                                     trigger: 'mouseenter'
-                                }" />
-                            <lew-button style="margin-left: 5px" round is-icon @click="edit(item)" v-tooltip="{
-                                content: `编辑系列`,
-                                trigger: 'mouseenter'
-                            }">
-                                <NotepadEdit20Regular />
-                            </lew-button>
-                            <lew-popok title="删除确认" content="删除之后无法恢复，请确认！" placement="top" width="200px"
-                                :ok="() => delOk(item.id)">
-                                <lew-button round is-icon type="error" v-tooltip="{
-                                    content: `删除系列`,
+                                }"
+                            />
+                            <lew-button
+                                style="margin-left: 5px"
+                                round
+                                is-icon
+                                @click="edit(item)"
+                                v-tooltip="{
+                                    content: `编辑系列`,
                                     trigger: 'mouseenter'
-                                }">
-                                    <Delete20Regular />
+                                }"
+                            >
+                                <lew-icon size="16" type="edit-2" />
+                            </lew-button>
+                            <lew-popok
+                                title="删除确认"
+                                content="删除之后无法恢复，请确认！"
+                                placement="top"
+                                width="200px"
+                                :ok="() => delOk(item.id)"
+                            >
+                                <lew-button
+                                    round
+                                    is-icon
+                                    type="error"
+                                    v-tooltip="{
+                                        content: `删除系列`,
+                                        trigger: 'mouseenter'
+                                    }"
+                                >
+                                    <lew-icon size="16" type="trash-2" />
                                 </lew-button>
                             </lew-popok>
                         </lew-flex>
@@ -194,82 +229,100 @@ const edit = (item: any) => {
                 <lew-form>
                     <lew-form-item label="封面图片">
                         <lew-flex direction="column" x="start">
-                            <img class="cover" v-show="seriesForm.cover" :src="seriesForm.cover" alt="" srcset="" />
-                            <upload-button text="上传封面" @upload-success="(url) => (seriesForm.cover = url)" />
+                            <img
+                                class="cover"
+                                v-show="seriesForm.cover"
+                                :src="seriesForm.cover"
+                                alt=""
+                                srcset=""
+                            />
+                            <upload-button
+                                text="上传封面"
+                                @upload-success="(url) => (seriesForm.cover = url)"
+                            />
                         </lew-flex>
                     </lew-form-item>
 
                     <lew-form-item label="系列名称">
-                        <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
+                        <lew-input
+                            v-model="seriesForm.title"
+                            show-count
+                            :max-length="20"
+                            nice-count
+                        />
                     </lew-form-item>
 
                     <lew-form-item label="系列描述">
-                        <lew-input v-model="seriesForm.description" type="textarea" show-count :max-length="100" />
+                        <lew-input
+                            v-model="seriesForm.description"
+                            type="textarea"
+                            show-count
+                            :max-length="100"
+                        />
                     </lew-form-item>
                     <lew-flex x="end">
                         <lew-button type="normal" @click="addModal = false"> 关闭 </lew-button>
                         <lew-button @click="save"> 确认 </lew-button>
                     </lew-flex>
                 </lew-form>
-
             </div>
         </lew-modal>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.series-wrapper {
-    margin: 0 auto;
-    padding: 100px 30px;
-    min-height: calc(100vh - 50px);
-    box-sizing: border-box;
-
-    .series-main {
-        max-width: 600px;
+    .series-wrapper {
         margin: 0 auto;
-    }
-
-    .series-item {
-        width: 100%;
-        background-color: var(--lew-bgcolor-0);
-        border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
-        border-radius: var(--lew-form-border-radius);
-        padding: 15px;
+        padding: 100px 30px;
+        min-height: calc(100vh - 50px);
         box-sizing: border-box;
 
-        .left {
-            font-size: 0px;
+        .series-main {
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .right {
-            white-space: nowrap;
+        .series-item {
+            width: 100%;
+            background-color: var(--lew-bgcolor-0);
+            border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
+            border-radius: var(--lew-form-border-radius);
+            padding: 15px;
+            box-sizing: border-box;
 
-            .title {
-                font-weight: bold;
+            .left {
+                font-size: 0px;
             }
 
-            .description {
-                color: var(--lew-text-color-5);
+            .right {
+                white-space: nowrap;
+
+                .title {
+                    font-weight: bold;
+                }
+
+                .description {
+                    color: var(--lew-text-color-5);
+                }
             }
+        }
+
+        .series-item:hover {
+            border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
+        }
+
+        .series-box {
+            margin-top: 30px;
         }
     }
 
-    .series-item:hover {
-        border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
-    }
+    .modal-body {
+        padding: 30px;
 
-    .series-box {
-        margin-top: 30px;
+        .cover {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
     }
-}
-
-.modal-body {
-    padding: 30px;
-
-    .cover {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-    }
-}
 </style>

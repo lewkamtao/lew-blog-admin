@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-    import { Chat24Regular, Delete24Regular } from '@vicons/fluent';
     import { ref, onMounted } from 'vue';
     import axios from '@/axios/http';
     import { useRouter } from 'vue-router';
@@ -131,7 +130,7 @@
                                 is-text
                                 type="info"
                             >
-                                <Chat24Regular style="width: 14px" />
+                                <lew-icon size="14" type="message-square" />
                                 <span>Reply</span>
                             </lew-button>
 
@@ -149,7 +148,7 @@
                                     is-text
                                     type="error"
                                 >
-                                    <Delete24Regular style="width: 14px" />
+                                    <lew-icon size="14" type="trash-2" />
                                     <span>删除</span>
                                 </lew-button>
                             </lew-popok>
@@ -227,7 +226,7 @@
                                     is-text
                                     type="info"
                                 >
-                                    <Chat24Regular style="width: 14px" />
+                                    <lew-icon size="14" type="message-square" />
                                     <span>Reply</span>
                                 </lew-button>
 
@@ -245,7 +244,7 @@
                                         is-text
                                         type="error"
                                     >
-                                        <Delete24Regular style="width: 14px" />
+                                        <lew-icon size="14" type="trash-2" />
                                         <span>删除</span>
                                     </lew-button>
                                 </lew-popok>
