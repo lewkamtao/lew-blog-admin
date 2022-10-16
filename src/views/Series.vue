@@ -286,7 +286,7 @@
             width: 100%;
             background-color: var(--lew-bgcolor-0);
             border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
-            border-radius: var(--lew-form-border-radius);
+            border-radius: var(--lew-border-radius);
             padding: 15px;
             box-sizing: border-box;
 

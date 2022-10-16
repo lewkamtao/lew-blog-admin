@@ -228,7 +228,7 @@ onMounted(() => {
     .user-box {
         max-width: 500px !important;
         margin: 0 auto;
-        border-radius: var(--lew-form-border-radius);
+        border-radius: var(--lew-border-radius);
         background-color: var(--lew-bgcolor-0);
         overflow: hidden;
         border: var(--lew-form-border-width) var(--lew-form-border-color) solid;

@@ -77,7 +77,7 @@
             background-color: #fff;
             padding: 30px;
             max-width: 800px;
-            border-radius: var(--lew-form-border-radius);
+            border-radius: var(--lew-border-radius);
         }
         .manager-tabs {
             padding-bottom: 20px;

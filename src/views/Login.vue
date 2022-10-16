@@ -53,7 +53,7 @@ const login = () => {
     height: 100vh;
     background-color: #eee;
     user-select: none; 
-    border-radius: var(--lew-form-border-radius);
+    border-radius: var(--lew-border-radius);
 
     .form {
         width: 240px;

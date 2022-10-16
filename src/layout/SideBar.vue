@@ -137,7 +137,7 @@
                 cursor: pointer;
                 transition: all 0.1s;
                 color: var(--lew-text-color-5);
-                border-radius: var(--lew-form-border-radius);
+                border-radius: var(--lew-border-radius);
                 div {
                     margin-left: 10px;
                 }
@@ -163,7 +163,7 @@
             width: calc(100% - 40px);
             box-sizing: border-box;
             background-color: var(--lew-bgcolor-2);
-            border-radius: var(--lew-form-border-radius);
+            border-radius: var(--lew-border-radius);
         }
     }
 </style>

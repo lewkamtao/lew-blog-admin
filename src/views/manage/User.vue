@@ -64,7 +64,7 @@
         .user-box {
             background-color: var(--lew-bgcolor-2);
             height: 60px;
-            border-radius: var(--lew-form-border-radius);
+            border-radius: var(--lew-border-radius);
             padding: 10px;
             border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
             box-sizing: border-box;
