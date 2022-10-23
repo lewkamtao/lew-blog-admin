@@ -10,8 +10,6 @@ import User from '../views/User.vue';
 import Manage from '../views/Manage.vue';
 import AddArticle from '../views/AddArticle.vue';
 
-import Login from '../views/Login.vue';
-
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
@@ -79,13 +77,9 @@ const routes: Array<RouteRecordRaw> = [
                 }
             }
         ]
-    },
-    {
-        path: '/Login',
-        name: 'Login',
-        component: Login
     }
 ];
+
 const router = createRouter({
     history: createWebHashHistory(''),
     routes,
