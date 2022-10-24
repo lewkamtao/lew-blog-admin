@@ -39,15 +39,31 @@
         }
         handle.hide();
     };
+
+    const openUrl = (url: string) => {
+        window.open(url, '_blank');
+    };
 </script>
 
 <template>
     <div class="header">
-        <div class="username">
-            <lew-dropdown :options="options" @change="handle">
-                <div>Admin</div>
-            </lew-dropdown>
-        </div>
+        <lew-flex gap="20px" x="end">
+            <lew-flex class="username" x="end">
+                <lew-dropdown :options="options" @change="handle">
+                    <lew-flex>
+                        <lew-icon size="18" type="user"></lew-icon>
+                        <div>Admin</div>
+                    </lew-flex>
+                </lew-dropdown>
+            </lew-flex>
+            <lew-button
+                @click="openUrl('https://github.com/lewkamtao/Lew-UI')"
+                is-icon
+                type="normal"
+            >
+                <lew-icon size="18" type="github"></lew-icon>
+            </lew-button>
+        </lew-flex>
     </div>
 </template>
 
@@ -65,6 +81,7 @@
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
+            color: var(--lew-normal-text-color);
         }
     }
 </style>

@@ -28,9 +28,8 @@ const setToken = () => {
 
 // 去除token
 const delToken = () => {
-    var url =
-        window.location.protocol + '//' + window.location.host + '' + window.location.pathname;
-    window.location.replace(url); // 不刷新页面
+    var url = window.location.protocol + '//' + window.location.host;
+    window.location.replace(url);
 };
 
 // 设置token

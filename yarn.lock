@@ -2647,10 +2647,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lew-ui@^1.1.11":
-  "integrity" "sha512-NJ61LStIEzN3EMUyc2ptRkbGASWt7AdrYLzweV53QtCKSMiNrIyHc4ECWgbWIQgahY2+0Q9xTrV0s+mUbaS6/w=="
-  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.11.tgz"
-  "version" "1.1.11"
+"lew-ui@^1.1.14":
+  "integrity" "sha512-XqMT5P1mED5wM8tp/yanOqPW7Cq4qcVL2R/2J6PMgeW5+V9XNSFK24iR/7teHtUAIxTWjd98XHmGS6B4UIUBFQ=="
+  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.14.tgz"
+  "version" "1.1.14"
   dependencies:
     "@vueuse/core" "^9.1.1"
     "eslint-plugin-prettier" "^4.2.1"
