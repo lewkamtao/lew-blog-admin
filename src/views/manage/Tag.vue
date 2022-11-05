@@ -14,7 +14,7 @@ const getTag = () => {
     loading.value = true;
     axios
         .get({
-            url: `/tag/list?page=${pageNum.value}&limit=${pageSize.value}`
+            url: `/api/tag/list?page=${pageNum.value}&limit=${pageSize.value}`
         })
         .then((res: any) => {
             if (res.code == 200) {
@@ -53,7 +53,7 @@ const columns = [
 const delOk = (e: any, id: number) => {
     axios
         .delete({
-            url: '/tag/' + id
+            url: '/api/tag/' + id
         })
         .then((res: any) => {
             if (res.code == 200) {

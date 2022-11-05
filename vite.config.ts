@@ -25,6 +25,11 @@ export default defineConfig(({ mode }) => {
                     target: env.VITE_API_URL,
                     changeOrigin: true,
                     rewrite: (path: string) => path.replace(/^\/api/, '')
+                },
+                '/sso': {
+                    target: env.VITE_SSO_URL,
+                    changeOrigin: true,
+                    rewrite: (path: string) => path.replace(/^\/sso/, '')
                 }
             }
         }

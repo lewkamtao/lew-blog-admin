@@ -24,7 +24,7 @@
         loading.value = true;
         axios
             .get({
-                url: '/series/list'
+                url: '/api/series/list'
             })
             .then((res: any) => {
                 if (res.code == 200) {
@@ -44,7 +44,7 @@
     const getArticle = () => {
         axios
             .get({
-                url: '/article/' + route.query.id
+                url: '/api/article/' + route.query.id
             })
             .then((res: any) => {
                 if (res.code == 200) {
@@ -77,7 +77,7 @@
         if (data.id) {
             axios
                 .put({
-                    url: '/article/' + data.id,
+                    url: '/api/article/' + data.id,
                     data: data
                 })
                 .then((res: any) => {
@@ -91,7 +91,7 @@
             delete data.id;
             axios
                 .post({
-                    url: '/article',
+                    url: '/api/article',
                     data: data
                 })
                 .then((res: any) => {

@@ -174,10 +174,10 @@
   "resolved" "https://registry.npmmirror.com/@types/node/-/node-17.0.45.tgz"
   "version" "17.0.45"
 
-"@types/web-bluetooth@^0.0.15":
-  "integrity" "sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA=="
-  "resolved" "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.15.tgz"
-  "version" "0.0.15"
+"@types/web-bluetooth@^0.0.16":
+  "integrity" "sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ=="
+  "resolved" "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz"
+  "version" "0.0.16"
 
 "@typescript-eslint/eslint-plugin@^5.16.0":
   "integrity" "sha512-CHLuz5Uz7bHP2WgVlvoZGhf0BvFakBJKAD/43Ty0emn4wXWv5k01ND0C0fHcl/Im8Td2y/7h44E9pca9qAu2ew=="
@@ -472,24 +472,24 @@
     "upath" "^1.1.0"
 
 "@vueuse/core@^9.1.1":
-  "integrity" "sha512-64Rna8IQDWpdrJxgitDg7yv1yTp41ZmvV8zlLEylK4QQLWAhz1OFGZDPZ8bU4lwcGgbEJ2sGi2jrdNh4LttUSQ=="
-  "resolved" "https://registry.npmmirror.com/@vueuse/core/-/core-9.3.0.tgz"
-  "version" "9.3.0"
+  "integrity" "sha512-JzgenGj1ZF2BHOen5rsFiAyyI9sXAv7aKhNLlm9b7SwYQeKTcxTWdhudonURCSP3Egl9NQaRBzes2lv/1JUt/Q=="
+  "resolved" "https://registry.npmjs.org/@vueuse/core/-/core-9.4.0.tgz"
+  "version" "9.4.0"
   dependencies:
-    "@types/web-bluetooth" "^0.0.15"
-    "@vueuse/metadata" "9.3.0"
-    "@vueuse/shared" "9.3.0"
+    "@types/web-bluetooth" "^0.0.16"
+    "@vueuse/metadata" "9.4.0"
+    "@vueuse/shared" "9.4.0"
     "vue-demi" "*"
 
-"@vueuse/metadata@9.3.0":
-  "integrity" "sha512-GnnfjbzIPJIh9ngL9s9oGU1+Hx/h5/KFqTfJykzh/1xjaHkedV9g0MASpdmPZIP+ynNhKAcEfA6g5i8KXwtoMA=="
-  "resolved" "https://registry.npmmirror.com/@vueuse/metadata/-/metadata-9.3.0.tgz"
-  "version" "9.3.0"
+"@vueuse/metadata@9.4.0":
+  "integrity" "sha512-7GKMdGAsJyQJl35MYOz/RDpP0FxuiZBRDSN79QIPbdqYx4Sd0sVTnIC68KJ6Oln0t0SouvSUMvRHuno216Ud2Q=="
+  "resolved" "https://registry.npmjs.org/@vueuse/metadata/-/metadata-9.4.0.tgz"
+  "version" "9.4.0"
 
-"@vueuse/shared@9.3.0":
-  "integrity" "sha512-caGUWLY0DpPC6l31KxeUy6vPVNA0yKxx81jFYLoMpyP6cF84FG5Dkf69DfSUqL57wX8JcUkJDMnQaQIZPWFEQQ=="
-  "resolved" "https://registry.npmmirror.com/@vueuse/shared/-/shared-9.3.0.tgz"
-  "version" "9.3.0"
+"@vueuse/shared@9.4.0":
+  "integrity" "sha512-fTuem51KwMCnqUKkI8B57qAIMcFovtGgsCtAeqxIzH3i6nE9VYge+gVfneNHAAy7lj8twbkNfqQSygOPJTm4tQ=="
+  "resolved" "https://registry.npmjs.org/@vueuse/shared/-/shared-9.4.0.tgz"
+  "version" "9.4.0"
   dependencies:
     "vue-demi" "*"
 
@@ -937,9 +937,9 @@
     "toggle-selection" "^1.0.6"
 
 "core-js@^3.1.3":
-  "integrity" "sha512-nbm6eZSjm+ZuBQxCUPQKQCoUEfFOXjUZ8dTTyikyKaWrTYmAVbykQfwsKE5dBK88u3QCkCrzsx/PPlKfhsvgpw=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.25.5.tgz"
-  "version" "3.25.5"
+  "integrity" "sha512-+DkDrhoR4Y0PxDz6rurahuB+I45OsEUv8E1maPTB6OuHRohMMcznBq9TMpdpDMm/hUPob/mJJS3PqgbHpMTQgw=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.26.0.tgz"
+  "version" "3.26.0"
 
 "cross-spawn@^7.0.2", "cross-spawn@^7.0.3":
   "integrity" "sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w=="
@@ -1644,9 +1644,9 @@
   "resolved" "https://registry.npmmirror.com/entities/-/entities-1.1.2.tgz"
   "version" "1.1.2"
 
-"esbuild-darwin-arm64@0.14.53":
-  "integrity" "sha512-otJwDU3hnI15Q98PX4MJbknSZ/WSR1I45il7gcxcECXzfN4Mrpft5hBDHXNRnCh+5858uPXBXA1Vaz2jVWLaIA=="
-  "resolved" "https://registry.npmmirror.com/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.53.tgz"
+"esbuild-windows-64@0.14.53":
+  "integrity" "sha512-s9skQFF0I7zqnQ2K8S1xdLSfZFsPLuOGmSx57h2btSEswv0N0YodYvqLcJMrNMXh6EynOmWD7rz+0rWWbFpIHQ=="
+  "resolved" "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.14.53.tgz"
   "version" "0.14.53"
 
 "esbuild@^0.14.27":
@@ -2052,11 +2052,6 @@
   "integrity" "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
   "resolved" "https://registry.npmmirror.com/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmmirror.com/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -2647,10 +2642,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lew-ui@^1.1.14":
-  "integrity" "sha512-XqMT5P1mED5wM8tp/yanOqPW7Cq4qcVL2R/2J6PMgeW5+V9XNSFK24iR/7teHtUAIxTWjd98XHmGS6B4UIUBFQ=="
-  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.14.tgz"
-  "version" "1.1.14"
+"lew-ui@^1.1.19":
+  "integrity" "sha512-jF1L7QVSfsfWXxZ5zS8R9SCVngVv628+X5ZnWSOz4OruMcDKnfSdnasYNHLKUx1RxWUp+f3pmze5cH5ZW5zthg=="
+  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.19.tgz"
+  "version" "1.1.19"
   dependencies:
     "@vueuse/core" "^9.1.1"
     "eslint-plugin-prettier" "^4.2.1"
@@ -2906,7 +2901,7 @@
 
 "moment@^2.29.4":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
-  "resolved" "https://registry.npmmirror.com/moment/-/moment-2.29.4.tgz"
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
 
 "ms@2.0.0":
@@ -3708,7 +3703,7 @@
 
 "tippy.js@^6.3.7":
   "integrity" "sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ=="
-  "resolved" "https://registry.npmmirror.com/tippy.js/-/tippy.js-6.3.7.tgz"
+  "resolved" "https://registry.npmjs.org/tippy.js/-/tippy.js-6.3.7.tgz"
   "version" "6.3.7"
   dependencies:
     "@popperjs/core" "^2.9.0"

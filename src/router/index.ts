@@ -6,7 +6,7 @@ import Dashboard from '../views/Dashboard.vue';
 import Article from '../views/Article.vue';
 import Series from '../views/Series.vue';
 import Setting from '../views/Setting.vue';
-import User from '../views/User.vue';
+import Blogger from '../views/Blogger.vue';
 import Manage from '../views/Manage.vue';
 import AddArticle from '../views/AddArticle.vue';
 
@@ -60,11 +60,11 @@ const routes: Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: '/User',
-                name: 'User',
-                component: User,
+                path: '/Blogger',
+                name: 'Blogger',
+                component: Blogger,
                 meta: {
-                    title: '用户'
+                    title: '博主'
                 }
             },
 

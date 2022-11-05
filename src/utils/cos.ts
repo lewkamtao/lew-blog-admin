@@ -8,12 +8,13 @@ const putFile = (fileObject: File, fileKey: String) => {
     return new Promise(async (resolve, reject) => {
         // 初始化实例
         const res: any = await axios.get({
-            url: '/sts'
+            url: '/sso/oss/sts'
         });
         if (res?.code == 200) {
             const { Credentials, StartTime, ExpiredTime } = res.data?.credential_result;
             const { bucket, region } = res.data?.cos_config;
-
+       
+            
             // @ts-ignore
 
             var cos = new COS({
@@ -39,6 +40,7 @@ const putFile = (fileObject: File, fileKey: String) => {
                 },
                 function (err: any, data: any) {
                     if (err) {
+                        console.log(err);
                         throw new Error('上传失败，请检查是否正确配置cos');
                     } else {
                         resolve(`https://${data.Location}`);

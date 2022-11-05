@@ -3,7 +3,6 @@
     import Comment from './manage/Comment.vue';
     import Message from './manage/Message.vue';
     import Tag from './manage/Tag.vue';
-    import User from './manage/User.vue';
 
     type Options = {
         label: string;
@@ -14,7 +13,6 @@
     const options = ref([
         { label: '评论列表', value: 'comment' },
         { label: '留言板', value: 'message' },
-        { label: '用户', value: 'user' },
         { label: '标签', value: 'tag' }
     ]);
 
@@ -53,11 +51,9 @@
                     :options="options"
                 />
             </div>
-
             <div>
                 <Comment v-if="tableValue == `comment`" />
                 <Message v-if="tableValue == `message`" />
-                <User v-if="tableValue == `user`" />
                 <Tag v-if="tableValue == `tag`" />
             </div>
         </div>

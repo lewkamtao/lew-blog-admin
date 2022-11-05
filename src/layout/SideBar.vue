@@ -37,7 +37,7 @@
                     title: '管理'
                 },
                 {
-                    path: '/User',
+                    path: '/Blogger',
                     icon: 'user',
                     title: '个人资料'
                 },

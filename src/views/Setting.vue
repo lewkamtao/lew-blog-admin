@@ -5,17 +5,11 @@ let loading = ref(false);
 let comment_switch = ref();
 let site_switch = ref();
 
-let password_form = ref({
-    old_password: '',
-    new_password: '',
-    new_password_confirm: ''
-});
-
 const changeCommentSwitch = () => {
     return new Promise((resolve) => {
         axios
             .put({
-                url: '/user',
+                url: '/api/blogger',
                 data: {
                     comment_switch: !comment_switch.value
                 }
@@ -41,7 +35,7 @@ const closeOk = () => {
     return new Promise((resolve) => {
         axios
             .put({
-                url: '/user',
+                url: '/api/blogger',
                 data: {
                     site_switch: !site_switch.value
                 }
@@ -63,11 +57,11 @@ const closeOk = () => {
     });
 };
 
-const getUser = () => {
+const getBlogger = () => {
     loading.value = true;
     axios
         .get({
-            url: '/user'
+            url: '/api/blogger'
         })
         .then((res: any) => {
             if (res.code == 200) {
@@ -80,37 +74,9 @@ const getUser = () => {
         });
 };
 
-const savePassword = () => {
-    const { new_password, old_password, new_password_confirm } = password_form.value;
-    if (!new_password || !old_password || !new_password_confirm) {
-        LewMessage.warning('请完善表单后提交');
-        return;
-    }
-
-    if (new_password != new_password_confirm) {
-        LewMessage.warning('新密码和确认密码不一致');
-        return;
-    }
-
-    axios
-        .put({
-            url: '/user/password',
-            data: {
-                new_password: new_password,
-                old_password: old_password
-            }
-        })
-        .then((res: any) => {
-            if (res.code == 200) {
-                LewMessage.success('修改成功');
-                localStorage.clear();
-                location.reload();
-            }
-        });
-};
 
 onMounted(() => {
-    getUser();
+    getBlogger();
 });
 </script>
 <template>
@@ -124,29 +90,11 @@ onMounted(() => {
                 </lew-form-item>
             </lew-form>
             <br>
-            <lew-popok :title="`${site_switch ? '关闭' : '开启'}`" type="error" :content="`${
-                site_switch ? '确认关闭之后，前台将显示正在维护站点。' : '确认开启站点？'
+            <lew-popok :title="`${site_switch ? '关闭' : '开启'}`" type="error" :content="`${site_switch ? '确认关闭之后，前台将显示正在维护站点。' : '确认开启站点？'
             }`" placement="top" width="200px" :ok="closeOk">
                 <lew-button v-show="site_switch" type="error">临时关闭站点</lew-button>
                 <lew-button v-show="!site_switch" type="primary">开启站点</lew-button>
             </lew-popok>
-        </div>
-        <br />
-        <div gap="0px" class="setting-box">
-            <lew-title>账号设置</lew-title>
-            <br />
-            <lew-form label-width="60px">
-                <lew-form-item label="旧密码">
-                    <lew-input type="password" show-password v-model="password_form.old_password" />
-                </lew-form-item>
-                <lew-form-item label="新密码">
-                    <lew-input type="password" show-password v-model="password_form.new_password" />
-                </lew-form-item>
-                <lew-form-item label="确认密码">
-                    <lew-input type="password" show-password v-model="password_form.new_password_confirm" />
-                </lew-form-item>
-                <lew-button style="width: auto" @click="savePassword">确认修改</lew-button>
-            </lew-form>
         </div>
     </div>
 </template>

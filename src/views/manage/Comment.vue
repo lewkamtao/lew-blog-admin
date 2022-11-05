@@ -23,7 +23,7 @@
         loading.value = true;
         axios
             .get({
-                url: '/comment/list?type=101'
+                url: '/api/comment/list?type=101'
             })
             .then((res: any) => {
                 if (res.code == 200) {
@@ -40,7 +40,7 @@
         const { type, article_id, content, reply_id, comment_id } = commentForm.value;
         axios
             .post({
-                url: '/comment',
+                url: '/api/comment',
                 data: {
                     type: type,
                     article_id: article_id,
@@ -68,7 +68,7 @@
     const delOk = (e: any, id: number) => {
         axios
             .delete({
-                url: '/comment/' + id
+                url: '/api/comment/' + id
             })
             .then((res: any) => {
                 if (res.code == 200) {
