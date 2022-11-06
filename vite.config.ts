@@ -1,7 +1,9 @@
 import vue from '@vitejs/plugin-vue';
 import * as path from 'path';
 import { defineConfig, loadEnv } from 'vite';
+import AutoImport from 'unplugin-auto-import/vite';
 
+const pathSrc = path.resolve(__dirname, 'src');
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, __dirname);
@@ -9,10 +11,16 @@ export default defineConfig(({ mode }) => {
         resolve: {
             //设置别名
             alias: {
-                '@': path.resolve(__dirname, 'src')
+                '@': pathSrc
             }
         },
-        plugins: [vue()],
+        plugins: [
+            vue(),
+            AutoImport({
+                imports: ['vue', 'vue-router', 'pinia'],
+                dts: path.resolve(pathSrc, 'auto-imports.d.ts')
+            })
+        ],
         server: {
             port: 8080, //启动端口
             hmr: {

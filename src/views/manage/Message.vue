@@ -89,11 +89,11 @@
 <template>
     <div class="comment-manage">
         <lew-result
-            v-if="!total && !loading"
+            v-if="!total"
             status="info"
             title="暂无数据"
             content=""
-            style="height: calc(100vh - 420px)"
+            style="height: calc(100vh - 240px)"
         >
         </lew-result>
         <div v-else class="comment-box">

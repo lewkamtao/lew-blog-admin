@@ -6,6 +6,8 @@ import Lew from 'lew-ui';
 import './styles/reset.scss';
 import 'lew-ui/dist/style.css';
 import './styles/index.scss';
+import './styles/editor.css';
+
 import { VMdEditor } from '../src/utils/v-markdown';
 
 // 创建vue实例

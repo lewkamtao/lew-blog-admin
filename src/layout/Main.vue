@@ -8,11 +8,7 @@ import Header from './Header.vue';
         <SideBar class="SideBar" />
         <div class="content">
             <Header class="Header" />
-            <router-view v-slot="{ Component }">
-                <transition name="fade-transform" mode="out-in">
-                    <component :is="Component" />
-                </transition>
-            </router-view>
+            <router-view />
         </div>
     </div>
 </template>
@@ -20,7 +16,9 @@ import Header from './Header.vue';
 <style lang="scss" scoped>
 .main {
     margin: 0 auto;
+    max-width: 1200px;
     display: flex;
+
     .SideBar {
         width: 220px;
         height: 100vh;
@@ -29,22 +27,27 @@ import Header from './Header.vue';
     }
 
     .content {
-        width: calc(100vw - 220px);
-        min-height: calc(100vh - 50px);
+        position: relative;
+        margin-top: 50px;
+        width: calc(1200px - 220px);
+        max-height: calc(100vh - 50px);
+        overflow-y: auto;
+        overflow-x: hidden;
         margin-left: 220px;
         box-shadow: 0px 0px 3px rgba($color: #000000, $alpha: 0.2);
-        overflow: hidden;
-        padding-top: 50px;
         background-color: var(--lew-form-bgcolor);
+
         .Header {
             position: fixed;
-            width: calc(100vw - 220px);
+            width: 1200px;
             top: 0px;
-            left: 220px;
+            left: 50%;
+            transform: translateX(-50%);
             height: 50px;
             z-index: 99;
             background: #fff;
         }
+
         .wrapper {
             padding: 20px;
             min-height: calc(100vh - 60px);

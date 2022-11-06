@@ -18,16 +18,13 @@ const options = ref([
 let tabValue = ref("1")
 
 let userForm = ref({
-    about_bg: '',
     avatar: '',
     birthday: dayjs('1998-11-17').format('YYYY-MM-DD'),
     contact: '',
     description: '',
     email: '',
-    facebook: '',
     favicon: '',
     home: '',
-    link_bg: '',
     logo: '',
     company: '',
     site_keywords: '',
@@ -50,16 +47,13 @@ const getUser = () => {
         .then((res: any) => {
             if (res.code == 200) {
                 const {
-                    about_bg,
                     avatar,
                     birthday,
                     contact,
                     description,
                     email,
-                    facebook,
                     favicon,
                     home,
-                    link_bg,
                     logo,
                     company,
                     site_keywords,
@@ -74,16 +68,13 @@ const getUser = () => {
                 } = res.data;
 
                 userForm.value = {
-                    about_bg: about_bg,
                     avatar: avatar,
                     birthday: dayjs(birthday).format('YYYY-MM-DD'),
                     contact: contact,
                     description: description,
                     email: email,
-                    facebook: facebook,
                     favicon: favicon,
                     home: home,
-                    link_bg: link_bg,
                     logo: logo,
                     company: company,
                     name: name,
@@ -96,6 +87,8 @@ const getUser = () => {
                     site_description: site_description,
                     site_title: site_title
                 };
+            } else if (res.code == 555) {
+                LewMessage.error('请先创建博客信息');
             }
         })
         .finally(() => {
@@ -124,16 +117,13 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div class="user-wrapper" v-show="!loading">
-
-        <lew-flex gap="0px" direction="column" y="start" x="start" class="user-box">
+    <div v-loading="{ isShow: loading }" class="user-wrapper">
+        <lew-flex v-show="!loading" gap="0px" direction="column" y="start" x="start" class="user-box">
             <lew-flex direction="column" class="header">
                 <lew-avatar round style="width: 120px; height: 120px" :src="userForm.avatar"></lew-avatar>
                 <upload-button text="上传头像" @upload-success="(url) => (userForm.avatar = url)" />
             </lew-flex>
-
             <lew-tabs v-model="tabValue" type="line" style="width: 100%" :options="options" />
-
             <lew-form v-if="tabValue == '1'" direction="x" label-width="70px" label-align="left" class="form-box">
                 <lew-form-item label="昵称">
                     <lew-input placeholder="输入昵称" v-model="userForm.nickname" />
@@ -202,7 +192,7 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .user-wrapper {
-    padding: 100px 30px;
+    padding: 30px;
     min-height: calc(100vh - 50px);
     box-sizing: border-box;
 

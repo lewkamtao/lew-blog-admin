@@ -79,7 +79,7 @@ const delCancel = (e: any) => {
 
 <template>
     <div class="tag-table">
-        <lew-result v-if="!total && !loading" status="info" title="暂无数据" content="" style="height: calc(100vh - 420px)">
+        <lew-result v-if="!total" status="info" title="暂无数据" content="" style="height: calc(100vh - 240px)">
         </lew-result>
         <lew-table v-else :data="data" :columns="columns">
             <template #title="{ row }">

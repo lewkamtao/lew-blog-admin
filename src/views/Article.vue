@@ -74,8 +74,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-if="!loading" class="article-wrapper">
-        <lew-result v-if="!total" status="info" title="暂无文章" content="" style="height: calc(100vh - 320px)">
+    <div v-loading="{ isShow: loading }" class="article-wrapper">
+        <lew-result v-if="!total && !loading" status="info" title="暂无文章" content="" style="height: calc(100vh - 320px)">
             <template #handle>
                 <lew-flex style="margin-top: 50px">
                     <lew-button type="normal">返回</lew-button>
@@ -83,7 +83,7 @@ onMounted(() => {
                 </lew-flex>
             </template>
         </lew-result>
-        <div v-else class="article-main">
+        <div  v-if="total && !loading" class="article-main">
             <lew-flex gap="20px" x="start" class="header">
                 <lew-button @click="router.push('/AddArticle')">新建文章</lew-button>
             </lew-flex>
@@ -168,7 +168,7 @@ onMounted(() => {
     .article-grid-box {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
         gap: 10px;
     }
 

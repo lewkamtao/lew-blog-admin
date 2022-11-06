@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import router from '../router';
 
 //将axios封装到类中
 class xwlRequest {
@@ -35,6 +36,8 @@ class xwlRequest {
                         window.location.replace(
                             `https://sso.kamtao.com?redirectUrl=${redirectUrl}`
                         );
+                    } else if (res.code == 555) {
+                        router.push('/Blogger');
                     } else {
                         LewMessage.error(response?.data?.message);
                     }

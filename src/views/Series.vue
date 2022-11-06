@@ -106,11 +106,11 @@ const delOk = (id: number) => {
                 url: '/api/series/' + id
             })
             .then((res: any) => {
+                resolve(true);
                 if (res.code == 200) {
                     LewMessage.success('删除成功');
                     getSeries();
                 }
-                resolve(true);
             });
     });
 };
@@ -138,8 +138,8 @@ const edit = (item: any) => {
 </script>
 
 <template>
-    <div v-if="!loading" class="series-wrapper">
-        <lew-result v-if="!total" status="info" title="暂无系列" content="" style="height: calc(100vh - 320px)">
+    <div v-loading="{ isShow: loading }" class="series-wrapper">
+        <lew-result v-if="!total && !loading" status="info" title="暂无系列" content="" style="height: calc(100vh - 320px)">
             <template #handle>
                 <lew-flex style="margin-top: 50px">
                     <lew-button type="normal">返回</lew-button>
@@ -147,7 +147,7 @@ const edit = (item: any) => {
                 </lew-flex>
             </template>
         </lew-result>
-        <div v-else class="series-main">
+        <div v-if="total && !loading" class="series-main">
             <lew-flex gap="20px" x="start" class="header">
                 <lew-button @click="initForm(), (addModal = true)">新建系列</lew-button>
             </lew-flex>
@@ -247,6 +247,7 @@ const edit = (item: any) => {
             }
 
             .description {
+                font-size: 12px;
                 color: var(--lew-text-color-5);
             }
         }
