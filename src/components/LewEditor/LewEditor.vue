@@ -39,6 +39,8 @@ onMounted(() => {
             };
             // 监听内容变化 
             editor.model.document.on('change:data', (v: any) => {
+                console.log(editor.getData());
+                
                 emit("update:modelValue", editor.getData())
             });
 
@@ -67,9 +69,10 @@ onMounted(() => {
 }
 
 .ck-content {
-    width: 680px;
-    min-height: 500px;
+    width: 800px;
+    min-height: 600px;
     margin: 50px auto;
     padding: 15px 20px !important;
+    box-sizing: border-box;
 }
 </style>

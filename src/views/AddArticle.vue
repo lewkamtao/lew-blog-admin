@@ -172,6 +172,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+
 .header {
     position: sticky;
     top: 0px;

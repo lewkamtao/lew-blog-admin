@@ -16,7 +16,6 @@ import Header from './Header.vue';
 <style lang="scss" scoped>
 .main {
     margin: 0 auto;
-    max-width: 1200px;
     display: flex;
 
     .SideBar {
@@ -29,7 +28,7 @@ import Header from './Header.vue';
     .content {
         position: relative;
         margin-top: 50px;
-        width: calc(1200px - 220px);
+        width: calc(100% - 220px);
         max-height: calc(100vh - 50px);
         overflow-y: auto;
         overflow-x: hidden;
@@ -39,7 +38,7 @@ import Header from './Header.vue';
 
         .Header {
             position: fixed;
-            width: 1200px;
+            width: 100%;
             top: 0px;
             left: 50%;
             transform: translateX(-50%);
