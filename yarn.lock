@@ -1663,9 +1663,9 @@
   "resolved" "https://registry.npmmirror.com/entities/-/entities-1.1.2.tgz"
   "version" "1.1.2"
 
-"esbuild-darwin-arm64@0.14.53":
-  "integrity" "sha512-otJwDU3hnI15Q98PX4MJbknSZ/WSR1I45il7gcxcECXzfN4Mrpft5hBDHXNRnCh+5858uPXBXA1Vaz2jVWLaIA=="
-  "resolved" "https://registry.npmmirror.com/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.53.tgz"
+"esbuild-windows-64@0.14.53":
+  "integrity" "sha512-s9skQFF0I7zqnQ2K8S1xdLSfZFsPLuOGmSx57h2btSEswv0N0YodYvqLcJMrNMXh6EynOmWD7rz+0rWWbFpIHQ=="
+  "resolved" "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.14.53.tgz"
   "version" "0.14.53"
 
 "esbuild@^0.14.27":
@@ -2076,11 +2076,6 @@
   "integrity" "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
   "resolved" "https://registry.npmmirror.com/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmmirror.com/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -2676,10 +2671,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lew-ui@^1.1.21":
-  "integrity" "sha512-F+cb7IWjnaFHyrEbmhwI2wu3Wrt8qlTTGJ79hUD0uu2lgEYGYCr3fksIY/K6dRTCYowsYd6PlkkxFVJatFII+g=="
-  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.21.tgz"
-  "version" "1.1.21"
+"lew-ui@^1.1.24":
+  "integrity" "sha512-7CaibZH69ENg25dZeiVbv8gk+m/FKkcSSHvX0jvvf6e5KYTHuxBfTHs94XpxSIR9+EGSC9pO+MgTa0VPSeP6lg=="
+  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-1.1.24.tgz"
+  "version" "1.1.24"
   dependencies:
     "@vueuse/core" "^9.1.1"
     "eslint-plugin-prettier" "^4.2.1"

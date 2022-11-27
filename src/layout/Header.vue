@@ -24,7 +24,7 @@
                 router.push('/AddArticle');
                 break;
             case 'Edit':
-                router.push('/User');
+                router.push('/Blogger');
                 break;
             case 'LoginOut':
                 localStorage.clear();

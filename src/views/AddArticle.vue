@@ -128,7 +128,7 @@ onMounted(() => {
         <lew-flex x="start" class="header">
             <input v-model="articleForm.title" type="text" placeholder="输入文章标题" />
             <lew-button class="add-button" @click="openAddModal">
-                {{ articleForm.id ? '更新文章' : '发布文章' }}
+                保存
             </lew-button>
         </lew-flex>
         <div class="editor-wrapper">
@@ -163,7 +163,7 @@ onMounted(() => {
                 <lew-flex x="end">
                     <lew-button type="normal" @click="addModal = false">关闭 </lew-button>
                     <lew-button @click="saveFn">
-                        {{ articleForm.id ? '立即更新' : '立即发布' }}
+                        保存
                     </lew-button>
                 </lew-flex>
             </div>
@@ -172,7 +172,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-
 .header {
     position: sticky;
     top: 0px;

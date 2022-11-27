@@ -45,4 +45,19 @@ const dateFormat = (date: string) => {
     }
 };
 
-export { dateFormat };
+const parseGetParams = (data: any) => {
+    try {
+        var tempArr = [];
+        for (var i in data) {
+            var key = encodeURIComponent(i);
+            var value = encodeURIComponent(data[i]);
+            tempArr.push(key + '=' + value);
+        }
+        var urlParamsStr = tempArr.join('&');
+        return urlParamsStr;
+    } catch (err) {
+        return '';
+    }
+};
+
+export { dateFormat, parseGetParams };
