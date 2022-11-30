@@ -14,7 +14,7 @@ let loading = ref(false);
 let articleForm = ref({
     id: '',
     title: '',
-    cover: '',
+    head_img: '',
     description: '',
     content: '',
     series_id: '',
@@ -49,11 +49,11 @@ const getArticle = () => {
         })
         .then((res: any) => {
             if (res.code == 200) {
-                const { id, title, cover, description, content, series_id, tags } = res.data;
+                const { id, title, head_img, description, content, series_id, tags } = res.data;
                 articleForm.value = {
                     id: id,
                     title: title,
-                    cover: cover,
+                    head_img: head_img,
                     description: description,
                     content: content,
                     series_id: String(series_id),
@@ -143,8 +143,8 @@ onMounted(() => {
                 <lew-form label-width="60px">
                     <lew-form-item label="封面图片">
                         <lew-flex direction="column" x="start">
-                            <img v-show="articleForm.cover" class="cover" :src="articleForm.cover" alt="" srcset="" />
-                            <upload-button text="上传封面" @upload-success="(url) => (articleForm.cover = url)" />
+                            <img v-show="articleForm.head_img" class="head_img" :src="articleForm.head_img" alt="" srcset="" />
+                            <upload-button text="上传封面" @upload-success="(url) => (articleForm.head_img = url)" />
                         </lew-flex>
                     </lew-form-item>
 
@@ -206,7 +206,7 @@ onMounted(() => {
 .modal-body {
     padding: 30px;
 
-    .cover {
+    .head_img {
         width: 100px;
         height: 100px;
         object-fit: contain;

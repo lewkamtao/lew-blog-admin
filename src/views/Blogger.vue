@@ -153,14 +153,14 @@ onMounted(() => {
             <lew-form v-if="tabValue == '2'" direction="x" label-width="70px" label-align="left" class="form-box">
                 <lew-form-item label="Logo">
                     <lew-flex direction="column" x="start">
-                        <img style="width: 40px; height: 40px" class="cover" v-show="userForm.logo" :src="userForm.logo"
+                        <img style="width: 40px; height: 40px" class="head_img" v-show="userForm.logo" :src="userForm.logo"
                             alt="" srcset="" />
                         <upload-button text="上传 Logo" @upload-success="(url) => (userForm.logo = url)" />
                     </lew-flex>
                 </lew-form-item>
                 <lew-form-item label="favicon">
                     <lew-flex direction="column" x="start">
-                        <img style="width: 20px; height: 20px" class="cover" v-show="userForm.favicon"
+                        <img style="width: 20px; height: 20px" class="head_img" v-show="userForm.favicon"
                             :src="userForm.favicon" alt="" srcset="" />
                         <upload-button text="上传 favicon" @upload-success="(url) => (userForm.favicon = url)" />
                     </lew-flex>
@@ -218,7 +218,7 @@ onMounted(() => {
 
 }
 
-.cover {
+.head_img {
     object-fit: contain;
     border: 1px #eee solid;
 }

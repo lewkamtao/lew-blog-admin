@@ -7,6 +7,7 @@ import './styles/reset.scss';
 import 'lew-ui/dist/style.css';
 import './styles/index.scss';
 import './styles/editor.css';
+import './styles/seti/index.less';
 
 import { VMdEditor } from '../src/utils/v-markdown';
 

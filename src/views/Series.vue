@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from '@/axios/http';
 import UploadButton from '@/components/UploadButton.vue';
+import SelectIcon from '@/components/SelectIcon.vue';
 
 let seriesList: any = ref([]);
 let total = ref<number>(0);
@@ -11,7 +12,7 @@ let loading = ref(false);
 let seriesForm = ref({
     id: '',
     title: '',
-    cover: '',
+    icon: '',
     type: 101,
     description: ''
 });
@@ -118,17 +119,17 @@ const delOk = (id: number) => {
 const initForm = () => {
     seriesForm.value = {
         id: '',
-        cover: '',
+        icon: '',
         title: '',
         type: 101,
         description: ''
     };
 };
 const edit = (item: any) => {
-    const { id, title, type, cover, description } = item;
+    const { id, title, type, icon, description } = item;
     seriesForm.value = {
         id: id,
-        cover: cover,
+        icon: icon,
         title: title,
         type: type,
         description: description
@@ -154,7 +155,7 @@ const edit = (item: any) => {
             <lew-flex gap="10px" direction="column" x="start" class="series-box" v-show="total">
                 <lew-flex x="start" class="series-item" v-for="(item, index) in seriesList" :key="index">
                     <div class="left">
-                        <lew-avatar style="width: 50px; height: 50px" :src="item.cover" />
+                        <i class="icon-seti" :class="('icon-' + item.icon)"></i>
                     </div>
                     <lew-flex mode="between" class="right">
                         <lew-flex direction="column" x="start" y="start" gap="5px" style="height: 50px">
@@ -190,14 +191,11 @@ const edit = (item: any) => {
         <lew-modal :visible="addModal" width="400px">
             <div class="modal-body">
                 <lew-title :bold="700" style="margin-bottom: 20px">新建系列 </lew-title>
+                <lew-form-item direction="column" label="选择图标">
+                    <select-icon v-model="seriesForm.icon" />
+                </lew-form-item>
+                <br>
                 <lew-form>
-                    <lew-form-item label="封面图片">
-                        <lew-flex direction="column" x="start">
-                            <img class="cover" v-show="seriesForm.cover" :src="seriesForm.cover" alt="" srcset="" />
-                            <upload-button text="上传封面" @upload-success="(url) => (seriesForm.cover = url)" />
-                        </lew-flex>
-                    </lew-form-item>
-
                     <lew-form-item label="系列名称">
                         <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
                     </lew-form-item>
@@ -230,16 +228,27 @@ const edit = (item: any) => {
     .series-item {
         width: 100%;
         background-color: var(--lew-bgcolor-0);
-        border: var(--lew-form-border-color) var(--lew-form-border-width) solid;
         border-radius: var(--lew-border-radius);
         padding: 15px;
         box-sizing: border-box;
 
         .left {
-            font-size: 0px;
+            .icon-seti{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 50px;
+                height: 50px;
+                font-size: 50px;
+                border:2px solid #eee;
+                box-sizing: border-box;
+                border-radius: var(--lew-border-radius);
+                overflow: hidden;
+            }
+
         }
 
-        .right {
+        .right { 
             white-space: nowrap;
 
             .title {
@@ -253,10 +262,6 @@ const edit = (item: any) => {
         }
     }
 
-    .series-item:hover {
-        border: var(--lew-form-border-color-focus) var(--lew-form-border-width) solid;
-    }
-
     .series-box {
         margin-top: 30px;
     }
@@ -265,7 +270,7 @@ const edit = (item: any) => {
 .modal-body {
     padding: 30px;
 
-    .cover {
+    .icon {
         width: 100px;
         height: 100px;
         object-fit: contain;
