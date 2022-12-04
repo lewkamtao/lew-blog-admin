@@ -14,7 +14,6 @@ let seriesForm = ref({
     title: '',
     icon: '',
     type: 101,
-    description: ''
 });
 
 let statusArr = computed(() => {
@@ -36,29 +35,6 @@ const getSeries = () => {
         .finally(() => {
             loading.value = false;
         });
-};
-
-const changeStatus = (status: boolean, id: number) => {
-    return new Promise((resolve) => {
-        axios
-            .put({
-                url: '/api/series/' + id,
-                data: {
-                    status: !status ? 101 : 201
-                }
-            })
-            .then((res: any) => {
-                if (res.code == 200) {
-                    resolve(true);
-                    LewMessage.success(!status ? '已开启' : '已关闭');
-                } else {
-                    resolve(false);
-                }
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-    });
 };
 
 onMounted(() => {
@@ -122,17 +98,15 @@ const initForm = () => {
         icon: '',
         title: '',
         type: 101,
-        description: ''
     };
 };
 const edit = (item: any) => {
-    const { id, title, type, icon, description } = item;
+    const { id, title, type, icon, } = item;
     seriesForm.value = {
         id: id,
         icon: icon,
         title: title,
         type: type,
-        description: description
     };
     addModal.value = true;
 };
@@ -158,16 +132,11 @@ const edit = (item: any) => {
                         <i class="icon-seti" :class="('icon-' + item.icon)"></i>
                     </div>
                     <lew-flex mode="between" class="right">
-                        <lew-flex direction="column" x="start" y="start" gap="5px" style="height: 50px">
+                        <lew-flex direction="column" x="start" y="center" gap="5px" style="height: 50px">
                             <div class="title"> {{ item.title }}</div>
-                            <div class="description"> {{ item.description }}</div>
+                            <div class="description"> 共 {{ item.article.length }} 篇文章</div>
                         </lew-flex>
                         <lew-flex gap="10px" x="end" style="width: 230px">
-                            <lew-switch v-model="statusArr[index]"
-                                :request="() => changeStatus(statusArr[index], item.id)" v-tooltip="{
-                                    content: `关闭 / 开启`,
-                                    trigger: 'mouseenter'
-                                }" />
                             <lew-button style="margin-left: 5px" round is-icon @click="edit(item)" v-tooltip="{
                                 content: `编辑系列`,
                                 trigger: 'mouseenter'
@@ -191,17 +160,13 @@ const edit = (item: any) => {
         <lew-modal :visible="addModal" width="400px">
             <div class="modal-body">
                 <lew-title :bold="700" style="margin-bottom: 20px">新建系列 </lew-title>
-                <lew-form-item direction="column" label="选择图标">
-                    <select-icon v-model="seriesForm.icon" />
-                </lew-form-item>
-                <br>
+
                 <lew-form>
                     <lew-form-item label="系列名称">
                         <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
                     </lew-form-item>
-
-                    <lew-form-item label="系列描述">
-                        <lew-input v-model="seriesForm.description" type="textarea" show-count :max-length="100" />
+                    <lew-form-item direction="column" label="选择图标">
+                        <select-icon v-model="seriesForm.icon" />
                     </lew-form-item>
                     <lew-flex x="end">
                         <lew-button type="normal" @click="addModal = false"> 关闭 </lew-button>
@@ -233,14 +198,14 @@ const edit = (item: any) => {
         box-sizing: border-box;
 
         .left {
-            .icon-seti{
+            .icon-seti {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 width: 50px;
                 height: 50px;
                 font-size: 50px;
-                border:2px solid #eee;
+                border: 2px solid #eee;
                 box-sizing: border-box;
                 border-radius: var(--lew-border-radius);
                 overflow: hidden;
@@ -248,7 +213,7 @@ const edit = (item: any) => {
 
         }
 
-        .right { 
+        .right {
             white-space: nowrap;
 
             .title {

@@ -14,7 +14,6 @@ let loading = ref(false);
 let articleForm = ref({
     id: '',
     title: '',
-    head_img: '',
     description: '',
     content: '',
     series_id: '',
@@ -49,11 +48,10 @@ const getArticle = () => {
         })
         .then((res: any) => {
             if (res.code == 200) {
-                const { id, title, head_img, description, content, series_id, tags } = res.data;
+                const { id, title, description, content, series_id, tags } = res.data;
                 articleForm.value = {
                     id: id,
                     title: title,
-                    head_img: head_img,
                     description: description,
                     content: content,
                     series_id: String(series_id),
@@ -98,7 +96,7 @@ const saveFn = () => {
             .then((res: any) => {
                 if (res.code == 200) {
                     LewMessage.success('发布成功');
-                    router.push('/Article');
+                    // router.push('/Article');
                 }
             });
     }
@@ -141,13 +139,6 @@ onMounted(() => {
                 <lew-title :bold="700" style="margin-bottom: 20px">{{ articleForm.id ? '更新文章' : '发布文章' }}
                 </lew-title>
                 <lew-form label-width="60px">
-                    <lew-form-item label="封面图片">
-                        <lew-flex direction="column" x="start">
-                            <img v-show="articleForm.head_img" class="head_img" :src="articleForm.head_img" alt="" srcset="" />
-                            <upload-button text="上传封面" @upload-success="(url) => (articleForm.head_img = url)" />
-                        </lew-flex>
-                    </lew-form-item>
-
                     <lew-form-item label="选择系列">
                         <lew-select v-model="articleForm.series_id" block :show-icon="false" :iconable="false"
                             :options="options"></lew-select>

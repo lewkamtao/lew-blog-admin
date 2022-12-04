@@ -36,11 +36,6 @@ const columns = [
         width: '80px',
         x: 'center',
         field: 'comment_num',
-    }, {
-        title: '点赞',
-        width: '80px',
-        x: 'center',
-        field: 'like_num',
     },
     {
         title: '最后修改时间',

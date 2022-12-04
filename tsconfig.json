@@ -20,6 +20,6 @@
             "@/*": ["src/*"]
         }
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js"],
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js", "src/utils/format.ts", "src/utils/format.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

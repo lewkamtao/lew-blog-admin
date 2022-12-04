@@ -1,5 +1,7 @@
 const dateFormat = (date: string) => {
-    const timestamp = Date.parse(date.replace(/-/gi, '/')) / 1000;
+
+    // @ts-ignore
+    var timestamp = new Date(date) / 1000
 
     function zeroize(num: number) {
         return (String(num).length == 1 ? '0' : '') + num;
@@ -36,7 +38,7 @@ const dateFormat = (date: string) => {
         if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
             return '昨天 ' + zeroize(H) + ':' + zeroize(i);
         } else if (curDate.getFullYear() == Y) {
-            return zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
+            return '今年 ' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
         } else {
             return (
                 Y + '年' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i)
