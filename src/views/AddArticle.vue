@@ -96,7 +96,7 @@ const saveFn = () => {
             .then((res: any) => {
                 if (res.code == 200) {
                     LewMessage.success('发布成功');
-                    // router.push('/Article');
+                    router.push('/Article');
                 }
             });
     }
