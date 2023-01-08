@@ -2,8 +2,9 @@
 import axios from '@/axios/http';
 import { useRouter, useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import UploadButton from '@/components/UploadButton.vue';
-import LewEditor from '@/components/LewEditor/LewEditor.vue';
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
 
 const route = useRoute();
 const router = useRouter();
@@ -129,11 +130,9 @@ onMounted(() => {
                 保存
             </lew-button>
         </lew-flex>
-        <div class="editor-wrapper">
-            <lew-editor v-model="articleForm.content"></lew-editor>
-        </div>
-        <!-- <v-md-editor placeholder="写点什么好呢？" v-model="articleForm.content" height="calc(100vh - 110px)" @save="save">
-        </v-md-editor> -->
+        <md-editor class="editor-wrapper" showCodeRowNumber :toolbars="['table', 'task', 'orderedList', 'image']"
+            v-model="articleForm.content" preview />
+
         <lew-modal :visible="addModal" width="400px">
             <div class="modal-body">
                 <lew-title :bold="700" style="margin-bottom: 20px">{{ articleForm.id ? '更新文章' : '发布文章' }}
