@@ -86,7 +86,7 @@ const delCancel = (e: any) => {
                 {{ row.title }}
             </template>
             <template #article="{ row }">
-                <lew-flex x="start" direction="column">
+                <lew-flex x="start" direction="y">
                     <lew-tag size="small" type="info" v-for="(item, index) in row.article" :key="index">{{ item.title }}
                     </lew-tag>
                 </lew-flex>

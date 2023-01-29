@@ -126,13 +126,13 @@ const edit = (item: any) => {
             <lew-flex gap="20px" x="start" class="header">
                 <lew-button @click="initForm(), (addModal = true)">新建系列</lew-button>
             </lew-flex>
-            <lew-flex gap="10px" direction="column" x="start" class="series-box" v-show="total">
+            <lew-flex gap="10px" direction="y" x="start" class="series-box" v-show="total">
                 <lew-flex x="start" class="series-item" v-for="(item, index) in seriesList" :key="index">
                     <div class="left">
                         <i class="icon-seti" :class="('icon-' + item.icon)"></i>
                     </div>
                     <lew-flex mode="between" class="right">
-                        <lew-flex direction="column" x="start" y="center" gap="5px" style="height: 50px">
+                        <lew-flex direction="y" x="start" y="center" gap="5px" style="height: 50px">
                             <div class="title"> {{ item.title }}</div>
                             <div class="description"> 共 {{ item.article.length }} 篇文章</div>
                         </lew-flex>
@@ -165,7 +165,7 @@ const edit = (item: any) => {
                     <lew-form-item label="系列名称">
                         <lew-input v-model="seriesForm.title" show-count :max-length="20" nice-count />
                     </lew-form-item>
-                    <lew-form-item direction="column" label="选择图标">
+                    <lew-form-item direction="y" label="选择图标">
                         <select-icon v-model="seriesForm.icon" />
                     </lew-form-item>
                     <lew-flex x="end">

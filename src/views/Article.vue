@@ -23,7 +23,7 @@ let tabValue = ref("all")
 <template>
     <div v-loading="{ isShow: loading }" class="article-wrapper">
         <lew-flex class="header" mode="between" y="end">
-            <lew-flex direction="column" x="start" gap="0px">
+            <lew-flex direction="y" x="start" gap="0px">
                 <lew-title>
                     Article
                 </lew-title>
