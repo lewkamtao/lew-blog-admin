@@ -6,7 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 const pathSrc = path.resolve(__dirname, 'src');
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, __dirname);
+	const env = loadEnv(mode, './env');
     return {
         resolve: {
             //设置别名
