@@ -32,10 +32,10 @@ class xwlRequest {
                 const res: any = response.data;
                 if (res.code != 200) {
                     if (res.code == 401) {
-                        var redirectUrl = window.location.href;
-                        window.location.replace(
-                            `https://sso.kamtao.com?redirectUrl=${redirectUrl}`
-                        );
+                        const redirectUrl = window.location.href;
+                        // window.location.replace(
+                        //     `https://sso.kamtao.com?redirectUrl=${redirectUrl}`
+                        // );
                     } else if (res.code == 555) {
                         router.push('/Blogger');
                     } else {

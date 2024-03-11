@@ -4,7 +4,7 @@ import store from './store';
 import router from './router';
 import Lew from 'lew-ui';
 import './styles/reset.scss';
-import 'lew-ui/dist/style.css';
+import 'lew-ui/style';
 import './styles/index.scss';
 import './styles/seti/index.less';
 
@@ -12,10 +12,10 @@ import './styles/seti/index.less';
 
 // 获取 url 参数
 const setToken = () => {
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
+    const query = window.location.search.substring(1);
+    const vars = query.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split('=');
         if (pair[0] == 'token') {
             delToken();
             const token = pair[1].replace(/%20/g, ' ');
@@ -28,7 +28,7 @@ const setToken = () => {
 
 // 去除token
 const delToken = () => {
-    var url = window.location.protocol + '//' + window.location.host;
+    const url = window.location.protocol + '//' + window.location.host;
     window.location.replace(url);
 };
 
