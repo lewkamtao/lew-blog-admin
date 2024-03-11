@@ -4,11 +4,13 @@ html {
 }
 
 body {
-    background-color: #dddbdb;
+    background-color: var(--lew-bgcolor-4);
+    color: var(--lew-text-color-0);
     font-size: 14px;
     text-align: left;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
-
 
 /* fade-transform */
 

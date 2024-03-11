@@ -1,25 +1,22 @@
 const dateFormat = (date: string) => {
-
-    // @ts-ignore
-    var timestamp = new Date(date) / 1000
+    const timestamp = Date.parse(date.replace(/-/gi, '/')) / 1000;
 
     function zeroize(num: number) {
         return (String(num).length == 1 ? '0' : '') + num;
     }
 
-    var curTimestamp = parseInt(JSON.stringify(new Date().getTime() / 1000)); //当前时间戳
+    const curTimestamp = parseInt(JSON.stringify(new Date().getTime() / 1000)); //当前时间戳
 
-    var timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
+    const timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
 
-    var curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
-    var tmDate = new Date(timestamp * 1000); // 参数时间戳转换成的日期对象
+    const curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
+    const tmDate = new Date(timestamp * 1000); // 参数时间戳转换成的日期对象
 
-    var Y = tmDate.getFullYear(),
+    const Y = tmDate.getFullYear(),
         m = tmDate.getMonth() + 1,
         d = tmDate.getDate();
-    var H = tmDate.getHours(),
-        i = tmDate.getMinutes(),
-        s = tmDate.getSeconds();
+    const H = tmDate.getHours(),
+        i = tmDate.getMinutes();
 
     if (timestampDiff < 60) {
         // 一分钟以内
@@ -34,11 +31,11 @@ const dateFormat = (date: string) => {
     ) {
         return '今天 ' + zeroize(H) + ':' + zeroize(i);
     } else {
-        var newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
+        const newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
         if (newDate.getFullYear() == Y && newDate.getMonth() + 1 == m && newDate.getDate() == d) {
             return '昨天 ' + zeroize(H) + ':' + zeroize(i);
         } else if (curDate.getFullYear() == Y) {
-            return '今年 ' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
+            return zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i);
         } else {
             return (
                 Y + '年' + zeroize(m) + '月' + zeroize(d) + '日 ' + zeroize(H) + ':' + zeroize(i)
@@ -47,19 +44,4 @@ const dateFormat = (date: string) => {
     }
 };
 
-const parseGetParams = (data: any) => {
-    try {
-        var tempArr = [];
-        for (var i in data) {
-            var key = encodeURIComponent(i);
-            var value = encodeURIComponent(data[i]);
-            tempArr.push(key + '=' + value);
-        }
-        var urlParamsStr = tempArr.join('&');
-        return urlParamsStr;
-    } catch (err) {
-        return '';
-    }
-};
-
-export { dateFormat, parseGetParams };
+export { dateFormat };

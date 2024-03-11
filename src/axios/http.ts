@@ -1,5 +1,7 @@
+import { BASE_URL, TIME_OUT } from './config';
 import xwlRequest from './index';
 const xwlRequests = new xwlRequest({
-    timeout: 50000
+    baseURL: BASE_URL,
+    timeout: TIME_OUT
 });
 export default xwlRequests;

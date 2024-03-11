@@ -11,3 +11,4 @@ declare module '*';
 
 declare const LewMessage: any;
 declare const LewDialog: any;
+declare const LewNotification: any;

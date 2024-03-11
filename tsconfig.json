@@ -1,9 +1,5 @@
 {
     "compilerOptions": {
-        "typeRoots": [
-            "node_modules/@types", // 默认值
-            "src/types"
-        ],
         "target": "esnext",
         "useDefineForClassFields": true,
         "module": "esnext",
@@ -12,14 +8,11 @@
         "jsx": "preserve",
         "sourceMap": true,
         "resolveJsonModule": true,
+        "isolatedModules": true,
         "esModuleInterop": true,
         "lib": ["esnext", "dom"],
-        "baseUrl": "./",
-        "paths": {
-            "@": ["src"],
-            "@/*": ["src/*"]
-        }
+        "skipLibCheck": true
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js", "src/components/LewEditor/upload.js", "src/utils/format.ts", "src/utils/format.ts"],
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

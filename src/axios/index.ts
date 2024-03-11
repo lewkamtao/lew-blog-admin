@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import router from '../router';
 
 //将axios封装到类中
 class xwlRequest {
@@ -30,16 +29,20 @@ class xwlRequest {
             (response: AxiosResponse) => {
                 //响应成功的拦截
                 const res: any = response.data;
-                if (res.code != 200) {
-                    if (res.code == 401) {
+                if (res.code && res.code !== 200) {
+                    if (res.code === 401) {
                         const redirectUrl = window.location.href;
-                        // window.location.replace(
-                        //     `https://sso.kamtao.com?redirectUrl=${redirectUrl}`
-                        // );
-                    } else if (res.code == 555) {
-                        router.push('/Blogger');
+                        window.location.replace(
+                            `http://app.tngeek.com/sso?redirectUrl=${redirectUrl}`
+                        );
+                    } else if (res.code === 403) {
+                        LewNotification.warning({
+                            title: '通知',
+                            content: '无权限，请联系管理员，微信：15818934279',
+                            delay: 0
+                        });
                     } else {
-                        LewMessage.error(response?.data?.message);
+                        LewMessage.error(res.message || '网络繁忙，请稍后重试！');
                     }
                 }
                 return response.data;

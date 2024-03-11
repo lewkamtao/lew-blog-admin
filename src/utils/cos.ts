@@ -5,19 +5,18 @@ const putFile = (fileObject: File, fileKey: String) => {
         throw new Error('请传入 fileObject 和 fileKey');
     }
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         // 初始化实例
         const res: any = await axios.get({
-            url: '/sso/oss/sts'
+            url: '/sts'
         });
         if (res?.code == 200) {
             const { Credentials, StartTime, ExpiredTime } = res.data?.credential_result;
             const { bucket, region } = res.data?.cos_config;
-       
-            
+
             // @ts-ignore
 
-            var cos = new COS({
+            const cos = new COS({
                 // getAuthorization 必选参数
                 getAuthorization: function (options: any, callback: any) {
                     callback({
@@ -40,7 +39,6 @@ const putFile = (fileObject: File, fileKey: String) => {
                 },
                 function (err: any, data: any) {
                     if (err) {
-                        console.log(err);
                         throw new Error('上传失败，请检查是否正确配置cos');
                     } else {
                         resolve(`https://${data.Location}`);

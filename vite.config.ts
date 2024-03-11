@@ -4,10 +4,12 @@ import { defineConfig, loadEnv } from 'vite';
 import AutoImport from 'unplugin-auto-import/vite';
 
 const pathSrc = path.resolve(__dirname, 'src');
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-	const env = loadEnv(mode, './env');
+    const env = loadEnv(mode, './env');
     return {
+        base: '',
         resolve: {
             //设置别名
             alias: {
@@ -22,22 +24,24 @@ export default defineConfig(({ mode }) => {
             })
         ],
         server: {
-            port: 8080, //启动端口
-            hmr: {
-                host: 'localhost',
-                port: 8080
-            },
-            // 设置代理
+            port: 10003, //启动端口
+            open: true,
+            hmr: true,
             proxy: {
-                '/api': {
+                '/api_admin': {
                     target: env.VITE_API_URL,
                     changeOrigin: true,
-                    rewrite: (path: string) => path.replace(/^\/api/, '')
+                    rewrite: (path: string) => path.replace(/^\/api_admin/, '')
                 },
-                '/sso': {
-                    target: env.VITE_SSO_URL,
+                '/api_blog': {
+                    target: env.VITE_API_BLOG_URL,
                     changeOrigin: true,
-                    rewrite: (path: string) => path.replace(/^\/sso/, '')
+                    rewrite: (path: string) => path.replace(/^\/api_blog/, '')
+                },
+                '/api_sso': {
+                    target: env.VITE_API_SSO_URL,
+                    changeOrigin: true,
+                    rewrite: (path: string) => path.replace(/^\/api_sso/, '')
                 }
             }
         }

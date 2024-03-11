@@ -1,59 +1,66 @@
 <script setup lang="ts">
-import SideBar from './SideBar.vue';
-import Header from './Header.vue';
+    import SideBar from './SideBar.vue';
+    import Header from './Header.vue';
+    import { useState } from '@/store/state';
+    const cur = useState();
 </script>
 
 <template>
-    <div class="main">
+    <div class="lew-main">
         <SideBar class="SideBar" />
-        <div class="content">
-            <Header class="Header" />
-            <router-view />
+        <div id="lew-content" v-loading="{ visible: cur.loading }" class="content">
+            <Header class="header" />
+            <div class="wrapper lew-scrollbar">
+                <router-view v-slot="{ Component }">
+                    <transition name="fade-transform" mode="out-in">
+                        <component :is="Component" />
+                    </transition>
+                </router-view>
+            </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.main {
-    margin: 0 auto;
-    display: flex;
-
-    .SideBar {
-        width: 220px;
+    .lew-main {
+        margin: 0 auto;
+        display: flex;
+        max-width: 1500px;
         height: 100vh;
-        background: #ffffff;
-        box-shadow: 0px 0px 3px rgba($color: #000000, $alpha: 0.2);
-    }
+        overflow: hidden;
+        border-left: var(--lew-form-border-color) 1px solid;
+        border-right: var(--lew-form-border-color) 1px solid;
+        box-sizing: border-box;
 
-    .content {
-        position: relative;
-        margin-top: 50px;
-        width: calc(100% - 220px);
-        max-height: calc(100vh - 50px);
-        overflow-y: auto;
-        overflow-x: hidden;
-        margin-left: 220px;
-        box-shadow: 0px 0px 3px rgba($color: #000000, $alpha: 0.2);
-        background-color: var(--lew-form-bgcolor);
-
-        .Header {
-            position: fixed;
-            width: 100%;
-            top: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 50px;
-            z-index: 99;
-            background: #fff;
+        .SideBar {
+            width: 220px;
+            height: 100vh;
+            background: var(--lew-bgcolor-0);
+            box-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.05);
         }
 
-        .wrapper {
-            padding: 20px;
-            min-height: calc(100vh - 60px);
-            box-sizing: border-box;
-            box-sizing: border-box;
-            background: #fcfdfd;
+        .content {
+            max-width: 1500px;
+            width: calc(100% - 220px);
+            margin-left: 220px;
+            min-height: calc(100vh - 50px);
+            background-color: var(--lew-bgcolor-0);
+            .header {
+                position: relative;
+                height: 50px;
+                background: var(--lew-bgcolor-0);
+                z-index: 99;
+                box-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.05);
+            }
+
+            .wrapper {
+                position: relative;
+                width: 100%;
+                height: calc(100vh - 50px);
+                box-sizing: border-box;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
         }
     }
-}
 </style>
