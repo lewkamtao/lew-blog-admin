@@ -85,7 +85,8 @@
     <div class="table-page">
         <table-turbo
             ref="tableTurboRef"
-            api-path="/app/list"
+            api-path="/article/list"
+            base-u-r-l="/api_blog"
             :options="columns"
             :search-options="searchOptions"
         >
