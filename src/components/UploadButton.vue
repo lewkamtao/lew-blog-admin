@@ -33,14 +33,21 @@
 </script>
 
 <template>
-    <lew-button type="normal" @click="openSelect" :loading="loading">
-        <lew-icon style="margin-right: 5px" size="16" type="upload-cloud" /> {{ text }}
+    <lew-button
+        type="light"
+        color="gray"
+        round
+        icon="upload-cloud"
+        :loading="loading"
+        @click="openSelect"
+    >
+        {{ text }}
         <input
             v-show="false"
-            type="file"
-            name=""
             id="file"
             ref="fileRef"
+            type="file"
+            name=""
             accept="image/*"
             @change="change"
         />

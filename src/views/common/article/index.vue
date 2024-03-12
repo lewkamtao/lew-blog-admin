@@ -1,39 +1,57 @@
 <script lang="ts" setup>
-    import AppModal from './components/AppModal.vue';
     import TableTurbo from '@/components/TableTurbo.vue';
-    let appModalRef = ref();
+    import axios from '@/axios/http';
 
     const columns = [
         {
             title: 'id',
             width: 80,
             field: 'id',
-            x: 'center',
-            fixed: 'left'
+            fixed: 'left',
+            x: 'center'
         },
         {
-            title: '应用名称',
-            width: 200,
-            field: 'name'
+            title: '文章标题',
+            width: 250,
+            fixed: 'left',
+            field: 'title'
         },
         {
-            title: 'App Code',
-            width: 140,
-            field: 'app_code'
+            title: '系列',
+            width: 120,
+            field: 'series'
+        },
+        {
+            title: '标签',
+            width: 220,
+            field: 'tags'
         },
         {
             title: '状态',
-            width: 140,
-            field: 'status'
+            width: 120,
+            field: 'is_publish'
         },
         {
-            title: '创建时间',
+            title: '访客',
+            width: 120,
+            field: 'view_num',
+            x: 'end'
+        },
+        {
+            title: '评论',
+            width: 120,
+            field: 'comment_num',
+            x: 'end'
+        },
+        {
+            title: '最后修改时间',
             width: 200,
-            field: 'created_at'
+            field: 'updated_at',
+            x: 'end'
         },
         {
             title: '操作',
-            width: 100,
+            width: 150,
             fixed: 'right',
             field: 'action',
             x: 'end'
@@ -42,41 +60,122 @@
 
     const searchOptions = [
         {
-            placeholder: '应用名称',
+            placeholder: '文章标题',
             type: 'input',
             clearable: true,
-            field: 'name'
+            field: 'title'
         },
         {
-            placeholder: '状态',
+            placeholder: '发布状态',
             type: 'select',
             clearable: true,
-            field: 'status',
+            field: 'is_publish',
             options: [
-                { label: '正常', value: '1' },
-                { label: '异常', value: '2' }
+                { label: '已发布', value: 1 },
+                { label: '草稿', value: 0 }
             ]
         }
     ];
 
     const router = useRouter();
     const tableTurboRef = ref();
+
     const toDetail = (item: any) => {
         router.push('/common/app/detail/' + item.id);
         toDetail;
     };
-    const statusMap: any = {
-        101: {
-            label: '运行中',
-            color: 'green'
-        },
-        201: {
-            label: '已暂停',
-            color: 'red'
-        },
-        301: {
-            label: '装修中',
-            color: 'gray'
+
+    const deleteArticle = (item: any) => {
+        LewDialog.error({
+            title: '警告',
+            okText: '删除',
+            content: '你是否要删除该文章，此操作会立即生效且不可恢复，请谨慎操作！',
+            closeOnClickOverlay: true,
+            ok: () => {
+                return new Promise((resolve) => {
+                    axios
+                        .delete({
+                            url: `/article/${item.id}`,
+                            baseURL: '/api_blog'
+                        })
+                        .then((res: any) => {
+                            if (res.code == 200) {
+                                resolve(true);
+                                LewMessage.success({
+                                    content: '删除成功！'
+                                });
+                                tableTurboRef.value.refresh();
+                            } else {
+                                resolve(false);
+                            }
+                        });
+                });
+            }
+        });
+    };
+
+    const changeArticle = (row: any) => {
+        const { is_publish, id } = row;
+        if (is_publish) {
+            LewDialog.warning({
+                title: '提示',
+                okText: '下架',
+                content: '你是否要下架该文章，此操作会立即生效，请确认！',
+                closeOnClickOverlay: true,
+                ok: () => {
+                    return new Promise((resolve) => {
+                        axios
+                            .put({
+                                url: `/article/${id}`,
+                                data: {
+                                    is_publish: false
+                                },
+                                baseURL: '/api_blog'
+                            })
+                            .then((res: any) => {
+                                if (res.code == 200) {
+                                    resolve(true);
+                                    LewMessage.success({
+                                        content: '已下架！'
+                                    });
+                                    tableTurboRef.value.refresh();
+                                } else {
+                                    resolve(false);
+                                }
+                            });
+                    });
+                }
+            });
+        } else {
+            LewDialog.info({
+                title: '提示',
+                okText: '发布',
+                content: '你是否要发布该文章，此操作会立即生效，请确认！',
+                closeOnClickOverlay: true,
+                ok: () => {
+                    return new Promise((resolve) => {
+                        axios
+                            .put({
+                                url: `/article/${id}`,
+                                data: {
+                                    is_publish: true
+                                },
+                                baseURL: '/api_blog'
+                            })
+                            .then((res: any) => {
+                                if (res.code == 200) {
+                                    resolve(true);
+                                    LewMessage.success({
+                                        content: '已发布！'
+                                    });
+                                    tableTurboRef.value.refresh();
+                                } else {
+                                    resolve(false);
+                                }
+                            });
+                    });
+                }
+            });
         }
     };
 </script>
@@ -91,16 +190,38 @@
             :search-options="searchOptions"
         >
             <template #search-action>
-                <lew-button icon="plus" round @click="appModalRef.open()">创建应用 </lew-button>
+                <lew-button icon="edit" round @click="router.push('/creation/writing')">
+                    写文章
+                </lew-button>
             </template>
-            <template #status="{ row }">
-                <lew-flex style="margin-left: 5px" x="start">
-                    <lew-badge round :color="statusMap[row.status]?.color" />
-                    {{ statusMap[row.status]?.label }}
+            <template #series="{ row }">
+                {{ row.series.title }}
+            </template>
+            <template #tags="{ row }">
+                <lew-tag
+                    v-for="(item, index) in row.tags"
+                    :key="index"
+                    type="light"
+                    round
+                    color="teal"
+                    size="small"
+                >
+                    {{ item.title }}
+                </lew-tag>
+            </template>
+            <template #is_publish="{ row }">
+                <lew-flex class="publish-tag" x="start" @click="changeArticle(row)">
+                    <lew-badge round :color="row.is_publish ? 'green' : 'gray'" />
+                    {{ row.is_publish ? '已发布' : '草稿' }}
                 </lew-flex>
             </template>
             <template #action="{ row }">
-                <lew-button round type="text" @click="toDetail(row)"> Detail </lew-button>
+                <lew-button size="small" round type="text" @click="toDetail(row)">
+                    详情
+                </lew-button>
+                <lew-button size="small" color="red" round type="text" @click="deleteArticle(row)">
+                    删除
+                </lew-button>
             </template>
         </table-turbo>
         <AppModal ref="appModalRef" @success="tableTurboRef.init()" />
@@ -111,5 +232,10 @@
     .table-page {
         padding: 20px;
         box-sizing: border-box;
+    }
+    .publish-tag {
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: 13px;
     }
 </style>

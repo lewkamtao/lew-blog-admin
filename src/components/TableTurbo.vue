@@ -89,6 +89,10 @@
         getList();
     };
 
+    const refresh = () => {
+        getList();
+    };
+
     onMounted(() => {
         if (props.initSearch) {
             init();
@@ -103,7 +107,7 @@
         return tableRef.value.getSelectedKeys();
     };
 
-    defineExpose({ init, setSelectedKeys, getSelectedKeys });
+    defineExpose({ init, refresh, setSelectedKeys, getSelectedKeys });
 </script>
 
 <template>
