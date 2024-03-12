@@ -51,7 +51,7 @@
         },
         {
             title: '操作',
-            width: 150,
+            width: 200,
             fixed: 'right',
             field: 'action',
             x: 'end'
@@ -80,9 +80,12 @@
     const router = useRouter();
     const tableTurboRef = ref();
 
-    const toDetail = (item: any) => {
-        router.push('/common/app/detail/' + item.id);
-        toDetail;
+    const toDetail = (id: number) => {
+        router.push('/common/article/detail/' + id);
+    };
+
+    const toEdit = (id: number) => {
+        router.push('/creation/writing?id=' + id);
     };
 
     const deleteArticle = (item: any) => {
@@ -95,8 +98,7 @@
                 return new Promise((resolve) => {
                     axios
                         .delete({
-                            url: `/article/${item.id}`,
-                            baseURL: '/api_blog'
+                            url: `/article/${item.id}`
                         })
                         .then((res: any) => {
                             if (res.code == 200) {
@@ -129,8 +131,7 @@
                                 url: `/article/${id}`,
                                 data: {
                                     is_publish: false
-                                },
-                                baseURL: '/api_blog'
+                                }
                             })
                             .then((res: any) => {
                                 if (res.code == 200) {
@@ -159,8 +160,7 @@
                                 url: `/article/${id}`,
                                 data: {
                                     is_publish: true
-                                },
-                                baseURL: '/api_blog'
+                                }
                             })
                             .then((res: any) => {
                                 if (res.code == 200) {
@@ -216,7 +216,10 @@
                 </lew-flex>
             </template>
             <template #action="{ row }">
-                <lew-button size="small" round type="text" @click="toDetail(row)">
+                <lew-button size="small" round type="text" @click="toEdit(row.id)">
+                    编辑
+                </lew-button>
+                <lew-button size="small" round type="text" @click="toDetail(row.id)">
                     详情
                 </lew-button>
                 <lew-button size="small" color="red" round type="text" @click="deleteArticle(row)">
@@ -224,7 +227,6 @@
                 </lew-button>
             </template>
         </table-turbo>
-        <AppModal ref="appModalRef" @success="tableTurboRef.init()" />
     </div>
 </template>
 

@@ -19,7 +19,7 @@
         axios
             .get({
                 url: '/series/list',
-                baseURL: '/api_blog'
+                
             })
             .then((res: any) => {
                 if (res.code == 200) {
@@ -45,7 +45,7 @@
                     .put({
                         url: '/series/' + id,
                         data: _data,
-                        baseURL: '/api_blog'
+                        
                     })
                     .then((res: any) => {
                         if (res.code == 200) {
@@ -67,7 +67,7 @@
                     .post({
                         url: '/series',
                         data: _data,
-                        baseURL: '/api_blog'
+                        
                     })
                     .then((res: any) => {
                         if (res.code == 200) {
@@ -117,7 +117,7 @@
                     axios
                         .delete({
                             url: `/series/${id}`,
-                            baseURL: '/api_blog'
+                            
                         })
                         .then((res: any) => {
                             if (res.code == 200) {

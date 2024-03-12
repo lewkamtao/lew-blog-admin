@@ -25,7 +25,7 @@
     .lew-main {
         margin: 0 auto;
         display: flex;
-        max-width: 1500px;
+        width: 100%;
         height: 100vh;
         overflow: hidden;
         border-left: var(--lew-form-border-color) 1px solid;
@@ -40,7 +40,7 @@
         }
 
         .content {
-            max-width: 1500px;
+            width: 100%;
             width: calc(100% - 220px);
             margin-left: 220px;
             min-height: calc(100vh - 50px);

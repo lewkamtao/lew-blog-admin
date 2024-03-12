@@ -48,6 +48,7 @@ class xwlRequest {
                 return response.data;
             },
             (error) => {
+                LewMessage.error(error || '网络繁忙，请稍后重试！');
                 //响应失败的拦截
                 return Promise.reject(error);
             }

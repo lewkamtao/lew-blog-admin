@@ -7,7 +7,7 @@ import 'lew-ui/style';
 import './styles/reset.scss';
 import './styles/index.scss';
 import './styles/seti/index.less';
-import { VMdEditor } from '../src/utils/v-markdown';
+
 // 创建vue实例
 
 // 获取 url 参数
@@ -34,7 +34,6 @@ const app = createApp(App);
 app.use(Lew);
 app.use(store);
 app.use(router);
-app.use(VMdEditor);
 
 // 挂载实例
 app.mount('#app');

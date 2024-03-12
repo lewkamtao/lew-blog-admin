@@ -22,6 +22,7 @@
     axios
         .get({
             url: '/dic/list',
+            baseURL: 'api_admin',
             params: {
                 page: 1,
                 limit: -1,
