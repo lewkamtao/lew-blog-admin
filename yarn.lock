@@ -2919,10 +2919,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lew-ui@^2.0.3":
-  "integrity" "sha512-3zNN9xMOPlsY31e2+S3iBhw5GoIUTsm1IrpCkmU2BRl03w+Bk7sU5KzX4icl7L/b4kDcGdCki7O+JJ55/qM73w=="
-  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-2.0.3.tgz"
-  "version" "2.0.3"
+"lew-ui@^2.0.4":
+  "integrity" "sha512-RS1g/MzBzXeFRC/mYgFdeLmBZJjZDiH4tmS9voAAzZm/YBSc4sCkAxxII9yumaMPRJ/h2YwimwhMx9+80LzuCw=="
+  "resolved" "https://registry.npmjs.org/lew-ui/-/lew-ui-2.0.4.tgz"
+  "version" "2.0.4"
   dependencies:
     "@vueuse/components" "^9.13.0"
     "@vueuse/core" "^9.1.1"
