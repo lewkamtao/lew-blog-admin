@@ -36,7 +36,7 @@
             width: 220px;
             height: 100vh;
             background: var(--lew-bgcolor-0);
-            box-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.05);
+            box-shadow: 0px 0px 2px rgba($color: #000000, $alpha: 0.25);
         }
 
         .content {
@@ -50,7 +50,7 @@
                 height: 50px;
                 background: var(--lew-bgcolor-0);
                 z-index: 99;
-                box-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.05);
+                box-shadow: 0px 0px 2px rgba($color: #000000, $alpha: 0.25);
             }
 
             .wrapper {

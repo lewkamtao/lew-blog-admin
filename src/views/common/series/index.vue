@@ -37,56 +37,53 @@
     });
 
     const save = () => {
-        let _data = JSON.parse(JSON.stringify(seriesForm.value));
-        const id = _data.id;
-        if (id) {
-            axios
-                .put({
-                    url: '/series/' + id,
-                    data: _data,
-                    baseURL: '/api_blog'
-                })
-                .then((res: any) => {
-                    if (res.code == 200) {
-                        LewMessage.success('更新成功');
-                        getSeries();
-                        visible.value = false;
-                        initForm();
-                    }
-                });
-        } else {
-            delete _data.id;
-            axios
-                .post({
-                    url: '/series',
-                    data: _data,
-                    baseURL: '/api_blog'
-                })
-                .then((res: any) => {
-                    if (res.code == 200) {
-                        LewMessage.success('添加成功');
-                        getSeries();
-                        initForm();
-                        visible.value = false;
-                    }
-                });
-        }
-    };
-
-    const delOk = (id: number) => {
-        return new Promise((resolve) => {
-            axios
-                .delete({
-                    url: '/series/' + id,
-                    baseURL: '/api_blog'
-                })
-                .then((res: any) => {
-                    resolve(true);
-                    if (res.code == 200) {
-                        LewMessage.success('删除成功');
-                        getSeries();
-                    }
-                });
+        return new Promise<any>((resolve) => {
+            let _data = JSON.parse(JSON.stringify(seriesForm.value));
+            const id = _data.id;
+            if (id) {
+                axios
+                    .put({
+                        url: '/series/' + id,
+                        data: _data,
+                        baseURL: '/api_blog'
+                    })
+                    .then((res: any) => {
+                        if (res.code == 200) {
+                            LewMessage.success('更新成功');
+                            resolve(true);
+                            getSeries();
+                            visible.value = false;
+                            initForm();
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                    .catch(() => {
+                        resolve(false);
+                    });
+            } else {
+                delete _data.id;
+                axios
+                    .post({
+                        url: '/series',
+                        data: _data,
+                        baseURL: '/api_blog'
+                    })
+                    .then((res: any) => {
+                        if (res.code == 200) {
+                            LewMessage.success('添加成功');
+                            getSeries();
+                            resolve(true);
+                            initForm();
+                            visible.value = false;
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                    .catch(() => {
+                        resolve(false);
+                    });
+            }
         });
     };
 
@@ -108,6 +105,35 @@
         };
         visible.value = true;
     };
+
+    const deleteSeries = (id: number) => {
+        LewDialog.error({
+            title: '警告',
+            okText: '删除',
+            content: '你是否要删除该系列，此操作会立即生效且不可恢复，请谨慎操作！',
+            closeOnClickOverlay: true,
+            ok: () => {
+                return new Promise((resolve) => {
+                    axios
+                        .delete({
+                            url: `/series/${id}`,
+                            baseURL: '/api_blog'
+                        })
+                        .then((res: any) => {
+                            if (res.code == 200) {
+                                resolve(true);
+                                LewMessage.success({
+                                    content: '删除成功！'
+                                });
+                                getSeries();
+                            } else {
+                                resolve(false);
+                            }
+                        });
+                });
+            }
+        });
+    };
 </script>
 
 <template>
@@ -122,9 +148,9 @@
             <template #handle>
                 <lew-flex style="margin-top: 50px">
                     <lew-button type="light" color="gray">返回</lew-button>
-                    <lew-button type="light" color="blue" @click="initForm(), (visible = true)"
-                        >立即添加</lew-button
-                    >
+                    <lew-button type="light" color="blue" @click="initForm(), (visible = true)">
+                        立即添加
+                    </lew-button>
                 </lew-flex>
             </template>
         </lew-result>
@@ -159,24 +185,18 @@
                                 icon="edit"
                                 @click="edit(item)"
                             />
-                            <lew-popok
-                                title="删除确认"
-                                content="删除之后无法恢复，请确认！"
-                                placement="top"
-                                width="200px"
-                                :ok="() => delOk(item.id)"
-                            >
-                                <lew-button
-                                    v-tooltip="{
-                                        content: `删除系列`,
-                                        trigger: 'mouseenter'
-                                    }"
-                                    type="light"
-                                    color="red"
-                                    round
-                                    icon="trash-2"
-                                />
-                            </lew-popok>
+
+                            <lew-button
+                                v-tooltip="{
+                                    content: `删除系列`,
+                                    trigger: 'mouseenter'
+                                }"
+                                type="light"
+                                color="red"
+                                round
+                                icon="trash-2"
+                                @click="deleteSeries(item.id)"
+                            />
                         </lew-flex>
                     </lew-flex>
                 </lew-flex>
@@ -186,7 +206,7 @@
             v-model:visible="visible"
             title="新建系列"
             width="400px"
-            @ok="save"
+            :ok-props="{ request: save }"
             @cancel="visible = false"
         >
             <lew-flex direction="y" gap="20" class="modal-body">
