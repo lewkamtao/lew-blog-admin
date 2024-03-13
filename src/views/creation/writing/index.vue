@@ -37,67 +37,13 @@
         }
     });
 
-    const formOptions: any = [
-        {
-            field: 'series_id', // 字段名
-            label: '选择系列', // 标签
-            as: 'select', // 组件
-            rules: Yup.string().required('不能为空'), // 校验规则
-            props: {
-                searchable: true,
-                searchMethod: (event: any) => {
-                    return new Promise((resolve) => {
-                        axios
-                            .get({
-                                url: '/series/list',
-                                params: {
-                                    title: event.keyword
-                                }
-                            })
-                            .then((res: any) => {
-                                if (res.success) {
-                                    const { data } = res;
-                                    let selectOptions = data.map((e: any) => {
-                                        return {
-                                            label: e.title,
-                                            value: e.id
-                                        };
-                                    });
-                                    resolve(selectOptions);
-                                } else {
-                                    resolve([]);
-                                }
-                            });
-                    });
-                }
-            }
-        },
-        {
-            field: 'tags', // 字段名
-            label: '添加标签', // 标签
-            as: 'input-tag', // 组件
-            rules: Yup.array().required('不能为空') // 校验规则
-        },
-        {
-            field: 'description', // 字段名
-            label: '文章描述', // 标签
-            as: 'textarea', // 组件
-            rules: Yup.string().required('不能为空'), // 校验规则
-            props: {
-                // 组件props
-                showCount: true,
-                maxLength: 250
-            }
-        }
-    ];
-
     const route = useRoute();
     const router = useRouter();
-    let options = ref([]);
+    let seriesOptions = ref([]);
     let loading = ref(false);
     let visible = ref(false);
     let formRef = ref();
-
+    const formOptions: any = ref();
     let articleForm = ref({
         id: '',
         title: '',
@@ -115,12 +61,40 @@
             })
             .then((res: any) => {
                 if (res.code == 200) {
-                    options.value = res.data.map((e: any) => {
+                    seriesOptions.value = res.data.map((e: any) => {
                         return {
                             label: e.title,
                             value: String(e.id)
                         };
                     });
+                    formOptions.value = [
+                        {
+                            field: 'series_id', // 字段名
+                            label: '选择系列', // 标签
+                            as: 'select', // 组件
+                            rules: Yup.string().required('不能为空'), // 校验规则
+                            props: {
+                                options: seriesOptions.value
+                            }
+                        },
+                        {
+                            field: 'tags', // 字段名
+                            label: '添加标签', // 标签
+                            as: 'input-tag', // 组件
+                            rules: Yup.array().required('不能为空') // 校验规则
+                        },
+                        {
+                            field: 'description', // 字段名
+                            label: '文章描述', // 标签
+                            as: 'textarea', // 组件
+                            rules: Yup.string().required('不能为空'), // 校验规则
+                            props: {
+                                // 组件props
+                                showCount: true,
+                                maxLength: 250
+                            }
+                        }
+                    ];
                 }
             })
             .finally(() => {
